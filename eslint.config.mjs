@@ -1,14 +1,16 @@
 import prettier from 'eslint-config-prettier'
-import chai from 'eslint-plugin-chai-friendly'
-import cypress from 'eslint-plugin-cypress'
+import pluginChaiFriendly from 'eslint-plugin-chai-friendly'
+import pluginCypress from 'eslint-plugin-cypress/flat'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
 import globals from 'globals'
 
 export default [
+  pluginCypress.configs.recommended,
+  pluginChaiFriendly.configs.recommendedFlat,
   {
-    plugins: { prettier, cypress, chai, noOnlyTests },
-    ignores: ['**/node_modules/*'],
-    files: ['**/*.js'],
+    plugins: { prettier, noOnlyTests },
+    ignores: ['**/node_modules/*', 'jenkins_home/**/*', 'jenkins_backup/**/*'],
+    // files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
