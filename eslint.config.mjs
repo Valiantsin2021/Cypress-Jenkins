@@ -10,7 +10,7 @@ export default [
   {
     plugins: { prettier, noOnlyTests },
     ignores: ['**/node_modules/*', 'jenkins_home/**/*', 'jenkins_backup/**/*'],
-    // files: ['**/*.js'],
+    files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
