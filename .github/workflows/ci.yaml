@@ -76,9 +76,8 @@ jobs:
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
       - name: Run Cypress tests
-        uses: bahmutov/cypress-workflows/.github/workflows/split.yml@v2
-        with:
-          n: 4
+        run: npx cypress run --headless
+
       - name: Create test summary
         uses: test-summary/action@v1.0
         if: always()
