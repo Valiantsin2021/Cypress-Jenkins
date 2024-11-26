@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "types": ["cypress", "node"],
+    "lib": ["DOM", "ES2023"],
+    "module": "ESNext",
+    "target": "ESNext",
+    "strict": true,
+    "allowJs": true,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "."
+  },
+  "include": ["cypress/**/*.js", "cypress.config.js", "./node_modules/cypress"]
+}

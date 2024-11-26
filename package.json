@@ -1,0 +1,44 @@
+{
+  "name": "jenkinsqa_js_2024_fall",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write --cache .",
+    "lint": "eslint --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cypress-real-events": "^1.13.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@faker-js/faker": "^9.2.0",
+    "@testing-library/cypress": "^10.0.2",
+    "@types/node": "^22.10.0",
+    "cypress": "^13.15.2",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-chai-friendly": "^1.0.1",
+    "eslint-plugin-cypress": "4.1.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-no-only-tests": "3.3.0",
+    "prettier": "^3.4.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "**/*.+(cjs|js|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "**/*.+(cjs|js|ts|json)": [
+      "prettier --cache --write"
+    ]
+  }
+}
