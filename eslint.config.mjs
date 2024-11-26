@@ -64,7 +64,7 @@ export default [
       quotes: ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
       'arrow-spacing': ['error', { before: true, after: true }],
       'no-var': 'error',
-      'no-unused-vars': ['error', { vars: 'local' }],
+      'no-unused-vars': ['warn', { vars: 'local' }],
       'import/extensions': 'off', // .js ending is ok
       'no-prototype-builtins': 'off',
       'linebreak-style': ['error', 'unix']

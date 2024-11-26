@@ -1,23 +1,17 @@
-import JobPage from "./JobPage";
+import JobPage from './JobPage'
 
-class ProjectConfigure
-{
-    getPrjDescriptionField = ()=>  cy.get('textarea[name="description"]')
-    getSaveBtn = () => cy.get('button[formnovalidate="formNoValidate"]')
-    
+class ProjectConfigure {
+  getPrjDescriptionField = () => cy.get('textarea[name="description"]')
+  getSaveBtn = () => cy.get('button[formnovalidate="formNoValidate"]')
 
+  addNewProjDescription(projectDescription) {
+    this.getPrjDescriptionField().type(projectDescription)
+    return this
+  }
 
-
-    addNewProjDescription(projectDescription)
-    {
-        this.getPrjDescriptionField().type(projectDescription)
-        return this
-    }
-
-    clickSaveBtn()
-    {
-        this.getSaveBtn().click()
-        return new JobPage
-    }
+  clickSaveBtn() {
+    this.getSaveBtn().click()
+    return new JobPage()
+  }
 }
 export default ProjectConfigure

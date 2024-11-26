@@ -1,27 +1,23 @@
 {
-    "textMessages": {
-        "heading": "Search for",
-        "error": "Nothing seems to match."
-    },
+  "textMessages": {
+    "heading": "Search for",
+    "error": "Nothing seems to match."
+  },
 
-    "cssRequirements": {
-        "error": "rgb(230, 0, 31)"
+  "cssRequirements": {
+    "error": "rgb(230, 0, 31)"
+  },
+
+  "search": {
+    "input": {
+      "noMatches": "no matches",
+      "matchForCon": "con",
+      "matchForLo": "lo",
+      "upperCaseMatchForManage": "MA"
     },
-    
-    "search": {
-        "input": {
-            "noMatches": "no matches",
-            "matchForCon": "con",
-            "matchForLo": "lo",
-            "upperCaseMatchForManage" : "MA"
-        },
-        "autoCompletionItems": [
-            "config",
-            "configure"
-        ],
-        "searchSuggestions": {
-            "manage": "manage"
-        }
-        
+    "autoCompletionItems": ["config", "configure"],
+    "searchSuggestions": {
+      "manage": "manage"
     }
+  }
 }

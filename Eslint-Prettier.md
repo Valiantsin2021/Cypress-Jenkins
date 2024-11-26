@@ -7,12 +7,14 @@ This project uses ESLint and Prettier for static code analysis and formatting, a
 ### ESLint
 
 ESLint is configured to use the following plugins:
+
 - `eslint-config-prettier`: Disables ESLint rules that might conflict with Prettier.
 - `eslint-plugin-chai-friendly`: Lints Chai assertions.
 - `eslint-plugin-cypress`: Lints Cypress tests.
 - `eslint-plugin-no-only-tests`: Prevents committing `.only` tests.
 
 You can run ESLint with the following command:
+
 ```sh
 npm run lint
 ```
@@ -24,6 +26,7 @@ ESLint rules can be configured in `eslint.config.mjs` file
 Prettier is used for code formatting. It is configured to run on various file types including JavaScript, TypeScript, and JSON files.
 
 You can format your code with the following command:
+
 ```sh
 npm run format
 ```
@@ -53,9 +56,9 @@ The configuration in package.json is as follows:
 
 ### Commitlint
 
-Commitlint (https://commitlint.js.org/) is used to enforce conventional commit messages. It is configured to use the @commitlint/config-conventional preset. 
+Commitlint (https://commitlint.js.org/) is used to enforce conventional commit messages. It is configured to use the @commitlint/config-conventional preset.
 
-Rules: https://commitlint.js.org/reference/rules 
+Rules: https://commitlint.js.org/reference/rules
 
 Common types according to commitlint-config-conventional can be:
 
@@ -70,19 +73,18 @@ Common types according to commitlint-config-conventional can be:
 - revert
 - style
 - test
-- 
-These can be modified by your own configuration.
+- These can be modified by your own configuration.
 
 ### Setup
 
 #### To set up the project, install the dependencies:
 
-```npm install```
+`npm install`
 
 This will install all necessary dependencies for ESLint, Prettier, and the pre-commit hooks.
 
 ### Usage
 
-- Linting: ```npm run lint```
-- Formatting: ```npm run format```
+- Linting: `npm run lint`
+- Formatting: `npm run format`
 - Pre-commit hooks: Automatically run on git commit
