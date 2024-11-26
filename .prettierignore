@@ -2,3 +2,4 @@ node_modules/
 package-lock.json
 Readme.md
 jenkins_data
+jenkins_backup
