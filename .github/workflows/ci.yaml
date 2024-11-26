@@ -6,7 +6,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    
+
 
 jobs:
   run-test:
@@ -63,7 +63,7 @@ jobs:
         run: docker run --rm --detach -p 8080:8080 -p 50000:50000 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.462.3-lts-jdk17
 
       - name: Wait for the Jenkins
-        run: ./.github/wait-for-jenkins.sh
+        run: chmod +x ./.github/wait-for-jenkins.sh
 
       - name: Write the cypress.env.json
         run: |
