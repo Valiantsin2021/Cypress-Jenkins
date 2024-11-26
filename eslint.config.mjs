@@ -66,8 +66,7 @@ export default [
       'no-var': 'error',
       'no-unused-vars': ['warn', { vars: 'local' }],
       'import/extensions': 'off', // .js ending is ok
-      'no-prototype-builtins': 'off',
-      'linebreak-style': ['error', 'unix']
+      'no-prototype-builtins': 'off'
     }
   }
 ]
