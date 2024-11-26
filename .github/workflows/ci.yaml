@@ -3,10 +3,6 @@ name: CI
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
-  workflow_dispatch:
-
 
 jobs:
   run-test:
@@ -46,6 +42,9 @@ jobs:
       - name: Npm install
         run: npm ci
 
+      - name: Static analysis
+        run: npm run format && npm run lint
+        
       - name: Prepare Jenkins data
         run: |
           cat ${{ github.workspace }}/jenkins_data/jenkins_backup0* > ${{ github.workspace }}/jenkins_backup.tar
@@ -69,10 +68,7 @@ jobs:
         run: |
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
-      - name: Static analysis
-        run: npm run format && npm run lint
-
-      - name: Npx run
+      - name: Run Cypress tests
         run: npx cypress run --headless
 
       - name: Create test summary
@@ -85,7 +81,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: 'reports/*.xml'
+          files: "reports/*.xml"
 
       - name: Artifacts
         uses: actions/upload-artifact@v4
@@ -93,3 +89,4 @@ jobs:
         with:
           name: cypress-screenshots
           path: ./cypress/screenshots
+

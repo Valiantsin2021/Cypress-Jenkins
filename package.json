@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write --cache .",
-    "lint": "eslint --fix --ignore-pattern \"jenkins_home/*\""
+    "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\""
   },
   "author": "",
   "license": "ISC",
@@ -24,9 +24,9 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-chai-friendly": "^1.0.1",
     "eslint-plugin-cypress": "4.1.0",
-    "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
-    "prettier": "^3.4.0"
+    "eslint-plugin-no-only-tests": "3.3.0",
+    "prettier": "^3.4.1"
   },
   "commitlint": {
     "extends": [
@@ -38,7 +38,7 @@
       "eslint --fix"
     ],
     "**/*.+(cjs|js|ts|json)": [
-      "prettier --cache --write"
+      "prettier --write --cache"
     ]
   }
 }
