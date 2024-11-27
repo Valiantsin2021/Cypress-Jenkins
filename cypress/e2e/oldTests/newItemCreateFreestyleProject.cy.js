@@ -6,7 +6,7 @@ const folderName = faker.commerce.product()
 const projectName = faker.commerce.productName()
 const projectDescription = faker.commerce.productDescription()
 
-describe('US_00.001 | New item > Create Freestyle Project', () => {
+describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
   beforeEach(function () {
     cy.fixture('messages').then(messages => {
       this.message = messages

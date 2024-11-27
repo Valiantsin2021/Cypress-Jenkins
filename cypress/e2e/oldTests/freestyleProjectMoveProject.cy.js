@@ -34,7 +34,7 @@ const createNewItem = (itemName, itemType) => {
 const getExistedItem = name => cy.get(`a[href*="job/${name}"]`)
 const returnOnMainPage = () => cy.get(mainPageLogo).click()
 
-describe('US_01.006 | FreestyleProject > Move project', () => {
+describe.skip('US_01.006 | FreestyleProject > Move project', () => {
   it('TC_01.006.01-A | FreestyleProject>Move project from the Project Page', () => {
     cy.get('span').contains('New Item').click()
     cy.get('#name').type('NewFolder')

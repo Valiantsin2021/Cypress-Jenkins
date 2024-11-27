@@ -18,10 +18,12 @@ import './commands'
 import 'cypress-real-events'
 import './globalHooks'
 import './cleanData'
-Cypress.on('uncaught:exception', (err, runnable) =>
-  // returning false here prevents Cypress from
-  // failing the test
-   false
+Cypress.on(
+  'uncaught:exception',
+  (err, runnable) =>
+    // returning false here prevents Cypress from
+    // failing the test
+    false
 )
 
 // Alternatively you can use CommonJS syntax:

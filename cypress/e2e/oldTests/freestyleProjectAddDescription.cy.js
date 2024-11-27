@@ -18,6 +18,7 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
   const descriptionField = '[name="description"].jenkins-input   '
   const editDescription = '[href="editDescription"]'
   const projectNameHeadline = '#main-panel h1'
+  const descriptionInput = '[name="description"]'
 
   beforeEach(() => {
     cy.get(newItemBtn).click()
@@ -65,6 +66,13 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.get('#description').should('be.visible').and('have.text', projectDescription)
   })
 
+  it('TC_01.001.06 | FreestyleProject > Add description | project creation', () => {
+    cy.get(descriptionInput).type('Some description')
+    cy.get(submitBtn).click()
+    cy.get(editDescription).should('be.visible')
+    cy.get(description).should('be.visible')
+  })
+
   it('TC_01.001.07-A | It is possible to add description on project update', () => {
     cy.get(descriptionTextAreaField).type(projectDescription)
     cy.get(submitBtn).click()
@@ -84,5 +92,12 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.log('Verifying the Freestyle Project was saved together with its description')
     cy.get(projectNameHeadline).should('be.visible').and('exist')
     cy.get(description).should('be.visible').and('contain.text', projectDescription)
+  })
+
+  it('TC_01.001.09 | Description is shown on project page', () => {
+    cy.get(descriptionTextAreaField).type(projectDescription)
+    cy.get(submitBtn).click()
+
+    cy.get(description).should('contain.text', projectDescription)
   })
 })

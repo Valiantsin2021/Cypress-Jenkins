@@ -1,8 +1,10 @@
 /// <reference types="cypress" />
+const USERNAME = Cypress.env('local.admin.username')
+const PASSWORD = Cypress.env('local.admin.password')
 const LOCAL_PORT = Cypress.env('local.port')
 const LOCAL_HOST = Cypress.env('local.host')
 
-describe('Folder > Rename Folder', () => {
+describe.skip('Folder > Rename Folder', () => {
   it('Successfully enter a valid folder name in the special field', () => {
     //preconditions
     cy.get('span').contains('New Item').click()

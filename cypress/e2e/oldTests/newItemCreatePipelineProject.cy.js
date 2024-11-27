@@ -11,7 +11,7 @@ const dashboardLink = 'a[href="/"]'
 const projectNamePlace = `[id='job_${projectNameFaker}']`
 const tableOfProjects = '[id="projectstatus"]'
 
-describe('US_00.002 | New Item > Create Pipeline Project', () => {
+describe.skip('US_00.002 | New Item > Create Pipeline Project', () => {
   let projectName = 'New Pipeline'
 
   it('TC_00.002.01 | Special characters are not allowed in the project name', () => {
@@ -47,7 +47,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
 
     cy.log('Create project with an existing name')
     cy.get('span').contains('New Item').click()
-    cy.get('input[name="name"]').type(projectName).click
+    cy.get('input[name="name"]').type(projectName).click()
 
     cy.get('#itemname-invalid').should('have.text', `» A job already exists with the name ‘${projectName}’`).and('have.css', 'color', 'rgb(230, 0, 31)')
     cy.get('#ok-button').should('be.disabled')

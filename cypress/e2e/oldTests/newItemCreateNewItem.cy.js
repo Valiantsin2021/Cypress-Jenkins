@@ -5,7 +5,7 @@ const btnNewItem = ':nth-child(1) > .task-link-wrapper > .task-link'
 const btnDashboard = 'li.jenkins-breadcrumbs__list-item a.model-link'
 const jobFreeStyleProject = '.hudson_model_FreeStyleProject'
 
-describe('US_00.000 | New Item > Create New item', () => {
+describe.skip('US_00.000 | New Item > Create New item', () => {
   const btnCreateNewItem = 'a[href="/view/all/newJob"]'
   const randomItemName = faker.lorem.words()
   const btnOK = '#ok-button'

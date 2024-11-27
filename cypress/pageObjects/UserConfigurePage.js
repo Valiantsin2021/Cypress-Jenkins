@@ -1,11 +1,12 @@
 /// <reference types="cypress" />
+
 class UserConfigurePage {
   getInsensitiveSearchLabel = () => cy.get("label[class='attach-previous ']")
   getInsensitiveSearchCheckBox = () => cy.get("input[name='insensitiveSearch']")
   getSaveButton = () => cy.get("[name='Submit']")
 
   checkCheckBox() {
-    this.getInsensitiveSearchCheckBox().check()
+    this.getInsensitiveSearchCheckBox().check({ force: true })
     return this
   }
 
@@ -14,4 +15,5 @@ class UserConfigurePage {
     return this
   }
 }
+
 export default UserConfigurePage

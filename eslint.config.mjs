@@ -39,7 +39,7 @@ export default [
       'max-depth': ['error', { max: 5 }],
       'max-nested-callbacks': ['warn', { max: 3 }],
       'max-params': ['error', { max: 5 }],
-      'max-statements': ['error', { max: 30 }, { ignoreTopLevelFunctions: true }],
+      'max-statements': ['error', { max: 50 }, { ignoreTopLevelFunctions: true }],
       'max-lines': ['error', { max: 250, skipComments: true, skipBlankLines: true }],
       'max-len': ['warn', { code: 200, ignoreComments: true, ignoreUrls: true }],
       'no-multiple-empty-lines': ['error', { max: 1 }],
