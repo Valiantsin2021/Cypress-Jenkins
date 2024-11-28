@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 class NewJobPage {
-  getJobNameField = () => cy.get('.jenkins-input')
+  getJobNameField = () => cy.get('#name')
   getFreeStlPrjType = () => cy.get('.label').contains('Freestyle project')
   getOKButton = () => cy.get('#ok-button')
   getItemNameInvalidErrorMessage = () => cy.get('#itemname-invalid')
@@ -9,7 +9,7 @@ class NewJobPage {
   getEmptyItemInvalidName = () => cy.get('#itemname-required')
   getFolferType = () => cy.get('.label').contains('Folder')
 
-  addNewProjectName(prjName) {
+  typeNewItemName(prjName) {
     this.getJobNameField().type(prjName)
     return this
   }
@@ -26,6 +26,7 @@ class NewJobPage {
 
   clickOKButton() {
     this.getOKButton().click()
+    return this
   }
 
   addUnsaveNameItem() {
@@ -35,11 +36,6 @@ class NewJobPage {
 
   addEmptyNameItem() {
     this.getJobNameField().clear()
-    return this
-  }
-
-  addFolderName(folderName) {
-    this.getFreeStlPrjType().type(folderName)
     return this
   }
 }

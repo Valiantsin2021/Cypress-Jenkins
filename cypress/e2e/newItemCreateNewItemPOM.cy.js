@@ -5,19 +5,21 @@ import { faker } from '@faker-js/faker'
 import Header from '../pageObjects/Header'
 import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
+import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 
 import { newItem } from '../fixtures/messages.json'
 
 const header = new Header()
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
+const freestyleProjectPage = new FreestyleProjectPage()
 
 describe('US_00.000 | New Item > Create New item', () => {
   const randomItemName = faker.lorem.words()
   const wrongJobName = 'Item#1'
 
   it('TC_00.000.01| Create new item from "Create a job" button| Invalid data', () => {
-    dashboardPage.clickCreateJobButton()
+    dashboardPage.clickNewItemMenuLink()
 
     newJobPage.addUnsaveNameItem(wrongJobName).getUnsaveItemInvalidName().should('be.visible').and('have.class', 'input-validation-message').contains(newItem.newItemNameInvalidMessage)
 
@@ -30,10 +32,18 @@ describe('US_00.000 | New Item > Create New item', () => {
       .contains(randomItemName)
       .should('not.exist')
       .then(() => {
-        dashboardPage.clickCreateJobButton()
+        dashboardPage.clickNewItemMenuLink()
       })
-    newJobPage.addNewProjectName(randomItemName).selectFreestyleProject().clickOKButton()
+    newJobPage.typeNewItemName(randomItemName).selectFreestyleProject().clickOKButton()
     header.clickJenkinsLogo()
     dashboardPage.getJobTable().contains(randomItemName).should('exist')
+  })
+
+  it('TC_00.000.03 | Create New item | From the "New Item" link in the left sidebar', () => {
+    dashboardPage.clickNewItemMenuLink()
+
+    newJobPage.typeNewItemName(randomItemName).selectFreestyleProject().clickOKButton()
+    freestyleProjectPage.clickSaveButton()
+    freestyleProjectPage.getJobHeadline().should('contain', randomItemName).and('exist')
   })
 })

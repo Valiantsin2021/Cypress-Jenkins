@@ -15,8 +15,8 @@ const jobDescription = faker.lorem.sentence()
 
 describe('US_01.001 | FreestyleProject > Add description', () => {
   beforeEach(() => {
-    dashboardPage.addNewProject()
-    newJobPage.addNewProjectName(jobName).selectFreestyleProject().clickOKButton()
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage.typeNewItemName(jobName).selectFreestyleProject().clickOKButton()
   })
 
   it('TC_01.001.01 | Add a description when creating a project', () => {
@@ -41,5 +41,11 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
     cy.log('Verifying the Freestyle Project was saved together with its description')
     freestyleProjectPage.getJobHeadline().should('be.visible').and('exist')
     freestyleProjectPage.getJobDescription().should('be.visible').and('contain.text', jobDescription)
+  })
+
+  it('TC_01.001.09 | Description is shown on project page', () => {
+    freestyleProjectPage.typeJobDescription(jobDescription).clickSaveButton()
+
+    freestyleProjectPage.getJobDescription().should('contain.text', jobDescription)
   })
 })

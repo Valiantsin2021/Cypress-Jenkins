@@ -9,6 +9,16 @@ class ManageJenkinsPage {
     this.getSettingsSearchField().type(word)
     return this
   }
+
+  clearSearchField() {
+    this.getSettingsSearchField().clear()
+    return this
+  }
+
+  assertSearchResult(word) {
+    this.getSearchResultList().should('contain', word)
+    return this
+  }
 }
 
 export default ManageJenkinsPage

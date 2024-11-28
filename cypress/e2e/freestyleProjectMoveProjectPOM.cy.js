@@ -18,14 +18,14 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
   it('TC_01.006.06 | Choose from a list of existing folders', () => {
     context('should create 5 folders and verify they exist', () => {
       dashboardPage.clickNewItemMenuLink()
-      newJobPage.addNewProjectName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
+      newJobPage.typeNewItemName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
       freestyleProjectPage.clickSaveButton()
       header.clickJenkinsLogo()
 
       for (let i = 1; i <= 5; i++) {
         const uniqueFolderName = `${newJobPageData.folderName} ${i}`
         dashboardPage.clickNewItemMenuLink()
-        newJobPage.addFolderName(uniqueFolderName).selectFolder().clickOKButton()
+        newJobPage.typeNewItemName(uniqueFolderName).selectFolder().clickOKButton()
         header.clickJenkinsLogo()
         cy.contains(uniqueFolderName).should('exist')
       }

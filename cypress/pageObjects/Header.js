@@ -9,6 +9,7 @@ class Header {
   getUserDropdownlink = () => cy.get('.login > .model-link > .jenkins-menu-dropdown-chevron')
   getDropdownConfigureItem = () => cy.get('.jenkins-dropdown > [href*="/configure"]')
   getJenkinsLogo = () => cy.get('a#jenkins-home-link')
+  getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)

@@ -3,7 +3,7 @@
 import Header from '../pageObjects/Header'
 import SearchResuls from '../pageObjects/SearchResultsPage'
 import DashboardPage from '../pageObjects/DashboardPage'
-import UserConfigurePage from '../pageObjects/UserConfigurePage'
+import UserPage from '../pageObjects/UserPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 
 import headerData from '../fixtures/headerData.json'
@@ -15,12 +15,12 @@ import configurePageData from '../fixtures/configurePageData.json'
 const header = new Header()
 const dashboardPage = new DashboardPage()
 const searchResults = new SearchResuls()
-const userConfigurePage = new UserConfigurePage()
+const userPage = new UserPage()
 const freestyleProjectPage = new FreestyleProjectPage()
 
 describe('US_14.002 | Header > Search Box', () => {
   it('TC_14.002.05 | User can select suggestion to auto-fill and complete the search', () => {
-    dashboardPage.addNewProject().addNewProjectName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
+    dashboardPage.clickNewItemMenuLink().typeNewItemName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
     freestyleProjectPage.typeJobDescription(configurePageData.projectDescription).clickSaveButton()
     header.typeSearchTerm(newJobPageData.projectName).clickFirstOptionFromACBox().searchTerm()
 
@@ -54,7 +54,8 @@ describe('US_14.002 | Header > Search Box', () => {
 
   it('TC_14.002.03 | Verify that user can not see suggested results searched with with Upper Case characters with Insensitive mode being on', () => {
     header.clickUserDropdownLink().clickUserConfigureItem()
-    userConfigurePage.checkCheckBox().clickOnSaveBtn()
+    userPage.checkCheckBox().clickOnSaveBtn()
+
     header.typeSearchTerm(headerData.search.input.upperCaseMatchForManage)
 
     header.getSearchAutoCompletionBox().should('have.text', headerData.search.searchSuggestions.manage)
@@ -70,7 +71,7 @@ describe('US_14.002 | Header > Search Box', () => {
     header.clickUserDropdownLink()
     header.clickUserConfigureItem()
 
-    userConfigurePage.getInsensitiveSearchLabel().should('contain', 'Insensitive search tool')
-    userConfigurePage.getInsensitiveSearchCheckBox().should('exist').and('be.checked')
+    userPage.getInsensitiveSearchLabel().should('contain', 'Insensitive search tool')
+    userPage.getInsensitiveSearchCheckBox().should('exist').and('be.checked')
   })
 })

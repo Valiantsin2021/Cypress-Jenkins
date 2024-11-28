@@ -6,6 +6,7 @@ import DashboardPage from '../pageObjects/DashboardPage'
 import ManageJenkinsPage from '../pageObjects/ManageJenkinsPage'
 
 import messages from '../fixtures/messages.json'
+import searchResultsData from '../fixtures/searchResultsData.json'
 
 const dashboardPage = new DashboardPage()
 const manageJenkinsPage = new ManageJenkinsPage()
@@ -27,5 +28,21 @@ describe('US_09.001 | Manage Jenkins > Search settings', () => {
     listOfPossibleSearchResults.forEach(dropDownItem => {
       manageJenkinsPage.getSearchResultList().should('contain', dropDownItem)
     })
+  })
+
+  it('TC_09.001.04 | Search is case-insensitive', () => {
+    const assertTools = "'contain', 'Tools'"
+
+    dashboardPage.clickManageJenkins()
+    manageJenkinsPage.getSettingsSearchField()
+    manageJenkinsPage.typeSearchWord(searchResultsData.text.lowCase)
+    manageJenkinsPage.assertSearchResult('Tools')
+    manageJenkinsPage.clearSearchField()
+    manageJenkinsPage.typeSearchWord(searchResultsData.text.upperCase)
+    manageJenkinsPage.assertSearchResult('Tools')
+    manageJenkinsPage.clearSearchField()
+    manageJenkinsPage.typeSearchWord(searchResultsData.text.mixedCase)
+    manageJenkinsPage.assertSearchResult('Tools')
+    manageJenkinsPage.clearSearchField()
   })
 })
