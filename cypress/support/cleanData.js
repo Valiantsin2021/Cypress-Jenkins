@@ -1,153 +1,153 @@
 const USER_NAME = Cypress.env('local.admin.username')
-const PASSWORD = Cypress.env('local.admin.password')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
-
+const TOKEN = Cypress.env('local.admin.token')
 Cypress.Commands.add('cleanData', () => {
-  let sessionId
+  class JenkinsProjectManager {
+    constructor(baseUrl, username, apiToken) {
+      this.baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
+      this.username = username
+      this.apiToken = apiToken
+      this.csrfCrumb = null
+    }
 
-  function getUrl() {
-    return `http://${HOST}:${PORT}/`
-  }
+    async getCsrfCrumb() {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', `${this.baseUrl}crumbIssuer/api/json`, true)
 
-  function getUserName() {
-    return USER_NAME
-  }
+        // Basic authentication
+        xhr.setRequestHeader(
+          'Authorization',
+          'Basic ' + btoa(`${this.username}:${this.apiToken}`)
+        )
 
-  function getPassword() {
-    return PASSWORD
-  }
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText)
+            this.csrfCrumb = {
+              name: response.crumbRequestField,
+              value: response.crumb
+            }
+            resolve(this.csrfCrumb)
+          } else {
+            reject(new Error('Failed to retrieve CSRF crumb'))
+          }
+        }
 
-  function getCrumbFromPage(page) {
-    const CRUMB_TAG = 'data-crumb-value="'
+        xhr.onerror = () =>
+          reject(new Error('Network error retrieving CSRF crumb'))
+        xhr.send()
+      })
+    }
+    async getAllProjects() {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', `${this.baseUrl}api/json?depth=1`, true)
+        xhr.setRequestHeader(
+          'Authorization',
+          'Basic ' + btoa(`${this.username}:${this.apiToken}`)
+        )
 
-    let crumbTagBeginIndex = page.indexOf(CRUMB_TAG) + CRUMB_TAG.length
-    let crumbTagEndIndex = page.indexOf('"', crumbTagBeginIndex)
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText)
+            const jobNames = response.jobs.map(job => job.name)
+            resolve(jobNames)
+          } else {
+            reject(new Error('Failed to retrieve project list'))
+          }
+        }
 
-    return page.substring(crumbTagBeginIndex, crumbTagEndIndex)
-  }
+        xhr.onerror = () =>
+          reject(new Error('Network error retrieving projects'))
+        xhr.send()
+      })
+    }
 
-  function getSubstringsFromPage(page, from, to, maxSubstringLength = 100) {
-    let result = new Set()
+    async deleteProject(projectName) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open(
+          'POST',
+          `${this.baseUrl}job/${encodeURIComponent(projectName)}/doDelete`,
+          true
+        )
 
-    let index = page.indexOf(from)
-    while (index !== -1) {
-      let endIndex = page.indexOf(to, index + from.length)
+        // Basic authentication
+        xhr.setRequestHeader(
+          'Authorization',
+          'Basic ' + btoa(`${this.username}:${this.apiToken}`)
+        )
 
-      if (endIndex !== -1 && endIndex - index < maxSubstringLength) {
-        result.add(page.substring(index + from.length, endIndex))
-      } else {
-        endIndex = index + from.length
+        // Add CSRF protection header if crumb was retrieved
+        if (this.csrfCrumb) {
+          xhr.setRequestHeader(this.csrfCrumb.name, this.csrfCrumb.value)
+        }
+
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 302) {
+            resolve(`Successfully deleted project: ${projectName}`)
+          } else {
+            reject(
+              new Error(
+                `Failed to delete project: ${projectName}. Status: ${xhr.status}`
+              )
+            )
+          }
+        }
+
+        xhr.onerror = () =>
+          reject(new Error(`Network error deleting project: ${projectName}`))
+        xhr.send()
+      })
+    }
+
+    async deleteAllProjects() {
+      try {
+        // First, get CSRF crumb
+        await this.getCsrfCrumb()
+
+        // Then get all projects
+        const projects = await this.getAllProjects()
+
+        // Delete projects sequentially
+        const deletionResults = []
+        for (const project of projects) {
+          try {
+            const result = await this.deleteProject(project)
+            deletionResults.push(result)
+            console.log(result)
+          } catch (error) {
+            console.error(error)
+            deletionResults.push(error.message)
+          }
+        }
+
+        return deletionResults
+      } catch (error) {
+        console.error('Bulk deletion failed:', error)
+        throw error
       }
-
-      index = page.indexOf(from, endIndex)
-    }
-
-    return result
-  }
-
-  function setHeader(request) {
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-    if (sessionId !== null) {
-      request.setRequestHeader('Cookie', sessionId)
     }
   }
 
-  function sendHttp(url, type, body) {
-    let http = new XMLHttpRequest()
-    http.open(type, url, false)
-    setHeader(http)
-    http.send(body)
-
-    return http
-  }
-
-  function getHttp(url) {
-    return sendHttp(url, 'GET', null)
-  }
-
-  function postHttp(url, body) {
-    return sendHttp(url, 'POST', body)
-  }
-
-  function getPage(uri) {
-    let page = getHttp(getUrl() + uri)
-    if (page.status !== 200) {
-      const HEAD_COOKIE = 'set-cookie'
-
-      let loginPage = getHttp(getUrl() + 'login?from=%2F')
-      sessionId = loginPage.getResponseHeader(HEAD_COOKIE)
-
-      let indexPage = postHttp(getUrl() + 'j_spring_security_check', 'j_username=' + getUserName() + '&j_password=' + getPassword() + '&from=%2F&Submit=')
-      sessionId = indexPage.getResponseHeader(HEAD_COOKIE)
-
-      page = getHttp(getUrl() + uri)
-    }
-
-    if (page.status === 403) {
-      //throw new RuntimeException(String.format("Authorization does not work with user: \"%s\" and password: \"%s\"", getUserName(), getPassword()));
-    } else if (page.status !== 200) {
-      //throw new RuntimeException("Something went wrong while clearing data");
-    }
-
-    return page.responseText
-  }
-
-  function deleteByLink(link, names, crumb) {
-    let fullCrumb = `Jenkins-Crumb=${crumb}`
-    for (const name of names) {
-      postHttp((getUrl() + link).replace('{name}', name), fullCrumb)
-    }
-  }
-
-  function deleteJobs() {
-    let mainPage = getPage('')
-    deleteByLink('job/{name}/doDelete', getSubstringsFromPage(mainPage, 'href="job/', '/"'), getCrumbFromPage(mainPage))
-  }
-
-  function deleteViews() {
-    let mainPage = getPage('')
-    deleteByLink('view/{name}/doDelete', getSubstringsFromPage(mainPage, 'href="/view/', '/"'), getCrumbFromPage(mainPage))
-
-    let viewPage = getPage('me/my-views/view/all/')
-    deleteByLink(
-      `user/${getUserName().toLowerCase()}/my-views/view/{name}/doDelete`,
-      getSubstringsFromPage(viewPage, `href="/user/${getUserName().toLowerCase()}/my-views/view/`, '/"'),
-      getCrumbFromPage(viewPage)
+  function initiateBulkDeletion() {
+    // Replace with your Jenkins instance details
+    const jenkinsManager = new JenkinsProjectManager(
+      `http://${HOST}:${PORT}/`,
+      USER_NAME,
+      TOKEN
     )
-  }
 
-  function deleteUsers() {
-    let userPage = getPage('manage/securityRealm/')
-    let users = getSubstringsFromPage(userPage, 'href="user/', '/"')
-    users.delete(getUserName().toLowerCase())
-    deleteByLink('manage/securityRealm/user/{name}/doDelete', users, getCrumbFromPage(userPage))
+    jenkinsManager
+      .deleteAllProjects()
+      .then(results => {
+        console.log('Bulk Deletion Complete', results)
+      })
+      .catch(error => {
+        console.error('Bulk Deletion Failed', error)
+      })
   }
-
-  function deleteNodes() {
-    let mainPage = getPage('')
-    deleteByLink('computer/{name}/doDelete', getSubstringsFromPage(mainPage, 'href="/computer/', '/"'), getCrumbFromPage(mainPage))
-  }
-
-  function deleteDescription() {
-    let mainPage = getPage('')
-    postHttp(
-      getUrl() + 'submitDescription',
-      'description=&Submit=&Jenkins-Crumb=' +
-        getCrumbFromPage(mainPage) +
-        '&json=%7B%22description%22%3A+%22%22%2C+%22Submit%22%3A+%22%22%2C+%22Jenkins-Crumb%22%3A+%22' +
-        getCrumbFromPage(mainPage) +
-        '%22%7D'
-    )
-  }
-
-  function clearData() {
-    deleteViews()
-    deleteJobs()
-    deleteUsers()
-    deleteNodes()
-    deleteDescription()
-  }
-
-  clearData()
+  initiateBulkDeletion()
 })

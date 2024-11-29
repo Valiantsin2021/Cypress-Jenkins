@@ -23,7 +23,10 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.get('span.label').contains('Freestyle project').click()
     cy.get('button').contains('OK').click()
     cy.get('button').contains('Save').click()
-    cy.get('h1.job-index-headline.page-headline').should('have.text', project1Name)
+    cy.get('h1.job-index-headline.page-headline').should(
+      'have.text',
+      project1Name
+    )
     cy.get('li a.model-link[href="/"]').click()
     cy.get('span.task-link-text').contains('New Item').click({ force: true })
     cy.wait(500)
@@ -31,21 +34,33 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.get('span.label').contains('Freestyle project').click()
     cy.get('button').contains('OK').click()
     cy.get('button').contains('Save').click()
-    cy.get('h1.job-index-headline.page-headline').should('have.text', project2Name)
+    cy.get('h1.job-index-headline.page-headline').should(
+      'have.text',
+      project2Name
+    )
     cy.get('li a.model-link[href="/"]').click()
     cy.get('a.jenkins-table__link span').contains(project1Name).click()
     cy.get('.task-link-text').contains('Rename').click({ force: true })
     cy.url().should('include', `${project1Name}/confirm-rename`)
-    cy.get('div.warning').should('have.text', 'The new name is the same as the current name.')
+    cy.get('div.warning').should(
+      'have.text',
+      'The new name is the same as the current name.'
+    )
     cy.get('button[name="Submit"]').click()
     cy.get('div h1').should('have.text', 'Error')
-    cy.get('div p').should('have.text', 'The new name is the same as the current name.')
+    cy.get('div p').should(
+      'have.text',
+      'The new name is the same as the current name.'
+    )
     cy.go('back')
     cy.url().should('include', `${project1Name}/confirm-rename`)
     cy.get('input[checkdependson="newName"]').clear().type(project2Name)
     cy.get('button[name="Submit"]').click()
     cy.get('div h1').should('have.text', 'Error')
-    cy.get('div p').should('have.text', `The name “${project2Name}” is already in use.`)
+    cy.get('div p').should(
+      'have.text',
+      `The name “${project2Name}” is already in use.`
+    )
     cy.go('back')
     cy.url().should('include', `${project1Name}/confirm-rename`)
     cy.get('input[checkdependson="newName"]').clear()
@@ -99,7 +114,11 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.get("a:contains('Dashboard')").click()
     // Steps
     // Navigate drop-down menu
-    cy.get(`a[href$='/${nameItem}/'].jenkins-table__link.model-link.inside`).realHover().realClick({ position: 'right' }).get('a.jenkins-dropdown__item[href$="/confirm-rename"]').click()
+    cy.get(`a[href$='/${nameItem}/'].jenkins-table__link.model-link.inside`)
+      .realHover()
+      .realClick({ position: 'right' })
+      .get('a.jenkins-dropdown__item[href$="/confirm-rename"]')
+      .click()
     // Check URL
     cy.url().should('include', '/confirm-rename')
     cy.get('input[name="newName"]').clear().type(newNameItem)
@@ -122,7 +141,9 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.get('[name="Submit"]').click()
     cy.get("a:contains('Dashboard')").click()
     // Steps
-    cy.get(`a[href$='/${project1Name}/'].jenkins-table__link.model-link.inside`).click()
+    cy.get(
+      `a[href$='/${project1Name}/'].jenkins-table__link.model-link.inside`
+    ).click()
     cy.get('a[href$="/confirm-rename"]').click()
     // Check URL
     cy.url().should('include', '/confirm-rename')
@@ -132,7 +153,10 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.reload()
     cy.url().should('include', project2Name)
     cy.get(`li > a[href$="/${project2Name}/"]`).should('contain', project2Name)
-    cy.get('h1.job-index-headline.page-headline').should('contain', project2Name)
+    cy.get('h1.job-index-headline.page-headline').should(
+      'contain',
+      project2Name
+    )
     cy.get("a:contains('Dashboard')").click()
     cy.get('td > a > span').should('contain', project2Name)
   })
@@ -161,7 +185,11 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
 
     cy.get('a.jenkins-dropdown__item').contains('Rename').click()
     cy.get('h1').should('have.text', 'Rename Project First test')
-    cy.get('input.jenkins-input').should('have.value', 'First test').click().clear().type('New First test')
+    cy.get('input.jenkins-input')
+      .should('have.value', 'First test')
+      .click()
+      .clear()
+      .type('New First test')
     cy.get('button.jenkins-submit-button').click()
     cy.get('h1.job-index-headline').should('have.text', 'New First test')
   })
@@ -183,7 +211,10 @@ describe.skip('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.get('button.jenkins-submit-button').click()
 
     cy.get('h1').should('have.text', 'Error')
-    cy.get('p').should('have.text', 'The new name is the same as the current name.')
+    cy.get('p').should(
+      'have.text',
+      'The new name is the same as the current name.'
+    )
   })
 
   it('TC_01.002.08 | FreestyleProject > Rename Project | Leave the "New Name" text field blank', () => {

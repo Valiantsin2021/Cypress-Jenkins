@@ -11,9 +11,16 @@ describe.skip('Freestyle project Delete', () => {
   })
 
   it('Freestyle project| Verify confirmation window appears before deletion.', () => {
-    cy.get('tbody tr td a.jenkins-table__link').realHover({ position: 'center' })
-    cy.get('table#projectstatus button.jenkins-menu-dropdown-chevron').should('be.visible').click()
+    cy.get('tbody tr td a.jenkins-table__link').realHover({
+      position: 'center'
+    })
+    cy.get('table#projectstatus button.jenkins-menu-dropdown-chevron')
+      .should('be.visible')
+      .click()
     cy.get('button.jenkins-dropdown__item').contains('Delete').click()
-    cy.get('.jenkins-dialog__contents').should('contain.text', 'Delete the Project ‘new_Freestyle_project’?')
+    cy.get('.jenkins-dialog__contents').should(
+      'contain.text',
+      'Delete the Project ‘new_Freestyle_project’?'
+    )
   })
 })

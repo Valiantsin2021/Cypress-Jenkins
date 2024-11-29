@@ -6,6 +6,7 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   requestTimeout: 7000,
   defaultCommandTimeout: 7000,
+  watchForFileChanges: false,
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

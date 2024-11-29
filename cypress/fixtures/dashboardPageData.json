@@ -1,4 +1,5 @@
 {
   "leftSideBar": ["New Item", "Build History", "Manage Jenkins", "My Views"],
-  "endPoint": ["all/newJob", "all/builds", "manage/", "me/my-views/view/all/"]
+  "endPoint": ["all/newJob", "all/builds", "manage/", "me/my-views/view/all/"],
+  "sessionIdCookie": "JSESSIONID"
 }

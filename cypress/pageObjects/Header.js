@@ -2,12 +2,13 @@
 
 import SearchResultsPage from './SearchResultsPage'
 import DashboardPage from './DashboardPage'
-
 class Header {
   getSearchField = () => cy.get('#search-box')
   getSearchAutoCompletionBox = () => cy.get('div#search-box-completion li')
-  getUserDropdownlink = () => cy.get('.login > .model-link > .jenkins-menu-dropdown-chevron')
-  getDropdownConfigureItem = () => cy.get('.jenkins-dropdown > [href*="/configure"]')
+  getUserDropdownlink = () =>
+    cy.get('#page-header .jenkins-menu-dropdown-chevron')
+  getDropdownConfigureItem = () =>
+    cy.get('.jenkins-dropdown > [href*="/configure"]')
   getJenkinsLogo = () => cy.get('a#jenkins-home-link')
   getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
 
@@ -32,7 +33,7 @@ class Header {
   }
 
   clickUserDropdownLink() {
-    this.getUserDropdownlink().click({ force: true })
+    this.getUserDropdownlink().realHover().click()
     return this
   }
 
@@ -44,6 +45,16 @@ class Header {
   clickJenkinsLogo() {
     this.getJenkinsLogo().click()
     return new DashboardPage()
+  }
+
+  clickDashboardBtn() {
+    this.getBreadcrumps().contains('Dashboard').click()
+    return this
+  }
+
+  verifyAutoCompletionNotVisible() {
+    this.getSearchAutoCompletionBox().should('not.be.visible')
+    return this
   }
 }
 

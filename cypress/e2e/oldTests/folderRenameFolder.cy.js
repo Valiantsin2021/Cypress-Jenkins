@@ -19,9 +19,13 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     //steps
     cy.get('[href="job/Test%20Folder/"]').realHover()
     cy.get('[href="job/Test%20Folder/"] .jenkins-menu-dropdown-chevron').click()
-    cy.get('.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]').click()
+    cy.get(
+      '.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]'
+    ).click()
     cy.get('[checkdependson="newName"]').click()
-    cy.get('[checkdependson="newName"]').type(' 1219').should('have.value', 'Test Folder 1219')
+    cy.get('[checkdependson="newName"]')
+      .type(' 1219')
+      .should('have.value', 'Test Folder 1219')
   })
 
   it('TC_04.001-05_A|Rename folder on the folder page', () => {
@@ -50,9 +54,13 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     //steps
     cy.get('[href="job/Test%20Folder/"]').realHover()
     cy.get('[href="job/Test%20Folder/"] .jenkins-menu-dropdown-chevron').click()
-    cy.get('.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]').click()
+    cy.get(
+      '.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]'
+    ).click()
     cy.get('[checkdependson="newName"]').click().clear()
-    cy.get('[checkdependson="newName"]').type('Тестовая 日本語 中文').should('have.value', 'Тестовая 日本語 中文')
+    cy.get('[checkdependson="newName"]')
+      .type('Тестовая 日本語 中文')
+      .should('have.value', 'Тестовая 日本語 中文')
     // Folders with Japanese characters are not automatically deleted through cleanData.
     // manually deleting the folder.
     cy.get('[formnovalidate="formNoValidate"]').click()
@@ -78,9 +86,13 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     //steps
     cy.get('[href="job/Test%20Folder/"]').realHover()
     cy.get('[href="job/Test%20Folder/"] .jenkins-menu-dropdown-chevron').click()
-    cy.get('.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]').click()
+    cy.get(
+      '.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]'
+    ).click()
     cy.get('[checkdependson="newName"]').click().clear()
-    cy.get('[checkdependson="newName"]').type('Test_Folder7+').should('have.value', 'Test_Folder7+')
+    cy.get('[checkdependson="newName"]')
+      .type('Test_Folder7+')
+      .should('have.value', 'Test_Folder7+')
     cy.get('[formnovalidate="formNoValidate"]').click()
     cy.get('h1')
       .invoke('text')
@@ -117,7 +129,9 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     cy.get('button[name="Submit"]').click()
     cy.get('#jenkins-home-link').click()
     cy.get('a').contains('NewFolder').realHover()
-    cy.get('button[data-href="http://localhost:8080/job/NewFolder/"]').click({ force: true })
+    cy.get('button[data-href="http://localhost:8080/job/NewFolder/"]').click({
+      force: true
+    })
     cy.get('a[class="jenkins-dropdown__item "]').contains('Rename').click()
     cy.get('input[name="newName"]').clear()
     cy.get('input[name="newName"]').type('RenameFolder')
@@ -136,8 +150,12 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     cy.get('button').contains('Save').click()
     cy.get('div[id="breadcrumbBar"]').contains('Folder')
     cy.get('a[href="/job/Folder/"]').realHover()
-    cy.get(`[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder/"]`).should('be.visible')
-    cy.get(`button[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder/"]`).click()
+    cy.get(
+      `[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder/"]`
+    ).should('be.visible')
+    cy.get(
+      `button[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder/"]`
+    ).click()
     cy.get('a[href="/job/Folder/confirm-rename"]').eq(0).click()
     cy.get('input[name="newName"]').clear()
     cy.get('input[name="newName"]').type('Folder2')
@@ -152,8 +170,12 @@ describe.skip('US_04.001 | Folder > Rename Folder', () => {
     cy.get('button').contains('Save').click()
     cy.get('#jenkins-home-link').click()
     cy.get('[href="job/Folder1/"]').realHover({ position: 'center' })
-    cy.get(`[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder1/"]`).should('be.visible')
-    cy.get(`[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder1/"]`).click()
+    cy.get(
+      `[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder1/"]`
+    ).should('be.visible')
+    cy.get(
+      `[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/Folder1/"]`
+    ).click()
     cy.get('a[href="/job/Folder1/confirm-rename"]').click()
     cy.get('input[name="newName"]').clear()
     cy.get('input[name="newName"]').type('Folder*')

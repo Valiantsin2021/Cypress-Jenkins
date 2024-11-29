@@ -14,8 +14,8 @@ class FreestyleProjectPage {
   getMoveButton = () => cy.get('button[name="Submit"]')
   getProjectInfoSection = () => cy.get('#main-panel')
   getDashboardLink = () => cy.get('a[href="/"].model-link')
-  deleteProjectButton = () => cy.get('a[data-title="Delete Project"]')
-  cancelButton = () => cy.get('button[data-id="cancel"]')
+  getDeleteMenuItem = () => cy.get('a[data-title="Delete Project"]')
+  getCancelButton = () => cy.get('button[data-id="cancel"]')
 
   clickSaveButton() {
     this.getSaveButton().click()
@@ -52,13 +52,18 @@ class FreestyleProjectPage {
     return this
   }
 
-  clickDeleteJobButton() {
-    this.deleteProjectButton().click()
+  clickDeleteMenuItem() {
+    this.getDeleteMenuItem().click()
     return this
   }
 
   clickCancelButton() {
-    this.cancelButton().click()
+    this.getCancelButton().click()
+    return this
+  }
+
+  clearJobDescriptionField() {
+    this.getJobDescriptionField().clear()
     return this
   }
 }

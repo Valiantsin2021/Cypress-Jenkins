@@ -21,9 +21,19 @@ describe('US_00.000 | New Item > Create New item', () => {
   it('TC_00.000.01| Create new item from "Create a job" button| Invalid data', () => {
     dashboardPage.clickNewItemMenuLink()
 
-    newJobPage.addUnsaveNameItem(wrongJobName).getUnsaveItemInvalidName().should('be.visible').and('have.class', 'input-validation-message').contains(newItem.newItemNameInvalidMessage)
+    newJobPage
+      .typeNewItemName('<')
+      .getUnsaveItemInvalidName()
+      .should('be.visible')
+      .and('have.class', 'input-validation-message')
+      .contains(newItem.newItemNameInvalidMessage)
 
-    newJobPage.addEmptyNameItem().getEmptyItemInvalidName().should('be.visible').and('have.class', 'input-validation-message').contains(newItem.emptyNameFieldReminder)
+    newJobPage
+      .clearItemNameField()
+      .getEmptyItemInvalidName()
+      .should('be.visible')
+      .and('have.class', 'input-validation-message')
+      .contains(newItem.emptyNameFieldReminder)
   })
 
   it('TC_00.000.02 | Create new item from "Create a job" button', () => {
@@ -34,7 +44,10 @@ describe('US_00.000 | New Item > Create New item', () => {
       .then(() => {
         dashboardPage.clickNewItemMenuLink()
       })
-    newJobPage.typeNewItemName(randomItemName).selectFreestyleProject().clickOKButton()
+    newJobPage
+      .typeNewItemName(randomItemName)
+      .selectFreestyleProject()
+      .clickOKButton()
     header.clickJenkinsLogo()
     dashboardPage.getJobTable().contains(randomItemName).should('exist')
   })
@@ -42,8 +55,43 @@ describe('US_00.000 | New Item > Create New item', () => {
   it('TC_00.000.03 | Create New item | From the "New Item" link in the left sidebar', () => {
     dashboardPage.clickNewItemMenuLink()
 
-    newJobPage.typeNewItemName(randomItemName).selectFreestyleProject().clickOKButton()
+    newJobPage
+      .typeNewItemName(randomItemName)
+      .selectFreestyleProject()
+      .clickOKButton()
     freestyleProjectPage.clickSaveButton()
-    freestyleProjectPage.getJobHeadline().should('contain', randomItemName).and('exist')
+    freestyleProjectPage
+      .getJobHeadline()
+      .should('contain', randomItemName)
+      .and('exist')
+  })
+
+  it('TC_00.000.05 | Create new item from Dashboard dropdown menu', () => {
+    dashboardPage
+      .hoverDashboardDropdownChevron()
+      .clickDashboardDropdownChevron()
+      .selectNewItemFromDashboardChevron()
+    newJobPage
+      .typeNewItemName(randomItemName)
+      .selectFreestyleProject()
+      .clickOKButton()
+    header.clickJenkinsLogo()
+
+    dashboardPage.getJobTable().contains(randomItemName).should('be.visible')
+  })
+
+  it('TC_00.000.06 | Create new item from the "New Item" link in the left sidebar', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(randomItemName)
+      .selectFreestyleProject()
+      .clickOKButton()
+    header.clickJenkinsLogo()
+
+    dashboardPage
+      .getJobTable()
+      .contains(randomItemName)
+      .should('be.visible')
+      .and('have.text', randomItemName)
   })
 })

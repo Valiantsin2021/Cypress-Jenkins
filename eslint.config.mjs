@@ -39,11 +39,21 @@ export default [
       'max-depth': ['error', { max: 5 }],
       'max-nested-callbacks': ['warn', { max: 3 }],
       'max-params': ['error', { max: 5 }],
-      'max-statements': ['error', { max: 50 }, { ignoreTopLevelFunctions: true }],
-      'max-lines': ['error', { max: 250, skipComments: true, skipBlankLines: true }],
-      'max-len': ['warn', { code: 200, ignoreComments: true, ignoreUrls: true }],
+      'max-statements': [
+        'error',
+        { max: 50 },
+        { ignoreTopLevelFunctions: true }
+      ],
+      'max-lines': [
+        'error',
+        { max: 250, skipComments: true, skipBlankLines: true }
+      ],
+      'max-len': ['warn', { code: 80, ignoreComments: true, ignoreUrls: true }],
       'no-multiple-empty-lines': ['error', { max: 1 }],
-      'space-before-function-paren': ['error', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
+      'space-before-function-paren': [
+        'error',
+        { anonymous: 'always', named: 'never', asyncArrow: 'always' }
+      ],
       'no-eval': 'error',
       'no-multi-spaces': 'error',
       'no-new': 'warn',
@@ -56,14 +66,22 @@ export default [
       'prefer-arrow-callback': 'error',
       'arrow-body-style': ['error', 'as-needed'],
       'no-invalid-this': 'warn',
-      'prefer-destructuring': ['warn', { array: true, object: true }, { enforceForRenamedProperties: true }],
+      'prefer-destructuring': [
+        'warn',
+        { array: true, object: true },
+        { enforceForRenamedProperties: true }
+      ],
       'no-implied-eval': 'error',
       eqeqeq: 'error',
       'no-with': 'error',
       'func-call-spacing': ['error', 'never'],
       'new-cap': ['error', { newIsCap: true }],
       'new-parens': 'error',
-      quotes: ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
+      quotes: [
+        'warn',
+        'single',
+        { avoidEscape: true, allowTemplateLiterals: true }
+      ],
       'arrow-spacing': ['error', { before: true, after: true }],
       'no-var': 'error',
       'no-unused-vars': ['warn', { vars: 'local' }],

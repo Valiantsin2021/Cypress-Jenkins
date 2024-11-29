@@ -72,13 +72,20 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('span.label').contains('Freestyle project').click()
     cy.get('button#ok-button').click()
     cy.get('button[name="Submit"]').click()
-    cy.get('.job-index-headline').should('contain.text', sidebarJobName).and('be.visible')
-    cy.url().should('eq', `http://${LOCAL_HOST}:${LOCAL_PORT}/job/${sidebarJobName}/`)
+    cy.get('.job-index-headline')
+      .should('contain.text', sidebarJobName)
+      .and('be.visible')
+    cy.url().should(
+      'eq',
+      `http://${LOCAL_HOST}:${LOCAL_PORT}/job/${sidebarJobName}/`
+    )
   })
 
   it('TC_00.000.05 | Create new item from Dashboard dropdown menu', () => {
     cy.get('a.model-link').contains('Dashboard').realHover()
-    cy.get('a[href="/"] .jenkins-menu-dropdown-chevron').should('be.visible').click()
+    cy.get('a[href="/"] .jenkins-menu-dropdown-chevron')
+      .should('be.visible')
+      .click()
     cy.get('a.jenkins-dropdown__item ').each($els => {
       let eText = $els.text().trim()
       if (eText === 'New Item') {
@@ -111,7 +118,10 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('a#jenkins-home-link').click()
     cy.get('span').contains('New Item').click()
     cy.get('input#name.jenkins-input').type(existingJobName)
-    cy.get('#itemname-invalid.input-validation-message').should('have.text', '» A job already exists with the name ‘Item_1’')
+    cy.get('#itemname-invalid.input-validation-message').should(
+      'have.text',
+      '» A job already exists with the name ‘Item_1’'
+    )
     cy.get('input[id="name"]').clear()
     cy.get('input#name.jenkins-input').type(newJobName)
     cy.get('span').contains('Freestyle project').click()
@@ -124,7 +134,10 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
   it('TC_00.000.08 | Verify item name does not contain any special characters', () => {
     cy.get('span').contains('New Item').click()
     cy.get('input#name.jenkins-input').type(wrongJobName)
-    cy.get('#itemname-invalid.input-validation-message').should('have.text', '» ‘#’ is an unsafe character')
+    cy.get('#itemname-invalid.input-validation-message').should(
+      'have.text',
+      '» ‘#’ is an unsafe character'
+    )
     cy.get('input#name.jenkins-input').clear()
     cy.get('input#name.jenkins-input').type(jobName)
     cy.get('span').contains('Freestyle project').click()
@@ -162,14 +175,19 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('#ok-button').click()
     cy.get('a#jenkins-home-link').click()
 
-    cy.get('table.jenkins-table.sortable').contains(jobName).should('be.visible')
+    cy.get('table.jenkins-table.sortable')
+      .contains(jobName)
+      .should('be.visible')
   })
 
   it('TC_00.000.11 | Verify Error message appearance and its text when item name contains special characters', () => {
     cy.get('a[href="/view/all/newJob"]').click()
     cy.get('#name').type('New Project @#$ Name')
 
-    cy.get('#itemname-invalid').should('have.text', '» ‘@’ is an unsafe character')
+    cy.get('#itemname-invalid').should(
+      'have.text',
+      '» ‘@’ is an unsafe character'
+    )
   })
 
   it('TC_00.000.12 | Verify redirection to the configure page for the selected item type after clicking "OK"', () => {
@@ -191,7 +209,9 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('button[name="Submit"]').contains('Save').click()
     cy.get('a#jenkins-home-link').click()
 
-    cy.get('table.jenkins-table.sortable').contains(jobName).should('be.visible')
+    cy.get('table.jenkins-table.sortable')
+      .contains(jobName)
+      .should('be.visible')
   })
 
   it('TC_00.000.14 | Verify the display of validation message if no item name is entered', () => {
@@ -199,7 +219,10 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('input#name.jenkins-input').type(jobName)
     cy.get('input#name.jenkins-input').clear()
 
-    cy.get('#itemname-required.input-validation-message').should('have.text', '» This field cannot be empty, please enter a valid name')
+    cy.get('#itemname-required.input-validation-message').should(
+      'have.text',
+      '» This field cannot be empty, please enter a valid name'
+    )
     cy.get('#ok-button').contains('OK').should('be.disabled')
   })
 
@@ -218,9 +241,15 @@ describe.skip('US_00.000 | New Item > Create New item', () => {
     cy.get('#name').type('New project')
     cy.get('.com_cloudbees_hudson_plugins_folder_Folder').click()
     cy.get('#ok-button').should('have.text', 'OK').click()
-    cy.get('.jenkins-submit-button').contains('Save').should('be.visible').click()
+    cy.get('.jenkins-submit-button')
+      .contains('Save')
+      .should('be.visible')
+      .click()
     cy.get('h1:has(svg[tooltip="Folder"])').should('be.visible')
-    cy.get('ol#breadcrumbs li a.model-link').contains('Dashboard').should('be.visible').click()
+    cy.get('ol#breadcrumbs li a.model-link')
+      .contains('Dashboard')
+      .should('be.visible')
+      .click()
     cy.get('a[href="job/New%20project/"]').should('be.visible')
   })
 

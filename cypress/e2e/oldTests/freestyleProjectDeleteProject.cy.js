@@ -38,7 +38,9 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get('a').contains('Dashboard').click()
     cy.get('span').contains('New Freestyle project').scrollIntoView()
     cy.get('span').contains('New Freestyle project').realHover()
-    cy.get('button[data-href="http://localhost:8080/job/New%20Freestyle%20project/"]').click()
+    cy.get(
+      'button[data-href="http://localhost:8080/job/New%20Freestyle%20project/"]'
+    ).click()
     cy.get('button[href="/job/New%20Freestyle%20project/doDelete"]').click()
     cy.get('button.jenkins-button.jenkins-button--primary ').click()
     cy.get('#main-panel h1').should('have.text', 'Welcome to Jenkins!')
@@ -50,7 +52,9 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get('button').contains('OK').click()
     cy.get('button').contains('Save').click()
     cy.get('a').contains('Dashboard').click()
-    cy.get('td>a>button[class="jenkins-menu-dropdown-chevron"]').click({ force: true })
+    cy.get('td>a>button[class="jenkins-menu-dropdown-chevron"]').click({
+      force: true
+    })
     cy.get('div[class="jenkins-dropdown"]')
     cy.get('div>button[href="/job/Pro1/doDelete"]').click({ force: true })
     cy.get("button[data-id='ok']").contains('Yes').click()
@@ -85,7 +89,9 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get('a span').contains(projectName).realHover()
     cy.get(`button[data-href$="${projectName.split(' ')[1]}/"]`).click()
     cy.get('.jenkins-dropdown__item ').contains('Delete Project').click()
-    cy.get('dialog.jenkins-dialog').should('exist').and('contain.text', `Delete the Project ‘${projectName}’?`)
+    cy.get('dialog.jenkins-dialog')
+      .should('exist')
+      .and('contain.text', `Delete the Project ‘${projectName}’?`)
     cy.get("button[data-id='ok']").should('exist').and('not.be.disabled')
     cy.get("button[data-id='cancel']").should('exist').and('not.be.disabled')
   })
@@ -148,7 +154,7 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
   it('TC_01.004.11 |Verify user is able to cancel project deleting', () => {
     const newProjName = 'New project'
 
-    cy.get('.task-link-text').contains('New Item').click({ force: true })
+    get('.task-link-text').contains('New Item').click({ force: true })
     cy.get('input#name').type(newProjName)
     cy.get('.label').contains('Freestyle project').click()
     cy.get('button#ok-button').click()
@@ -173,14 +179,22 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get(jobFreeStyleProject).click()
     cy.get(btnOK).click()
     cy.get(btnSave).click()
-    cy.get(projectNameHeadline).should('be.visible').and('have.text', randomItemName)
+    cy.get(projectNameHeadline)
+      .should('be.visible')
+      .and('have.text', randomItemName)
 
     cy.log('Deleting Freestyle Project')
     cy.get(btnDeleteProjectInsideProject).click()
 
     cy.get(confirmationMessageDialog).should('be.visible')
-    cy.get(confirmationMessageTitle).should('have.text', this.deleteProject.confirmationMessage.title)
-    cy.get(confirmationMessageQuestion).should('have.text', `${this.deleteProject.confirmationMessage.question} ‘${randomItemName}’?`)
+    cy.get(confirmationMessageTitle).should(
+      'have.text',
+      this.deleteProject.confirmationMessage.title
+    )
+    cy.get(confirmationMessageQuestion).should(
+      'have.text',
+      `${this.deleteProject.confirmationMessage.question} ‘${randomItemName}’?`
+    )
   })
 
   it('TC_01.004.05-A | FreestyleProject > Delete Project | Cancel deletion', () => {
@@ -209,7 +223,9 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
 
     cy.log('Deleting Freestyle project')
     cy.contains(randomItemName).trigger('mouseover').click()
-    cy.get(projectNameHeadline).should('be.visible').and('have.text', randomItemName)
+    cy.get(projectNameHeadline)
+      .should('be.visible')
+      .and('have.text', randomItemName)
     cy.get(btnDeleteProjectInsideProject).click()
     cy.get(btnYes).click()
 
@@ -235,7 +251,10 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get(btnCancel).click()
 
     cy.log('Verifying Freestyle Project is still present on Dashboard')
-    cy.get(dashboardPage).contains(randomItemName).should('exist').and('be.visible')
+    cy.get(dashboardPage)
+      .contains(randomItemName)
+      .should('exist')
+      .and('be.visible')
   })
 
   it('TC_01.004.16 | Verify that user can delete Freestyle Project from the Dashboard page', () => {

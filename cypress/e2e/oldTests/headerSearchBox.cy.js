@@ -28,9 +28,15 @@ describe.skip('US_14.002 | Header > Search Box', () => {
     cy.url().should('includes', '/search/')
     // Check color and text contetn
     cy.get('div#main-panel > h1').should('have.css', 'color', 'rgb(20, 20, 31)')
-    cy.get('div#main-panel > h1').contains("Search for 'The most unique project name is 12-35658_312'")
+    cy.get('div#main-panel > h1').contains(
+      "Search for 'The most unique project name is 12-35658_312'"
+    )
     // Check color and text error massage
-    cy.get('div#main-panel > div.error').should('have.css', 'color', 'rgb(230, 0, 31)')
+    cy.get('div#main-panel > div.error').should(
+      'have.css',
+      'color',
+      'rgb(230, 0, 31)'
+    )
     cy.get('div#main-panel > div.error').contains('Nothing seems to match.')
   })
 
@@ -80,8 +86,15 @@ describe.skip('US_14.002 | Header > Search Box', () => {
     cy.get('.login .model-link').should('be.visible').click()
     cy.url().should('include', '/user')
     cy.get('a[href$="/configure"]').click({ force: true })
-    cy.get("label[class='attach-previous ']").should('contain', 'Insensitive search tool').and('exist')
-    cy.get("input[name='insensitiveSearch']").should('exist').uncheck({ force: true }).should('not.be.checked').check({ force: true }).should('be.checked')
+    cy.get("label[class='attach-previous ']")
+      .should('contain', 'Insensitive search tool')
+      .and('exist')
+    cy.get("input[name='insensitiveSearch']")
+      .should('exist')
+      .uncheck({ force: true })
+      .should('not.be.checked')
+      .check({ force: true })
+      .should('be.checked')
   })
 
   it('TC_14.002.01 | Auto-Completion Suggestion Selection', () => {
@@ -93,8 +106,12 @@ describe.skip('US_14.002 | Header > Search Box', () => {
   it('TC_14.002.02 | Verify error message appears when no matches found', () => {
     cy.get('input#search-box').type(`${searchTerm}{enter}`)
     cy.get('li[style]').should('not.be.visible')
-    cy.get('#main-panel h1').contains(`${searchBoxData.textMessages.heading} '${searchTerm}'`)
-    cy.get('div.error').should('have.text', searchBoxData.textMessages.error).and('have.css', 'color', searchBoxData.cssRequirements.error)
+    cy.get('#main-panel h1').contains(
+      `${searchBoxData.textMessages.heading} '${searchTerm}'`
+    )
+    cy.get('div.error')
+      .should('have.text', searchBoxData.textMessages.error)
+      .and('have.css', 'color', searchBoxData.cssRequirements.error)
   })
 
   it('TC_14.002.13 | Header > Search Box  | Verify auto-fill suggestions contain the search term', () => {
@@ -114,7 +131,9 @@ describe.skip('US_14.002 | Header > Search Box', () => {
   })
 
   it('TC_14.002.12 | Verify that Dashboard page in Jenkins has a search box on its top right', () => {
-    cy.get('.main-search__input').should('be.visible').and('have.attr', 'placeholder')
+    cy.get('.main-search__input')
+      .should('be.visible')
+      .and('have.attr', 'placeholder')
   })
 
   it('TC_14.002.11 | Verify that Dashboard page has a Search box on its top right', () => {
@@ -130,7 +149,10 @@ describe.skip('US_14.002 | Header > Search Box', () => {
     cy.get('li[class*="FreeStyleProject"]').click()
     cy.get('button#ok-button').click()
     cy.get('button[name="Submit"]').click()
-    cy.contains(`a[href*="/job/${newJobFolderName}/build"]`, 'Build Now').click()
+    cy.contains(
+      `a[href*="/job/${newJobFolderName}/build"]`,
+      'Build Now'
+    ).click()
     cy.get('#breadcrumbs li:first-child').click()
     cy.log('create second build')
     cy.get(`td:last-child a[href*="job/${newJobFolderName}/build"]`).click()
@@ -143,7 +165,9 @@ describe.skip('US_14.002 | Header > Search Box', () => {
     cy.get('@arrayAllBuilds').then($array => {
       $array.forEach(build => {
         cy.get('input#search-box').type(`${newJobFolderName} ${build}`)
-        cy.get('li[style]:not([style="display: none;"])').should('be.visible').and('contain', `${newJobFolderName} ${build}`)
+        cy.get('li[style]:not([style="display: none;"])')
+          .should('be.visible')
+          .and('contain', `${newJobFolderName} ${build}`)
         cy.get('input#search-box').type('{enter}')
         cy.get('.jenkins-build-caption h1').should('contain', build)
         cy.url().should('contain', build.slice(1))
@@ -173,7 +197,9 @@ describe.skip('US_14.002 | Header > Search Box', () => {
     cy.get('.jenkins-submit-button').click()
     cy.get('span.task-link-text').contains('New Item').click({ force: true })
     cy.get('input[id="name"]').type('Project TC_14.002.15_A')
-    cy.get('.org_jenkinsci_plugins_workflow_job_WorkflowJob > :nth-child(2) > .desc').click()
+    cy.get(
+      '.org_jenkinsci_plugins_workflow_job_WorkflowJob > :nth-child(2) > .desc'
+    ).click()
     cy.get('#ok-button').contains('OK').click()
     cy.get('.jenkins-submit-button').click({ force: true })
     cy.get('#jenkins-name-icon').click()

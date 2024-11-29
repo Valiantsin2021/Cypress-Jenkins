@@ -37,7 +37,10 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('a[href$="/newJob"]').click()
     cy.get('#items li[class$="FreeStyleProject"]').click()
 
-    cy.get('div[class$="validation-message"]').should('have.text', this.message.newItem.emptyNameFieldReminder)
+    cy.get('div[class$="validation-message"]').should(
+      'have.text',
+      this.message.newItem.emptyNameFieldReminder
+    )
   })
 
   it('TC_00.001.05 | Verify a description can be added when creating a new Freestyle Project', () => {
@@ -71,7 +74,12 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('a[href="/view/all/newJob"]').click()
     cy.get('.hudson_model_FreeStyleProject').click()
 
-    cy.get('#itemname-required').should('be.visible').and('have.text', '» This field cannot be empty, please enter a valid name')
+    cy.get('#itemname-required')
+      .should('be.visible')
+      .and(
+        'have.text',
+        '» This field cannot be empty, please enter a valid name'
+      )
     cy.get('#ok-button').should('be.disabled')
   })
 
@@ -91,7 +99,10 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('input#name').type(projectName)
     cy.get('#items li[class$="FreeStyleProject"]').click()
 
-    cy.get('div[class$="validation-message"]').should('have.text', duplicateNameError)
+    cy.get('div[class$="validation-message"]').should(
+      'have.text',
+      duplicateNameError
+    )
     cy.get('button[id="ok-button"]').should('be.disabled').and('be.visible')
   })
 
@@ -113,7 +124,9 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('input#name').type(projectName)
     cy.get('#items li[class$="FreeStyleProject"]').click()
     cy.get('button[id="ok-button"]').click()
-    cy.get('.jenkins-section input[name="hudson-triggers-TimerTrigger"').check({ force: true })
+    cy.get('.jenkins-section input[name="hudson-triggers-TimerTrigger"').check({
+      force: true
+    })
     cy.get('textarea[checkurl*="TimerTrigger"]').type(scheduleBuild)
     cy.get('button[name="Submit"]').click()
 
@@ -122,9 +135,15 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get(':nth-child(6) > .task-link-wrapper > .task-link').click()
     cy.get('button[data-section-id="build-triggers"]').click()
 
-    cy.get('.jenkins-section input[name="hudson-triggers-TimerTrigger"').should('have.attr', 'checked')
+    cy.get('.jenkins-section input[name="hudson-triggers-TimerTrigger"').should(
+      'have.attr',
+      'checked'
+    )
 
-    cy.get('textarea[checkurl*="TimerTrigger"]').should('have.text', scheduleBuild)
+    cy.get('textarea[checkurl*="TimerTrigger"]').should(
+      'have.text',
+      scheduleBuild
+    )
   })
 
   it('TC_00.001-11 | Create Freestyle Project by clicking on Create a Job', () => {
@@ -134,7 +153,9 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('[id="ok-button"]').click()
     cy.get('[name="Submit"]').click()
 
-    cy.get('[id="main-panel"]').should('contain.text', projectName).and('be.visible')
+    cy.get('[id="main-panel"]')
+      .should('contain.text', projectName)
+      .and('be.visible')
   })
 
   it('TC_00.001.12 | Verify that space projects name is not accepted during project creation', () => {
@@ -143,7 +164,9 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('div').contains('Freestyle project').click()
     cy.get('button#ok-button').click()
 
-    cy.get('#main-panel').should('include.text', 'Error').and('include.text', 'No name is specified')
+    cy.get('#main-panel')
+      .should('include.text', 'Error')
+      .and('include.text', 'No name is specified')
   })
 
   it('TC_00.001.14 | Create Freestyle Project from the Dashboard Menu', () => {
@@ -166,7 +189,10 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('a:contains("New Item")').click()
     cy.get('input#name').type(projectName)
 
-    cy.get('#itemname-invalid').should('contain.text', `» A job already exists with the name ‘${projectName}’`)
+    cy.get('#itemname-invalid').should(
+      'contain.text',
+      `» A job already exists with the name ‘${projectName}’`
+    )
     cy.get('button#ok-button').should('be.disabled')
   })
 
@@ -184,7 +210,10 @@ describe.skip('US_00.001 | New item > Create Freestyle Project', () => {
     cy.get('a[href="/view/all/newJob"]').click()
     cy.get('.label').contains('Freestyle project').click()
 
-    cy.get('#itemname-required').should('have.text', '» This field cannot be empty, please enter a valid name')
+    cy.get('#itemname-required').should(
+      'have.text',
+      '» This field cannot be empty, please enter a valid name'
+    )
     cy.get('#ok-button').should('be.disabled')
   })
 

@@ -12,7 +12,9 @@ describe.skip('US_00.002 | New Item > Create Pipeline Project #14', () => {
     cy.get('.model-link').click()
     cy.get('.jenkins-table__link > span').should('have.text', projectname)
     cy.get('a[href="job/PipelineProject1/"]').realHover()
-    cy.get('button.jenkins-menu-dropdown-chevron:first-child').click({ force: true })
+    cy.get('button.jenkins-menu-dropdown-chevron:first-child').click({
+      force: true
+    })
     cy.get(`button[data-href*="/job/${projectname}"]`).click()
     cy.get(`button[href="/job/${projectname}/doDelete"]`).click()
     cy.get('button[data-id="ok"]').click()

@@ -1,10 +1,15 @@
 /// <reference types="cypress" />
 
+import { faker } from '@faker-js/faker'
+
 import Header from '../pageObjects/Header'
 import SearchResuls from '../pageObjects/SearchResultsPage'
 import DashboardPage from '../pageObjects/DashboardPage'
 import UserPage from '../pageObjects/UserPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import NewJobPage from '../pageObjects/NewJobPage'
+import FolderPage from '../pageObjects/FolderPage'
+import PipelinePage from '../pageObjects/PipelinePage'
 
 import headerData from '../fixtures/headerData.json'
 import searchResultsData from '../fixtures/searchResultsData.json'
@@ -13,18 +18,34 @@ import newJobPageData from '../fixtures/newJobPageData.json'
 import configurePageData from '../fixtures/configurePageData.json'
 
 const header = new Header()
+const newJobPage = new NewJobPage()
 const dashboardPage = new DashboardPage()
 const searchResults = new SearchResuls()
 const userPage = new UserPage()
 const freestyleProjectPage = new FreestyleProjectPage()
+const folderPage = new FolderPage()
+const pipelinePage = new PipelinePage()
+
+let searchTermNoMatches = faker.string.alpha(10)
 
 describe('US_14.002 | Header > Search Box', () => {
   it('TC_14.002.05 | User can select suggestion to auto-fill and complete the search', () => {
-    dashboardPage.clickNewItemMenuLink().typeNewItemName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
-    freestyleProjectPage.typeJobDescription(configurePageData.projectDescription).clickSaveButton()
-    header.typeSearchTerm(newJobPageData.projectName).clickFirstOptionFromACBox().searchTerm()
+    dashboardPage
+      .clickNewItemMenuLink()
+      .typeNewItemName(newJobPageData.projectName)
+      .selectFreestyleProject()
+      .clickOKButton()
+    freestyleProjectPage
+      .typeJobDescription(configurePageData.projectDescription)
+      .clickSaveButton()
+    header
+      .typeSearchTerm(newJobPageData.projectName)
+      .clickFirstOptionFromACBox()
+      .searchTerm()
 
-    freestyleProjectPage.getJobHeadline().should('have.text', newJobPageData.projectName)
+    freestyleProjectPage
+      .getJobHeadline()
+      .should('have.text', newJobPageData.projectName)
   })
 
   it('TC_14.002.06 | Multiple matches are displayed on the result page', () => {
@@ -42,14 +63,22 @@ describe('US_14.002 | Header > Search Box', () => {
       .filter(':visible')
       .should('have.length', headerData.search.autoCompletionItems.length)
       .each((item, index) => {
-        cy.wrap(item).should('have.text', headerData.search.autoCompletionItems[index])
+        cy.wrap(item).should(
+          'have.text',
+          headerData.search.autoCompletionItems[index]
+        )
       })
   })
 
   it('TC_14.002.09 | Verify that the selection of an auto-complete suggestion redirects to the relevant page', () => {
-    header.typeSearchTerm(headerData.search.input.matchForLo).clickFirstOptionFromACBox().searchTerm()
+    header
+      .typeSearchTerm(headerData.search.input.matchForLo)
+      .clickFirstOptionFromACBox()
+      .searchTerm()
 
-    searchResults.getTitle().should('include.text', searchResultsData.title.logRecorders)
+    searchResults
+      .getTitle()
+      .should('include.text', searchResultsData.title.logRecorders)
   })
 
   it('TC_14.002.03 | Verify that user can not see suggested results searched with with Upper Case characters with Insensitive mode being on', () => {
@@ -58,20 +87,83 @@ describe('US_14.002 | Header > Search Box', () => {
 
     header.typeSearchTerm(headerData.search.input.upperCaseMatchForManage)
 
-    header.getSearchAutoCompletionBox().should('have.text', headerData.search.searchSuggestions.manage)
+    header
+      .getSearchAutoCompletionBox()
+      .should('have.text', headerData.search.searchSuggestions.manage)
   })
 
   it('TC_14.002.10 | Verify that the warning message is displayed when no matches are found', () => {
     header.search(headerData.search.input.noMatches)
 
-    searchResults.getNoMatchesErrorMessage().should('have.text', messages.search.noMatchesError)
+    searchResults
+      .getNoMatchesErrorMessage()
+      .should('have.text', messages.search.noMatchesError)
   })
 
   it('TC_14.002-08 | Case insensitive search', () => {
     header.clickUserDropdownLink()
     header.clickUserConfigureItem()
 
-    userPage.getInsensitiveSearchLabel().should('contain', 'Insensitive search tool')
+    userPage
+      .getInsensitiveSearchLabel()
+      .should('contain', 'Insensitive search tool')
     userPage.getInsensitiveSearchCheckBox().should('exist').and('be.checked')
+  })
+
+  it('TC_14.002.04 | Message that no matches found', () => {
+    header.search(searchTermNoMatches)
+    searchResults
+      .getTitle()
+      .should(
+        'have.css',
+        'color',
+        searchResultsData.heading.cssRequirements.color
+      )
+      .and(
+        'have.text',
+        `${searchResultsData.heading.text} '${searchTermNoMatches}'`
+      )
+    searchResults
+      .getNoMatchesErrorMessage()
+      .should(
+        'have.css',
+        'color',
+        searchResultsData.error.cssRequirements.color
+      )
+      .and('have.text', searchResultsData.error.text)
+  })
+
+  it('TC_14.002.15 | Verify suggestions in the search box', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName('New Folder TC_14.002.15_A')
+      .selectFolder()
+      .clickOKButton()
+    folderPage.clickSaveBtn().clickNewItemMenuOption()
+    newJobPage
+      .typeNewItemName('Project TC_14.002.15_A')
+      .selectPipelineProject()
+      .clickOKButton()
+    pipelinePage.clickOnSaveBtn()
+    header.getJenkinsLogo()
+    header
+      .typeSearchTerm('Pro')
+      .clickFirstOptionFromACBox()
+      .typeSearchTerm('{enter}')
+
+    freestyleProjectPage
+      .getJobHeadline()
+      .should('have.text', 'Project TC_14.002.15_A')
+  })
+
+  it('TC_14.002.02| Verify error message appears when no matches found', () => {
+    header
+      .typeSearchTerm(searchTermNoMatches)
+      .verifyAutoCompletionNotVisible()
+      .searchTerm()
+    searchResults
+      .getNoMatchesErrorMessage()
+      .should('contain', searchResultsData.error.text)
+      .and('have.css', 'color', searchResultsData.error.cssRequirements.color)
   })
 })

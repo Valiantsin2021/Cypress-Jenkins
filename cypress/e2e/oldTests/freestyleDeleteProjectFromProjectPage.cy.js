@@ -10,7 +10,9 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.url().should('include', 'NewPrj1')
     cy.get('.job-index-headline').contains('NewPrj1').should('exist')
     //Delete the project
-    cy.get(':nth-child(7) > .task-link-wrapper > .task-link > :nth-child(2)').click()
+    cy.get(
+      ':nth-child(7) > .task-link-wrapper > .task-link > :nth-child(2)'
+    ).click()
     cy.get('.jenkins-button--primary').click()
     cy.contains('NewPrj1').should('not.exist')
     cy.get('#main-panel h1').should('have.text', 'Welcome to Jenkins!')
@@ -24,8 +26,12 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get('button').contains('OK').click()
     cy.get('button').contains('Save').click()
     //Delete the project
-    cy.get('.task .task-link-wrapper a[data-title="Delete Project"] > span:last-of-type').click()
-    cy.get(".jenkins-dialog>div>[data-id='ok']").contains('Yes').click({ force: true })
+    cy.get(
+      '.task .task-link-wrapper a[data-title="Delete Project"] > span:last-of-type'
+    ).click()
+    cy.get(".jenkins-dialog>div>[data-id='ok']")
+      .contains('Yes')
+      .click({ force: true })
     cy.get('#main-panel h1').should('have.text', 'Welcome to Jenkins!')
   })
 
@@ -37,8 +43,12 @@ describe.skip('US_01.004 | FreestyleProject > Delete Project', () => {
     cy.get('button').contains('OK').click()
     cy.get('button').contains('Save').click()
     //Delete the project
-    cy.get('.task .task-link-wrapper a[data-title="Delete Project"] > span:last-of-type').click()
-    cy.get(".jenkins-dialog >div>[data-id='cancel']").contains('Cancel').click({ force: true })
+    cy.get(
+      '.task .task-link-wrapper a[data-title="Delete Project"] > span:last-of-type'
+    ).click()
+    cy.get(".jenkins-dialog >div>[data-id='cancel']")
+      .contains('Cancel')
+      .click({ force: true })
     cy.get('#main-panel h1').should('have.text', 'Pro3')
   })
 })

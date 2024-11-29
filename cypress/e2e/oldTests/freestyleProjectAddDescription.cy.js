@@ -33,7 +33,9 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.url().should('include', '/job')
 
     cy.get('.page-headline').should('have.text', projectName)
-    cy.get(description).should('be.visible').and('have.text', projectDescription)
+    cy.get(description)
+      .should('be.visible')
+      .and('have.text', projectDescription)
   })
 
   it('TC_01.001.02 | Add a Description to an Existing Project', () => {
@@ -44,7 +46,9 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.get('textarea[name="description"]').type(projectDescription)
     cy.get(submitBtn).click()
 
-    cy.get(description).should('be.visible').and('have.text', projectDescription)
+    cy.get(description)
+      .should('be.visible')
+      .and('have.text', projectDescription)
   })
 
   it('TC_01.001.03 | Verify updating an existing description', () => {
@@ -55,15 +59,22 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.get(editDescription).click()
     cy.get(itemNameField).clear().type(projectNewDescription)
     cy.get(submitBtn).click()
-    cy.get(description).should('be.visible').and('have.text', projectNewDescription)
+    cy.get(description)
+      .should('be.visible')
+      .and('have.text', projectNewDescription)
   })
 
   it('TC_01.001.05_A | Add description to the new project', () => {
     cy.get('[name="description"]').type(projectDescription)
     cy.get('[name="Submit"]').click()
 
-    cy.get('[class="jenkins-app-bar__content jenkins-build-caption"]').should('have.text', projectName)
-    cy.get('#description').should('be.visible').and('have.text', projectDescription)
+    cy.get('[class="jenkins-app-bar__content jenkins-build-caption"]').should(
+      'have.text',
+      projectName
+    )
+    cy.get('#description')
+      .should('be.visible')
+      .and('have.text', projectDescription)
   })
 
   it('TC_01.001.06 | FreestyleProject > Add description | project creation', () => {
@@ -89,9 +100,13 @@ describe.skip('US_01.001 | FreestyleProject > Add description', () => {
     cy.get(descriptionField).type(projectDescription)
     cy.get(submitBtn).click()
 
-    cy.log('Verifying the Freestyle Project was saved together with its description')
+    cy.log(
+      'Verifying the Freestyle Project was saved together with its description'
+    )
     cy.get(projectNameHeadline).should('be.visible').and('exist')
-    cy.get(description).should('be.visible').and('contain.text', projectDescription)
+    cy.get(description)
+      .should('be.visible')
+      .and('contain.text', projectDescription)
   })
 
   it.skip('TC_01.001.09 | Description is shown on project page', () => {

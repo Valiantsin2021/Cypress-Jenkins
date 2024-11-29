@@ -16,7 +16,9 @@ describe.skip('US_001|Delete the project', () => {
 
     cy.get('span').contains('NewPrj').scrollIntoView()
     cy.get('span').contains('NewPrj').realHover()
-    cy.get(`button[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/NewPrj/"]`).click()
+    cy.get(
+      `button[data-href="http://${LOCAL_HOST}:${LOCAL_PORT}/job/NewPrj/"]`
+    ).click()
     cy.get('button[href="/job/NewPrj/doDelete"]').click()
 
     cy.get('button.jenkins-button.jenkins-button--primary ').click()

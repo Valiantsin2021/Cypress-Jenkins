@@ -41,7 +41,10 @@ describe.skip('US_06.001 | Organisation folder > Configuration', () => {
       })
     cy.get('#view-message').should('have.text', description) // проверяем description
 
-    cy.get('#main-panel').should('contain.text', `Folder name: ${orgFolderName}`)
+    cy.get('#main-panel').should(
+      'contain.text',
+      `Folder name: ${orgFolderName}`
+    )
     cy.url().should('match', new RegExp(`${encodedOrgFolderName}\/?$`))
 
     cy.get(dashboardBtn).click()

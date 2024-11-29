@@ -8,7 +8,10 @@ describe.skip('US_00.004 | New item > Create Folder', () => {
     cy.get('.jenkins-submit-button').click()
     cy.get('h1').contains('New Folder')
     cy.get('#jenkins-name-icon').click()
-    cy.get('span').contains('New Folder').trigger('mouseover').should('be.visible')
+    cy.get('span')
+      .contains('New Folder')
+      .trigger('mouseover')
+      .should('be.visible')
     cy.get('.jenkins-table__link > .jenkins-menu-dropdown-chevron').click({
       force: true
     })

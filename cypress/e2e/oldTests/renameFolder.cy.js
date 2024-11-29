@@ -18,9 +18,13 @@ describe.skip('Folder > Rename Folder', () => {
     //steps
     cy.get('[href="job/Test%20Folder/"]').realHover()
     cy.get('[href="job/Test%20Folder/"] .jenkins-menu-dropdown-chevron').click()
-    cy.get('.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]').click()
+    cy.get(
+      '.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]'
+    ).click()
     cy.get('[checkdependson="newName"]').click()
-    cy.get('[checkdependson="newName"]').type(' 1219').should('have.value', 'Test Folder 1219')
+    cy.get('[checkdependson="newName"]')
+      .type(' 1219')
+      .should('have.value', 'Test Folder 1219')
   })
 
   it('Enter a folder name in a non-Latin language', () => {
@@ -36,9 +40,13 @@ describe.skip('Folder > Rename Folder', () => {
     //steps
     cy.get('[href="job/Test%20Folder/"]').realHover()
     cy.get('[href="job/Test%20Folder/"] .jenkins-menu-dropdown-chevron').click()
-    cy.get('.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]').click()
+    cy.get(
+      '.jenkins-dropdown__item[href="/job/Test%20Folder/confirm-rename"]'
+    ).click()
     cy.get('[checkdependson="newName"]').click().clear()
-    cy.get('[checkdependson="newName"]').type('Тестовая 日本語 中文').should('have.value', 'Тестовая 日本語 中文')
+    cy.get('[checkdependson="newName"]')
+      .type('Тестовая 日本語 中文')
+      .should('have.value', 'Тестовая 日本語 中文')
     // Folders with Japanese characters are not automatically deleted through cleanData.
     // manually deleting the folder.
     cy.get('[formnovalidate="formNoValidate"]').click()
