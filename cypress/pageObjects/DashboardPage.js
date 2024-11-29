@@ -134,6 +134,11 @@ class DashboardPage {
     this.getDeleteOrganizationFolderDropdownMenuItem().click()
     return this
   }
+
+  clickCreateJobLink() {
+    this.getCreateJobButton().click()
+    return this
+  }
 }
 
 export default DashboardPage

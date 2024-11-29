@@ -14,6 +14,7 @@ class NewJobPage {
   getFolferType = () => cy.get('.label').contains('Folder')
   getOrganizationFolderType = () =>
     cy.get('[class="jenkins_branch_OrganizationFolder"]')
+  getSaveButton = () => cy.get('button[name="Submit"]')
 
   typeNewItemName(prjName) {
     this.getJobNameField().type(prjName)
@@ -52,6 +53,11 @@ class NewJobPage {
 
   selectOrganizationFolder() {
     this.getOrganizationFolderType().click()
+    return this
+  }
+
+  clickSaveButton() {
+    this.getSaveButton().click()
     return this
   }
 }

@@ -8,6 +8,7 @@ import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
 
 import { newItem } from '../fixtures/messages.json'
+import genData from '../fixtures/genData'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -17,6 +18,8 @@ const header = new Header()
 const folderName = faker.commerce.product()
 
 describe('US_00.001 | New item > Create Freestyle Project', () => {
+  let project = genData.newProject()
+
   it('TC_00.001.19 | New freestyle project is created if user enter projects name, choose project type and save it', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage
@@ -65,5 +68,19 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
       )
 
     newJobPage.getOKButton().should('be.disabled')
+  })
+
+  it('TC_00.001.11 | Create Freestyle Project by clicking on Create a Job', () => {
+    dashboardPage.clickCreateJobLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+      .clickSaveButton()
+
+    freestyleProjectPage
+      .getJobHeadline()
+      .should('be.visible')
+      .and('have.text', project.name)
   })
 })

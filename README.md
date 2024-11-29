@@ -140,3 +140,4 @@ These can be modified by your own configuration.
 - Linting: ```npm run lint```
 - Formatting: ```npm run format```
 - Pre-commit hooks: Automatically run on git commit
+docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17

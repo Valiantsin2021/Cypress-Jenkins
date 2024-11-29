@@ -103,13 +103,10 @@ Cypress.Commands.add('cleanData', () => {
 
     async deleteAllJobs() {
       try {
-        // First, get CSRF crumb
         await this.getCsrfCrumb()
 
-        // Then get all projects
         const jobs = await this.getAllJobs()
 
-        // Delete projects sequentially
         const deletionResults = []
         for (const job of jobs) {
           try {

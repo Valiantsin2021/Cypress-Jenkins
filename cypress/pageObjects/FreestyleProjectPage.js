@@ -16,6 +16,8 @@ class FreestyleProjectPage {
   getDashboardLink = () => cy.get('a[href="/"].model-link')
   getDeleteMenuItem = () => cy.get('a[data-title="Delete Project"]')
   getCancelButton = () => cy.get('button[data-id="cancel"]')
+  getRenameButton = () => cy.get('[href*="rename"]')
+  getNewNameField = () => cy.get('[name="newName"]')
 
   clickSaveButton() {
     this.getSaveButton().click()
@@ -64,6 +66,16 @@ class FreestyleProjectPage {
 
   clearJobDescriptionField() {
     this.getJobDescriptionField().clear()
+    return this
+  }
+
+  clickRenameButton() {
+    this.getRenameButton().click()
+    return this
+  }
+
+  typeNewName(projectNewName) {
+    this.getNewNameField().clear().type(projectNewName)
     return this
   }
 }

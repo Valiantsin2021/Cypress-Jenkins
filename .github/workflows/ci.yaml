@@ -9,7 +9,7 @@ on:
 
   workflow_dispatch:
 permissions:
-    contents: write
+  contents: write
 jobs:
   run-test:
     name: 'Run tests'
