@@ -18,6 +18,8 @@ import './commands'
 import 'cypress-real-events'
 import './globalHooks'
 import './cleanData'
+import 'allure-cypress'
+
 Cypress.on(
   'uncaught:exception',
   (err, runnable) =>

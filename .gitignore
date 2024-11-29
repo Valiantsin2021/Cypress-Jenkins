@@ -31,3 +31,5 @@ cypress.env.json
 .DS_Store
 cypress/.DS_Store
 jenkins_home
+allure-results
+allure-report
