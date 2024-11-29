@@ -40,7 +40,7 @@ Cypress.Commands.add('cleanData', () => {
         xhr.send()
       })
     }
-    async getAllProjects() {
+    async getAllJobs() {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open('GET', `${this.baseUrl}api/json?depth=1`, true)
@@ -65,57 +65,55 @@ Cypress.Commands.add('cleanData', () => {
       })
     }
 
-    async deleteProject(projectName) {
+    async deleteJob(jobName) {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open(
           'POST',
-          `${this.baseUrl}job/${encodeURIComponent(projectName)}/doDelete`,
+          `${this.baseUrl}job/${encodeURIComponent(jobName)}/doDelete`,
           true
         )
 
-        // Basic authentication
         xhr.setRequestHeader(
           'Authorization',
           'Basic ' + btoa(`${this.username}:${this.apiToken}`)
         )
 
-        // Add CSRF protection header if crumb was retrieved
         if (this.csrfCrumb) {
           xhr.setRequestHeader(this.csrfCrumb.name, this.csrfCrumb.value)
         }
 
         xhr.onload = () => {
           if (xhr.status === 200 || xhr.status === 302) {
-            resolve(`Successfully deleted project: ${projectName}`)
+            resolve(`Successfully deleted job: ${jobName}`)
           } else {
             reject(
               new Error(
-                `Failed to delete project: ${projectName}. Status: ${xhr.status}`
+                `Failed to delete job: ${jobName}. Status: ${xhr.status}`
               )
             )
           }
         }
 
         xhr.onerror = () =>
-          reject(new Error(`Network error deleting project: ${projectName}`))
+          reject(new Error(`Network error deleting project: ${jobName}`))
         xhr.send()
       })
     }
 
-    async deleteAllProjects() {
+    async deleteAllJobs() {
       try {
         // First, get CSRF crumb
         await this.getCsrfCrumb()
 
         // Then get all projects
-        const projects = await this.getAllProjects()
+        const jobs = await this.getAllJobs()
 
         // Delete projects sequentially
         const deletionResults = []
-        for (const project of projects) {
+        for (const job of jobs) {
           try {
-            const result = await this.deleteProject(project)
+            const result = await this.deleteJob(job)
             deletionResults.push(result)
             console.log(result)
           } catch (error) {
@@ -132,7 +130,7 @@ Cypress.Commands.add('cleanData', () => {
     }
   }
 
-  function initiateBulkDeletion() {
+  const initiateBulkDeletion = function () {
     const jenkinsManager = new JenkinsProjectManager(
       `http://${HOST}:${PORT}/`,
       USER_NAME,
@@ -140,7 +138,7 @@ Cypress.Commands.add('cleanData', () => {
     )
 
     jenkinsManager
-      .deleteAllProjects()
+      .deleteAllJobs()
       .then(results => {
         console.log('Bulk Deletion Complete', results)
       })
