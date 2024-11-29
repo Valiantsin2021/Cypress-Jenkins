@@ -4,10 +4,12 @@ import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
 import OrganizationFolderPage from '../pageObjects/OrganizationFolderPage'
+import Header from '../pageObjects/Header'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const organizationFolderPage = new OrganizationFolderPage()
+const header = new Header()
 
 describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
   let project = genData.newProject()
@@ -39,6 +41,19 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickDropdownMenuDeleteLink()
       .clickOKButton()
 
+    organizationFolderPage
+      .getJobHeadline()
+      .should('not.contain.text', project.name)
+  })
+
+  it('TC_06.005.03 | Delete Organization Folder from project status table on Dashboard page', () => {
+    header.clickJenkinsLogo()
+    dashboardPage
+      .clickJobTableDropdownChevron()
+      .clickDeleteOrganizationFolderDropdownMenuItem()
+      .clickSubmitDeletingButton()
+
+    dashboardPage.getJobHeadline().should('not.contain.text', project.name)
     organizationFolderPage
       .getJobHeadline()
       .should('not.contain.text', project.name)

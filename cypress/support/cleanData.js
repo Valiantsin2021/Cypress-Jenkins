@@ -133,7 +133,6 @@ Cypress.Commands.add('cleanData', () => {
   }
 
   function initiateBulkDeletion() {
-    // Replace with your Jenkins instance details
     const jenkinsManager = new JenkinsProjectManager(
       `http://${HOST}:${PORT}/`,
       USER_NAME,
