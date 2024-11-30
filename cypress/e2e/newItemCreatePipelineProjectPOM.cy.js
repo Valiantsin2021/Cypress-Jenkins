@@ -48,6 +48,31 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .and('have.css', 'color', errorMessageColor)
   })
 
+  it('TC_00.002.05 | Create Pipeline Project with an already existing name of a project', () => {
+    cy.log('Precondition: create Pipeline project')
+    dashboardPage
+      .clickNewItemMenuLink()
+      .typeNewItemName(randomItemName)
+      .selectPipelineProject()
+      .clickOKButton()
+    header.clickJenkinsLogo()
+
+    cy.log('Create project with an existing name')
+    dashboardPage.clickNewItemMenuLink()
+
+    newJobPage
+      .clearItemNameField()
+      .typeNewItemName(randomItemName)
+      .getItemNameInvalidErrorMessage()
+      .should(
+        'have.text',
+        `${newItem.duplicateNotAllowedMessage} ‘${randomItemName}’`
+      )
+      .and('have.css', 'color', errorMessageColor)
+
+    newJobPage.getOKButton().should('be.disabled')
+  })
+
   it('TC_00.002.14 | Create Pipeline Project', () => {
     dashboardPage.clickCreateJobLink()
     newJobPage

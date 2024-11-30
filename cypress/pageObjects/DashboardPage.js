@@ -33,6 +33,10 @@ class DashboardPage {
   getWelcomeToJenkinsHeadline = () => cy.get('.empty-state-block h1')
   getWelcomeToJenkins = () => cy.get('.empty-state-block h1')
   getJobHeadline = () => cy.get('#main-panel h1')
+  getRenameFolderDropdownMenuItem = () =>
+    cy.get('a.jenkins-dropdown__item ').contains('Rename')
+  getRenameProjectDropdownMenuItem = () =>
+    cy.get('a.jenkins-dropdown__item').contains('Rename')
 
   hoverDashboardDropdownChevron() {
     this.getDashboardBreadcrumb().realHover()
@@ -137,6 +141,16 @@ class DashboardPage {
 
   clickCreateJobLink() {
     this.getCreateJobButton().click()
+    return this
+  }
+
+  clickRenameFolderDropdownMenuItem() {
+    this.getRenameFolderDropdownMenuItem().click()
+    return this
+  }
+
+  clickRenameProjectDropdownMenuItem() {
+    this.getRenameProjectDropdownMenuItem().click()
     return this
   }
 }
