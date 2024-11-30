@@ -16,6 +16,8 @@ class NewJobPage {
     cy.get('[class="jenkins_branch_OrganizationFolder"]')
   getSaveButton = () => cy.get('button[name="Submit"]')
   getAllItemsList = () => cy.get('#items li')
+  getUrlConfigurePageField = () => cy.location('href')
+  getBreadcrumbsListItem = () => cy.get("[aria-current='page']")
 
   typeNewItemName(prjName) {
     this.getJobNameField().type(prjName)
@@ -59,6 +61,16 @@ class NewJobPage {
 
   clickSaveButton() {
     this.getSaveButton().click()
+    return this
+  }
+
+  chooseRandomItemFromList() {
+    this.getAllItemsList()
+      .then(items => {
+        const randomIndex = Math.floor(Math.random() * items.length)
+        cy.wrap(items).eq(randomIndex).click()
+      })
+      .then(() => this)
     return this
   }
 

@@ -11,6 +11,8 @@ class Header {
     cy.get('.jenkins-dropdown > [href*="/configure"]')
   getJenkinsLogo = () => cy.get('a#jenkins-home-link')
   getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
+  getSearchAutofillSuggestionList = () =>
+    cy.get('li[style]:not([style="display: none;"])')
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)

@@ -91,4 +91,16 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .should('contain.text', project.name)
       .and('be.visible')
   })
+
+  it('TC_00.002.15 | The url of the configure page contains new project name', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectPipelineProject()
+      .clickOKButton()
+
+      .getBreadcrumbsListItem()
+      .should('have.text', 'Configuration')
+    newJobPage.getUrlConfigurePageField().should('include', project.name)
+  })
 })
