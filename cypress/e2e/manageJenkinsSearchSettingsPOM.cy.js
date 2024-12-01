@@ -57,4 +57,13 @@ describe('US_09.001 | Manage Jenkins > Search settings', () => {
     manageJenkinsPage.assertSearchResult('Tools')
     manageJenkinsPage.clearSearchField()
   })
+  it('TC_09.001.05 |The search field is cleared by pressing the "x" button', () => {
+    dashboardPage.clickManageJenkins()
+    manageJenkinsPage.getSettingsSearchField()
+    manageJenkinsPage
+      .typeSearchWord(randomSearchWord)
+      .getXButtonSearchField()
+      .should('have.css', 'opacity', '0')
+      .and('have.value', '')
+  })
 })

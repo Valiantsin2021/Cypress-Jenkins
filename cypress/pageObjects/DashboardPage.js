@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import NewJobPage from './NewJobPage'
-import ManageJenkinsPage from './ManageJenkinsPage'
 import LoginPage from './LoginPage'
+import ManageJenkinsPage from './ManageJenkinsPage'
+import NewJobPage from './NewJobPage'
 
 class DashboardPage {
   getDashboardBreadcrumb = () => cy.get('a[href="/"].model-link')
@@ -37,6 +37,7 @@ class DashboardPage {
     cy.get('a.jenkins-dropdown__item ').contains('Rename')
   getRenameProjectDropdownMenuItem = () =>
     cy.get('a.jenkins-dropdown__item').contains('Rename')
+  getDeleteProjectDialogBox = () => cy.get('dialog.jenkins-dialog')
 
   hoverDashboardDropdownChevron() {
     this.getDashboardBreadcrumb().realHover()

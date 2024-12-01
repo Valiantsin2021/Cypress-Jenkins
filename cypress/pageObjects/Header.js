@@ -2,6 +2,7 @@
 
 import SearchResultsPage from './SearchResultsPage'
 import DashboardPage from './DashboardPage'
+import UserPage from './UserPage'
 class Header {
   getSearchField = () => cy.get('#search-box')
   getSearchAutoCompletionBox = () => cy.get('div#search-box-completion li')
@@ -13,6 +14,7 @@ class Header {
   getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
   getSearchAutofillSuggestionList = () =>
     cy.get('li[style]:not([style="display: none;"])')
+  getUserNameLink = () => cy.get('[href^="/user"]')
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)
@@ -57,6 +59,11 @@ class Header {
   verifyAutoCompletionNotVisible() {
     this.getSearchAutoCompletionBox().should('not.be.visible')
     return this
+  }
+
+  clickUserName() {
+    this.getUserNameLink().click()
+    return new UserPage()
   }
 }
 

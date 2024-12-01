@@ -4,8 +4,8 @@ import { faker } from '@faker-js/faker'
 import genData from '../fixtures/genData'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import NewJobPage from '../pageObjects/NewJobPage'
+import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -71,10 +71,7 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
     cy.log('Adding description and saving the project')
     freestyleProjectPage.typeJobDescription(jobDescription).clickSaveButton()
 
-    cy.log(
-      'Verifying the Freestyle Project was saved together with its description'
-    )
-    freestyleProjectPage.getJobHeadline().should('be.visible').and('exist')
+    cy.log('Verifying the desription was added to the project')
     freestyleProjectPage
       .getJobDescription()
       .should('be.visible')

@@ -114,4 +114,14 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     freestyleProjectPage.getJobHeadline().should('have.text', project.name)
     freestyleProjectPage.getBreadcrumbBar().should('contain', project.name)
   })
+
+  it('TC_00.001.14 | Create Freestyle Project from the Dashboard Menu', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+      .clickSaveButton()
+    freestyleProjectPage.getJobHeadline().should('have.text', project.name)
+  })
 })

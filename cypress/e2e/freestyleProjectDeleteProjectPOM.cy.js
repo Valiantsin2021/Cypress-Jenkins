@@ -10,6 +10,7 @@ import Header from '../pageObjects/Header'
 import configurePageData from '../fixtures/configurePageData.json'
 import newJobPageData from '../fixtures/newJobPageData.json'
 import genData from '../fixtures/genData'
+import { confirmationMessage } from '../fixtures/deleteProjectData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -95,5 +96,23 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
 
     dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
+  })
+
+  it('TC_01.004.07 | Verify confirmation appears before deletion', () => {
+    dashboardPage
+      .openDropdownForProject(project.name)
+      .clickDeleteProjectDropdownMenuItem()
+
+      .getDeleteProjectDialogBox()
+      .should('exist')
+      .and('contain.text', `${confirmationMessage.question} ‘${project.name}’?`)
+    dashboardPage
+      .getSubmitProjectDeletingButton()
+      .should('exist')
+      .and('not.be.disabled')
+    dashboardPage
+      .getCancelProjectDeletingButton()
+      .should('exist')
+      .and('not.be.disabled')
   })
 })

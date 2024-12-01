@@ -5,6 +5,7 @@ class ManageJenkinsPage {
   getNoResultsErrorMessage = () =>
     cy.get('.jenkins-search__results__no-results-label')
   getSearchResultList = () => cy.get('.jenkins-search__results > *')
+  getXButtonSearchField = () => cy.get('.jenkins-search__shortcut')
 
   typeSearchWord(word) {
     this.getSettingsSearchField().type(word)
@@ -18,6 +19,10 @@ class ManageJenkinsPage {
 
   assertSearchResult(word) {
     this.getSearchResultList().should('contain', word)
+    return this
+  }
+  clickXButtonSearchField() {
+    this.getXButtonSearchField().click({ force: true })
     return this
   }
 }

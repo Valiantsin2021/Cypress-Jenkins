@@ -18,6 +18,8 @@ class NewJobPage {
   getAllItemsList = () => cy.get('#items li')
   getUrlConfigurePageField = () => cy.location('href')
   getBreadcrumbsListItem = () => cy.get("[aria-current='page']")
+  configurePagePipelineButton = () =>
+    cy.get('button[data-section-id="pipeline"]')
 
   typeNewItemName(prjName) {
     this.getJobNameField().type(prjName)
