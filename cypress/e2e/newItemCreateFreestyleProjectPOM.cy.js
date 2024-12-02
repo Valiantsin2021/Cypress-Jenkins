@@ -6,14 +6,17 @@ import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
+import FolderPage from '../pageObjects/FolderPage'
 
 import { newItem } from '../fixtures/messages.json'
 import genData from '../fixtures/genData'
+import message from '../fixtures/messages.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const freestyleProjectPage = new FreestyleProjectPage()
 const header = new Header()
+const folderPage = new FolderPage()
 
 const folderName = faker.commerce.product()
 
@@ -123,5 +126,59 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
       .clickOKButton()
       .clickSaveButton()
     freestyleProjectPage.getJobHeadline().should('have.text', project.name)
+  })
+
+  it('TC_00.001.02 | Verify a new freestyle project can be created from the Dahsboard page', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+    freestyleProjectPage.clickSaveButton()
+
+    freestyleProjectPage.getJobHeadline().should('have.text', project.name)
+  })
+
+  it('TC_00.001.04 | Verify a friendly reminder appeared when attempting to create a new Freestyle Project without a name', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage.selectFreestyleProject()
+
+    newJobPage
+      .getEmptyNameFieldReminder()
+      .should('have.text', message.newItem.emptyNameFieldReminder)
+  })
+
+  it('TC_00.001.05 | Verify a description can be added when creating a new Freestyle Project', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+    freestyleProjectPage
+      .typeJobDescription(project.description)
+      .clickSaveButton()
+
+    freestyleProjectPage
+      .getJobDescription()
+      .should('have.text', project.description)
+  })
+
+  it('TC_00.001.06 | Verify a new Freestyle Project can be created from a new Folder', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.folderName)
+      .selectFolder()
+      .clickOKButton()
+    folderPage.clickSaveBtn().clickCreateAJobLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+    freestyleProjectPage.clickSaveButton()
+
+    freestyleProjectPage.getJobHeadline().should('have.text', project.name)
+    freestyleProjectPage
+      .getProjectInfoSection()
+      .should('include.text', `${project.folderName}/${project.name}`)
   })
 })

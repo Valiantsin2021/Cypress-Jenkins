@@ -14,6 +14,7 @@ class FreestyleProjectPage {
   getMoveButton = () => cy.get('button[name="Submit"]')
   getProjectInfoSection = () => cy.get('#main-panel')
   getDashboardLink = () => cy.get('a[href="/"].model-link')
+  getConfigureLink = () => cy.get('a[href$="configure"]')
   getDeleteMenuItem = () => cy.get('a[data-title="Delete Project"]')
   getCancelButton = () => cy.get('button[data-id="cancel"]')
   getYesButton = () => cy.get('button[data-id="ok"]')
@@ -31,7 +32,7 @@ class FreestyleProjectPage {
   }
 
   typeJobDescription(jobDescription) {
-    this.getJobDescriptionField().type(jobDescription)
+    this.getJobDescriptionField().clear().type(jobDescription)
     return this
   }
 
@@ -57,6 +58,11 @@ class FreestyleProjectPage {
 
   clickMoveButton() {
     this.getMoveButton().click()
+    return this
+  }
+
+  clickConfigureLink() {
+    this.getConfigureLink().click()
     return this
   }
 

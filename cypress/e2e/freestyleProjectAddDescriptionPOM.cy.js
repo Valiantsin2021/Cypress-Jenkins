@@ -85,4 +85,20 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
       .getJobDescription()
       .should('contain.text', jobDescription)
   })
+
+  it('TC_01.001.07 | It is possible to add description on project update', () => {
+    freestyleProjectPage
+      .typeJobDescription(project.description)
+      .clickSaveButton()
+    freestyleProjectPage.getJobHeadline().should('have.text', project.name)
+    freestyleProjectPage.clickConfigureLink()
+    cy.url().should('include', '/configure')
+    freestyleProjectPage
+      .typeJobDescription(project.newDescription)
+      .clickSaveButton()
+
+    freestyleProjectPage
+      .getJobDescription()
+      .should('have.text', project.newDescription)
+  })
 })

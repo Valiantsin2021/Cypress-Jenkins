@@ -216,4 +216,14 @@ describe('US_00.000 | New Item > Create New item', () => {
       .should('contain.text', randomItemName)
       .and('be.visible')
   })
+
+  it('TC_00.000.14 | Verify the display of validation message if no item name is entered', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage.typeNewItemName(randomItemName).clearItemNameField()
+
+    newJobPage
+      .getEmptyItemInvalidName()
+      .should('contain.text', newItem.emptyNameFieldReminder)
+      .and('have.css', 'color', errorMessageColor)
+  })
 })
