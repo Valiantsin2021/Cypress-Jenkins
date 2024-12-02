@@ -12,6 +12,7 @@ const newJobPage = new NewJobPage()
 const folderPage = new FolderPage()
 const header = new Header()
 const folderName = genData.newProject()
+const newFolderName = genData.newProject()
 
 describe('US_04.001 | Folder > Rename Folder', () => {
   beforeEach(() => {
@@ -22,8 +23,6 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   })
 
   it('TC_04.001.02 | Rename folder from drop-down menu', () => {
-    let newFolderName = genData.newProject()
-
     dashboardPage
       .openDropdownForProject(folderName.name)
       .clickRenameFolderDropdownMenuItem()
@@ -36,5 +35,16 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     folderPage
       .getFolderNameOnMainPanel()
       .should('include.text', `${newFolderName.name}`)
+  })
+
+  it('TC_04.001.06 | Successfully enter a valid folder name in the special field', () => {
+    dashboardPage
+      .openDropdownForProject(folderName.name)
+      .clickRenameFolderDropdownMenuItem()
+    folderPage
+      .clearNewNameField()
+      .typeNewFolderName(newFolderName.name)
+      .getNewNameField()
+      .should('have.value', newFolderName.name)
   })
 })
