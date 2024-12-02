@@ -76,16 +76,6 @@ class NewJobPage {
       .then(() => this)
     return this
   }
-
-  chooseRandomItemFromList() {
-    this.getAllItemsList()
-      .then(items => {
-        const randomIndex = Math.floor(Math.random() * items.length)
-        cy.wrap(items).eq(randomIndex).click()
-      })
-      .then(() => this)
-    return this
-  }
 }
 
 export default NewJobPage

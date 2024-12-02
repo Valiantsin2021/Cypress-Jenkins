@@ -14,6 +14,8 @@ class FolderPage extends Header {
   getFolderUrl = () => cy.url({ decode: true })
   getProjectName = () => cy.get('*.jenkins-table__link span')
   getCreateAJobLink = () => cy.get('a[href="newJob"]')
+  getDescriptionField = () => cy.get('[name$="description"]')
+  getFolderDescription = () => cy.get('#view-message')
 
   clickSaveBtn() {
     this.getSaveBtn().click()
@@ -52,6 +54,11 @@ class FolderPage extends Header {
   clickCreateAJobLink() {
     this.getCreateAJobLink().click()
     return new NewJobPage()
+  }
+
+  typeDescription(description) {
+    this.getDescriptionField().type(description, { delay: 0 })
+    return this
   }
 }
 

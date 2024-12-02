@@ -51,7 +51,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .clickSubmitDeletingButton()
 
     cy.log('Verifying Freestyle Project is deleted from Dashboard page')
-    dashboardPage.getMainPanel().contains(randomItemName).should('not.exist')
+    dashboardPage.getMainPanel().contains(project.name).should('not.exist')
     dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
   })
 
@@ -67,6 +67,29 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .clickCancelDeletingButton()
       .getProjectName()
       .should('have.text', project.name)
+      .and('be.visible')
+  })
+
+  it('TC_01.004.14 | Verify Freestyle Project is deleted from Project page', () => {
+    dashboardPage.clickJobTitleLink()
+    freestyleProjectPage
+      .getJobHeadline()
+      .should('be.visible')
+      .and('have.text', project.name)
+    freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
+
+    dashboardPage.getMainPanel().should('not.contain.value', project.name)
+    dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
+  })
+
+  it('TC_01.004.15 | Verify user cancels Project deletion', () => {
+    dashboardPage
+      .hoverJobTitleLink()
+      .clickJobTableDropdownChevron()
+      .clickDeleteProjectDropdownMenuItem()
+      .clickCancelDeletingButton()
+      .getJobTable()
+      .should('contain.text', project.name)
       .and('be.visible')
   })
 
@@ -114,5 +137,19 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .getCancelProjectDeletingButton()
       .should('exist')
       .and('not.be.disabled')
+  })
+
+  it('TC_01.004.12 | Verify confirmation message appears after attempting to delete a project', () => {
+    dashboardPage.clickJobName(project.name)
+
+    freestyleProjectPage.clickDeleteMenuItem()
+
+    freestyleProjectPage.getConfirmationMessageDialog().should('be.visible')
+    freestyleProjectPage
+      .getConfirmationMessageTitle()
+      .should('have.text', confirmationMessage.title)
+    freestyleProjectPage
+      .getConfirmationMessageQuestion()
+      .should('have.text', `${confirmationMessage.question} ‘${project.name}’?`)
   })
 })

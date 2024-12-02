@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import LoginPage from './LoginPage'
-import ManageJenkinsPage from './ManageJenkinsPage'
 import NewJobPage from './NewJobPage'
+import ManageJenkinsPage from './ManageJenkinsPage'
+import LoginPage from './LoginPage'
 
 class DashboardPage {
   getDashboardBreadcrumb = () => cy.get('a[href="/"].model-link')
@@ -31,7 +31,6 @@ class DashboardPage {
   getCancelProjectDeletingButton = () => cy.get('button[data-id="cancel"]')
   getSubmitProjectDeletingButton = () => cy.get('button[data-id="ok"]')
   getWelcomeToJenkinsHeadline = () => cy.get('.empty-state-block h1')
-  getWelcomeToJenkins = () => cy.get('.empty-state-block h1')
   getJobHeadline = () => cy.get('#main-panel h1')
   getRenameFolderDropdownMenuItem = () =>
     cy.get('a.jenkins-dropdown__item ').contains('Rename')
