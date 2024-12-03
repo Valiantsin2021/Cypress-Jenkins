@@ -1,4 +1,8 @@
 # ProjectJS_2024_fall
+
+Project report - https://valiantsin2021.github.io/Cypress-Jenkins/
+
+
 **How to start working in our project?**
 
 1. Clone repository to your machine.
