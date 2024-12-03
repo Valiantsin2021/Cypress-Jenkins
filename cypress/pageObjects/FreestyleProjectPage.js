@@ -25,6 +25,7 @@ class FreestyleProjectPage {
   getConfirmationMessageDialog = () => cy.get('.jenkins-dialog')
   getConfirmationMessageTitle = () => cy.get('.jenkins-dialog__title')
   getConfirmationMessageQuestion = () => cy.get('.jenkins-dialog__contents')
+  getWarningMessageOnRenamePage = () => cy.get('.warning')
   getBuildNowLink = () => cy.contains('a[href*="build"]', 'Build Now')
   getBuildHistoryTableRow = () => cy.get('tr.build-row')
   getHeaderOnRename = () => cy.get('div h1')
@@ -131,6 +132,15 @@ class FreestyleProjectPage {
       // Navigate back to retry the next character
       cy.go('back')
     })
+  }
+
+  assertRenameError() {
+    this.getHeaderOnRename().should('have.text', 'Error')
+    this.getErrorMessageParagraph().should(
+      'have.text',
+      'The new name is the same as the current name.'
+    )
+    return this
   }
 
   clickBuildNowLink() {

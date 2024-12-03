@@ -76,6 +76,22 @@ class NewJobPage {
       .then(() => this)
     return this
   }
+
+  verifyItemInvalidNameMessageExist() {
+    this.getItemNameInvalidErrorMessage().should(
+      'not.have.class',
+      'input-message-disabled'
+    )
+    return this
+  }
+
+  verifyItemInvalidNameMessageNotExist() {
+    this.getItemNameInvalidErrorMessage().should(
+      'have.class',
+      'input-message-disabled'
+    )
+    return this
+  }
 }
 
 export default NewJobPage
