@@ -1,9 +1,9 @@
 /// <reference types="cypress"/>
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
-import Header from '../pageObjects/Header'
 import { newInstance } from '../fixtures/newJobPageData.json'
+import DashboardPage from '../pageObjects/DashboardPage'
+import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashBoardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
