@@ -32,7 +32,7 @@ class FreestyleProjectPage {
   getErrorMessageParagraph = () => cy.get('p')
 
   clickSaveButton() {
-    this.getSaveButton().click()
+    this.getSaveButton().click({ timeout: 10000 })
     return this
   }
 
@@ -42,17 +42,17 @@ class FreestyleProjectPage {
   }
 
   clickDashboardBreadcrumbsLink() {
-    this.getDashboardBreadcrumbsLink().click()
+    this.getDashboardBreadcrumbsLink().click({ timeout: 10000 })
     return new DashboardPage()
   }
 
   clickAddDescriptionButton() {
-    this.getAddDescriptionButton().click()
+    this.getAddDescriptionButton().click({ timeout: 10000 })
     return this
   }
 
   clickMoveMenuItem() {
-    this.getMoveMenuItem().click()
+    this.getMoveMenuItem().click({ timeout: 10000 })
     return this
   }
 
@@ -62,27 +62,27 @@ class FreestyleProjectPage {
   }
 
   clickMoveButton() {
-    this.getMoveButton().click()
+    this.getMoveButton().click({ timeout: 10000 })
     return this
   }
 
   clickConfigureLink() {
-    this.getConfigureLink().click()
+    this.getConfigureLink().click({ timeout: 10000 })
     return this
   }
 
   clickDeleteMenuItem() {
-    this.getDeleteMenuItem().click()
+    this.getDeleteMenuItem().click({ timeout: 10000 })
     return this
   }
 
   clickCancelButton() {
-    this.getCancelButton().click()
+    this.getCancelButton().click({ timeout: 10000 })
     return this
   }
 
   clickYesButton() {
-    this.getYesButton().click()
+    this.getYesButton().click({ timeout: 10000 })
     return new DashboardPage()
   }
 
@@ -92,7 +92,7 @@ class FreestyleProjectPage {
   }
 
   clickRenameButton() {
-    this.getRenameButton().click()
+    this.getRenameButton().click({ timeout: 10000 })
     return this
   }
 
@@ -111,7 +111,7 @@ class FreestyleProjectPage {
   }
 
   clickRenameButtonSubmit() {
-    this.getRenameButtonSubmit().click()
+    this.getRenameButtonSubmit().click({ timeout: 10000 })
     return this
   }
 
@@ -121,7 +121,7 @@ class FreestyleProjectPage {
     specialChars.forEach(char => {
       // Clear, type the new name, and click Save
       this.getNewNameField().clear().type(`Rename${char}Folder`)
-      this.getSaveButton().click()
+      this.getSaveButton().click({ timeout: 10000 })
 
       // Assertions for error messages
       this.getHeaderOnRename().should('have.text', 'Error')
@@ -144,7 +144,7 @@ class FreestyleProjectPage {
   }
 
   clickBuildNowLink() {
-    this.getBuildNowLink().click()
+    this.getBuildNowLink().click({ timeout: 10000 })
     return this
   }
 

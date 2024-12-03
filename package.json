@@ -18,7 +18,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
-    "@faker-js/faker": "^9.2.0",
+    "@faker-js/faker": "^9.3.0",
     "@testing-library/cypress": "^10.0.2",
     "@types/node": "^22.10.1",
     "allure-commandline": "2.32.0",
