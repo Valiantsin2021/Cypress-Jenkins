@@ -91,7 +91,13 @@ jobs:
         env:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
+          DEBUG: cypress-split
 
+  upload-results:
+    name: 'Prepare report and upload results'
+    runs-on: ubuntu-latest
+    needs: run-test
+    steps:
       - name: Create reports
         run: |
           npm run report
