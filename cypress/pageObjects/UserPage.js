@@ -9,6 +9,9 @@ class UserPage {
   getUserDescription = () => cy.get('#description')
   getEditDescriptionBtn = () => cy.get('#description-link')
   getUserDescriptionFieldFromStatus = () => cy.get('.jenkins-input')
+  getAppearanceDark = () =>
+    cy.get(':nth-child(1) > .help-sibling > .app-theme-picker__item > label')
+  getDarkTheme = () => cy.get('html').invoke('attr', 'data-theme')
 
   checkCheckBox() {
     this.getInsensitiveSearchCheckBox().check({ force: true })
@@ -47,6 +50,11 @@ class UserPage {
 
   typeUserDescriptionOnStatus(userDescription) {
     this.getUserDescriptionFieldFromStatus().type(userDescription)
+    return this
+  }
+
+  clickAppearanceDark() {
+    this.getAppearanceDark().click()
     return this
   }
 }
