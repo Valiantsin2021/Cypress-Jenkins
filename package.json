@@ -5,8 +5,10 @@
   "main": "cypress.config.js",
   "scripts": {
     "test": "npx cypress run --headless",
+    "badges": "npx -p dependency-version-badge update-badge cypress",
     "format": "prettier --write --cache .",
     "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\"",
+    "stop-only": "stop-only --folder cypress/e2e",
     "check": "npm run format && npm run lint",
     "report": "allure generate allure-results --single-file --clean -o allure-report"
   },
@@ -24,6 +26,9 @@
     "allure-commandline": "2.32.0",
     "allure-cypress": "3.0.6",
     "cypress": "^13.16.0",
+    "stop-only": "^3.4.1",
+    "cypress-split": "^1.24.6",
+    "cy-spok": "^1.6.2",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-chai-friendly": "^1.0.1",
@@ -31,6 +36,9 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
     "prettier": "^3.4.1"
+  },
+  "peerDependencies": {
+    "cypress": ">=12"
   },
   "commitlint": {
     "extends": [

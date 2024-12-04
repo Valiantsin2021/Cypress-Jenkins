@@ -8,6 +8,7 @@ on:
     branches: [main]
 
   workflow_dispatch:
+
 permissions:
   contents: write
 jobs:
@@ -19,6 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [22.x]
+        containers: [1, 2]
 
     steps:
       - name: Git clone
@@ -46,8 +48,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Npm install
-        run: npm ci
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Install dependencies and cache them
+        uses: cypress-io/github-action@v6
+        with:
+          runTests: false
 
       - name: Static analysis
         run: npm run format && npm run lint
@@ -75,26 +81,41 @@ jobs:
         run: |
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
-      - name: Run Cypress tests
-        run: npx cypress run --headless || npm run report
+      - name: Catch "it.only" 🫴
+        run: npm run stop-only
+
+      - name: Run Cypress tests 🧪
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+        env:
+          SPLIT: ${{ strategy.job-total }}
+          SPLIT_INDEX: ${{ strategy.job-index }}
+
+      - name: Create reports
+        run: |
+          npm run report
 
       - name: Create test summary
         uses: test-summary/action@v2.4
         if: always()
         with:
           paths: reports/*.xml
+
       - name: Artifacts screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
-          path: ./cypress/screenshots
+          path: cypress/screenshots
+
       - name: Artifacts report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: allure report
-          path: ./allure-report
+          path: allure-report
+
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
