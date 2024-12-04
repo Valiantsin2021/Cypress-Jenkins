@@ -1,4 +1,4 @@
-# ProjectJS_2024_fall
+# ProjectJS_2024_fall [![CI](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/ci.yaml/badge.svg)](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/ci.yaml) ![cypress version](https://img.shields.io/badge/cypress-13.6.4-brightgreen)
 **How to start working in our project?**
 
 1. Clone repository to your machine.

@@ -5,6 +5,7 @@
   "main": "cypress.config.js",
   "scripts": {
     "test": "npx cypress run --headless",
+    "badges": "npx -p dependency-version-badge update-badge cypress",
     "format": "prettier --write --cache .",
     "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\"",
     "stop-only": "stop-only --folder cypress/e2e",
