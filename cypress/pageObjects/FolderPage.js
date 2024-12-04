@@ -1,39 +1,19 @@
 /// <reference types="cypress" />
-
-import DashboardPage from './DashboardPage'
-import Header from './Header'
+import BasePage from './basePage'
 import NewJobPage from './NewJobPage'
 
-class FolderPage extends Header {
-  getSaveBtn = () => cy.get('.jenkins-submit-button')
+class FolderPage extends BasePage {
   getTitleConfiguration = () => cy.get('#side-panel h1')
   getFolderNameOnMainPanel = () => cy.get('#main-panel h1')
-  getDashboardBreadcrumbsLink = () => cy.get('#breadcrumbs a[href="/"]')
-  getNewItemMenuOption = () => cy.get('[href $= "/newJob"]')
   getNewNameField = () => cy.get('input[name="newName"]')
   getFolderUrl = () => cy.url({ decode: true })
-  getProjectName = () => cy.get('*.jenkins-table__link span')
+  getProjectName = () => cy.get('*.jenkins-table__link span') //probably rename to getFolderName or see BasePage
   getCreateAJobLink = () => cy.get('a[href="newJob"]')
   getDescriptionField = () => cy.get('[name$="description"]')
   getFolderDescription = () => cy.get('#view-message')
 
-  clickSaveBtn() {
-    this.getSaveBtn().click()
-    return this
-  }
-
   verifyTitleConfigurationIsVisible() {
     this.getTitleConfiguration().should('be.visible')
-    return this
-  }
-
-  clickDashboardBreadcrumbsLink() {
-    this.getDashboardBreadcrumbsLink().click()
-    return new DashboardPage()
-  }
-
-  clickNewItemMenuOption() {
-    this.getNewItemMenuOption().click()
     return this
   }
 

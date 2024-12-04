@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
+import DashboardPage from './DashboardPage'
 
-class UserPage {
+class UserPage extends DashboardPage {
   getInsensitiveSearchLabel = () => cy.get("label[class='attach-previous ']")
   getInsensitiveSearchCheckBox = () => cy.get("input[name='insensitiveSearch']")
-  getSaveButton = () => cy.get("[name='Submit']")
   getUserDescriptionFieldFromConfig = () => cy.get('.jenkins-input').eq('1')
   getUserAvatar = () => cy.get('h1 .icon-lg > svg')
   getUserDescription = () => cy.get('#description')
@@ -15,11 +15,6 @@ class UserPage {
 
   checkCheckBox() {
     this.getInsensitiveSearchCheckBox().check({ force: true })
-    return this
-  }
-
-  clickOnSaveBtn() {
-    this.getSaveButton().click()
     return this
   }
 

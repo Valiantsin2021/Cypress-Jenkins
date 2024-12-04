@@ -20,6 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [22.x]
+        containers: [1, 2]
 
     steps:
       - name: Git clone
@@ -47,6 +48,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
       - name: Install dependencies and cache them
         uses: cypress-io/github-action@v6
         with:
@@ -85,10 +88,14 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           install: false
+        env:
+          SPLIT: ${{ strategy.job-total }}
+          SPLIT_INDEX: ${{ strategy.job-index }}
+          DEBUG: cypress-split
 
-      - name: Generate report
-        if: always()
-        run: npm run report
+      - name: Create reports
+        run: |
+          npm run report
 
       - name: Create test summary
         uses: test-summary/action@v2.4

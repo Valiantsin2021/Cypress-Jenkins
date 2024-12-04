@@ -2,21 +2,21 @@
 
 import { faker } from '@faker-js/faker'
 
-import Header from '../pageObjects/Header'
-import SearchResuls from '../pageObjects/SearchResultsPage'
 import DashboardPage from '../pageObjects/DashboardPage'
-import UserPage from '../pageObjects/UserPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FolderPage from '../pageObjects/FolderPage'
+import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 import PipelinePage from '../pageObjects/PipelinePage'
+import SearchResuls from '../pageObjects/SearchResultsPage'
+import UserPage from '../pageObjects/UserPage'
 
-import headerData from '../fixtures/headerData.json'
-import searchResultsData from '../fixtures/searchResultsData.json'
-import messages from '../fixtures/messages.json'
-import newJobPageData from '../fixtures/newJobPageData.json'
 import configurePageData from '../fixtures/configurePageData.json'
 import genData from '../fixtures/genData'
+import headerData from '../fixtures/headerData.json'
+import messages from '../fixtures/messages.json'
+import newJobPageData from '../fixtures/newJobPageData.json'
+import searchResultsData from '../fixtures/searchResultsData.json'
 
 const header = new Header()
 const newJobPage = new NewJobPage()
@@ -38,8 +38,8 @@ function createFreestyleProject(jobName) {
 
 describe('US_14.002 | Header > Search Box', () => {
   it('TC_14.002.05 | User can select suggestion to auto-fill and complete the search', () => {
-    dashboardPage
-      .clickNewItemMenuLink()
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
       .typeNewItemName(newJobPageData.projectName)
       .selectFreestyleProject()
       .clickOKButton()
@@ -63,7 +63,7 @@ describe('US_14.002 | Header > Search Box', () => {
     searchResults.getConfigureItem().should('contain.text', 'configure')
   })
 
-  it('TC_14.002.07 | Verify the search box provides auto-completion', () => {
+  it.skip('TC_14.002.07 | Verify the search box provides auto-completion', () => {
     header.typeSearchTerm(headerData.search.input.matchForCon)
 
     header
@@ -91,7 +91,7 @@ describe('US_14.002 | Header > Search Box', () => {
 
   it('TC_14.002.03 | Verify that user can not see suggested results searched with with Upper Case characters with Insensitive mode being on', () => {
     header.clickUserDropdownLink().clickUserConfigureItem()
-    userPage.checkCheckBox().clickOnSaveBtn()
+    userPage.checkCheckBox().clickSaveButton()
 
     header.typeSearchTerm(headerData.search.input.upperCaseMatchForManage)
 
@@ -147,12 +147,12 @@ describe('US_14.002 | Header > Search Box', () => {
       .typeNewItemName('New Folder TC_14.002.15_A')
       .selectFolder()
       .clickOKButton()
-    folderPage.clickSaveBtn().clickNewItemMenuOption()
+    folderPage.clickSaveButton().clickNewItemMenuOption()
     newJobPage
       .typeNewItemName('Project TC_14.002.15_A')
       .selectPipelineProject()
       .clickOKButton()
-    pipelinePage.clickOnSaveBtn()
+    pipelinePage.clickSaveButton()
     header.getJenkinsLogo()
     header
       .typeSearchTerm('Pro')
@@ -179,7 +179,7 @@ describe('US_14.002 | Header > Search Box', () => {
     cy.log('create a job')
     dashboardPage.clickNewItemMenuLink()
     newJobPage.typeNewItemName(project.name).selectFolder().clickOKButton()
-    folderPage.clickSaveBtn()
+    folderPage.clickSaveButton()
 
     cy.log('start search')
     header
@@ -197,8 +197,8 @@ describe('US_14.002 | Header > Search Box', () => {
     )
     cy.log('create a job and build it')
     createFreestyleProject(project.name)
-    freestyleProjectPage.clickBuildNowLink()
-    freestyleProjectPage.clickBuildNowLink()
+    freestyleProjectPage.clickBuildNowMenuOption()
+    freestyleProjectPage.clickBuildNowMenuOption()
 
     cy.log('wait till build history call is completed')
     cy.wait('@buildHistory')

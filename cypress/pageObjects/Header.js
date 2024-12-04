@@ -1,9 +1,5 @@
 /// <reference types="cypress" />
 
-import SearchResultsPage from './SearchResultsPage'
-import DashboardPage from './DashboardPage'
-import UserPage from './UserPage'
-import LoginPage from './LoginPage'
 class Header {
   getSearchField = () => cy.get('#search-box')
   getSearchAutoCompletionBox = () => cy.get('div#search-box-completion li')
@@ -12,12 +8,23 @@ class Header {
   getDropdownConfigureItem = () =>
     cy.get('.jenkins-dropdown > [href*="/configure"]')
   getJenkinsLogo = () => cy.get('a#jenkins-home-link')
-  getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
-  getSearchAutofillSuggestionList = () =>
-    cy.get('li[style]:not([style="display: none;"])')
   getUserNameLink = () => cy.get('[href^="/user"]')
   getUserDropdownMenu = () => cy.get('.jenkins-dropdown')
   getUserDropdownIcon = () => cy.get('.jenkins-dropdown__item__icon')
+  getSearchAutofillSuggestionList = () =>
+    cy.get('li[style]:not([style="display: none;"])')
+  getLogOutButton = () => cy.get('a[href="/logout"]')
+
+  getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
+  getDashboardBreadcrumbsLink = () => cy.get('#breadcrumbs a[href="/"]')
+  getDashboardLink = () => cy.get('a[href="/"].model-link')
+  getBreadcrumbBar = () => cy.get('#breadcrumbBar')
+  getDashboardBreadcrumb = () => cy.get('a[href="/"].model-link')
+  getDashboardBreadcrumbChevron = () =>
+    cy.get('a[href="/"] .jenkins-menu-dropdown-chevron')
+  getBreadcrumbsFolderName = () => cy.get(':nth-child(3) > .model-link')
+  getBreadcrumbsFolderDropdownMenu = () =>
+    cy.get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron')
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)
@@ -31,12 +38,12 @@ class Header {
 
   searchTerm() {
     this.getSearchField().type('{enter}')
-    return new SearchResultsPage()
+    return this
   }
 
   search(input) {
     this.getSearchField().type(`${input}{enter}`)
-    return new SearchResultsPage()
+    return this
   }
 
   clickUserDropdownLink() {
@@ -51,11 +58,31 @@ class Header {
 
   clickJenkinsLogo() {
     this.getJenkinsLogo().click()
-    return new DashboardPage()
+    return this
+  }
+
+  clickLogOutButton() {
+    this.getLogOutButton().click()
+    return this
   }
 
   clickDashboardBtn() {
     this.getBreadcrumps().contains('Dashboard').click()
+    return this
+  }
+
+  clickDashboardBreadcrumbsLink() {
+    this.getDashboardBreadcrumbsLink().click()
+    return this
+  }
+
+  hoverDashboardDropdownChevron() {
+    this.getDashboardBreadcrumb().realHover()
+    return this
+  }
+
+  clickDashboardDropdownChevron() {
+    this.getDashboardBreadcrumbChevron().click()
     return this
   }
 
@@ -66,7 +93,7 @@ class Header {
 
   clickUserName() {
     this.getUserNameLink().click()
-    return new UserPage()
+    return this
   }
 
   verifyAutoCompletionVisible(searchTerm) {
@@ -89,7 +116,7 @@ class Header {
         }
       })
     }
-    return new LoginPage()
+    return this
   }
 }
 
