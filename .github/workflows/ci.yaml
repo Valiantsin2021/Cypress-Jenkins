@@ -87,6 +87,7 @@ jobs:
           install: false
 
       - name: Generate report
+        if: always()
         run: npm run report
 
       - name: Create test summary
