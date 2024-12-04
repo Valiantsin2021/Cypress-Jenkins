@@ -16,7 +16,7 @@ describe('US_04.004 | Folder > Add or Edit Description of a Folder', () => {
     newJobPage.typeNewItemName(folder.name).selectFolder().clickOKButton()
     folderPage
       .typeDescription(folder.longDescription)
-      .clickSaveBtn()
+      .clickSaveButton()
 
       .getFolderDescription()
       .should('be.visible')

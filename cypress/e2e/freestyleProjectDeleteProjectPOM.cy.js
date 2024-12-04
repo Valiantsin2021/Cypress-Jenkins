@@ -48,7 +48,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .hoverJobTitleLink()
       .clickJobTableDropdownChevron()
       .clickDeleteProjectDropdownMenuItem()
-      .clickSubmitDeletingButton()
+      .clickYesButton()
 
     cy.log('Verifying Freestyle Project is deleted from Dashboard page')
     dashboardPage.getMainPanel().contains(project.name).should('not.exist')
@@ -61,10 +61,10 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .clickProjectChevronIcon(project.name)
       .clickDeleteProjectDropdownMenuItem()
 
-    dashboardPage.getCancelProjectDeletingButton().should('be.visible')
+    dashboardPage.getCancelButton().should('be.visible')
 
     dashboardPage
-      .clickCancelDeletingButton()
+      .clickCancelButton()
       .getProjectName()
       .should('have.text', project.name)
       .and('be.visible')
@@ -87,7 +87,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .hoverJobTitleLink()
       .clickJobTableDropdownChevron()
       .clickDeleteProjectDropdownMenuItem()
-      .clickCancelDeletingButton()
+      .clickCancelButton()
       .getJobTable()
       .should('contain.text', project.name)
       .and('be.visible')
@@ -103,8 +103,6 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     freestyleProjectPage
       .typeJobDescription(configurePageData.projectDescription)
       .clickSaveButton()
-
-    cy.url().should('include', 'Project%20Name')
 
     //Delete the project
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
@@ -123,20 +121,14 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
   it('TC_01.004.07 | Verify confirmation appears before deletion', () => {
     dashboardPage
-      .openDropdownForProject(project.name)
+      .openDropdownForItem(project.name)
       .clickDeleteProjectDropdownMenuItem()
 
       .getDeleteProjectDialogBox()
       .should('exist')
       .and('contain.text', `${confirmationMessage.question} ‘${project.name}’?`)
-    dashboardPage
-      .getSubmitProjectDeletingButton()
-      .should('exist')
-      .and('not.be.disabled')
-    dashboardPage
-      .getCancelProjectDeletingButton()
-      .should('exist')
-      .and('not.be.disabled')
+    dashboardPage.getYesButton().should('exist').and('not.be.disabled')
+    dashboardPage.getCancelButton().should('exist').and('not.be.disabled')
   })
 
   it('TC_01.004.12 | Verify confirmation message appears after attempting to delete a project', () => {

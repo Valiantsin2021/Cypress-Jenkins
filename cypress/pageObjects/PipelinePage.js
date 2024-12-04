@@ -1,12 +1,6 @@
 /// <reference types="cypress" />
+import BasePage from './basePage'
 
-class PipelinePage {
-  getPipelineSaveBtn = () => cy.get('.jenkins-submit-button')
-
-  clickOnSaveBtn() {
-    this.getPipelineSaveBtn().click()
-    return this
-  }
-}
+class PipelinePage extends BasePage {}
 
 export default PipelinePage

@@ -21,18 +21,17 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
   const randomItemName = faker.commerce.productName()
 
   it('TC_00.002.01 | Special characters are not allowed in the project name', () => {
-    dashboardPage.clickNewItemMenuLink().typeNewItemName(projectNameInvalid)
+    dashboardPage.clickNewItemMenuLink()
     newJobPage
+      .typeNewItemName(projectNameInvalid)
       .getItemNameInvalidErrorMessage()
       .should('have.text', newItem.newItemNameInvalidMessage)
       .and('have.css', 'color', errorMessageColor)
   })
 
   it('TC_00.002.02 | Pipeline item type is highlighted when selected ', () => {
-    dashboardPage
-      .clickNewItemMenuLink()
-      .typeNewItemName(randomItemName)
-      .selectPipelineProject()
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage.typeNewItemName(randomItemName).selectPipelineProject()
 
     newJobPage
       .getPipelineSelectedState()
@@ -50,8 +49,8 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
 
   it('TC_00.002.05 | Create Pipeline Project with an already existing name of a project', () => {
     cy.log('Precondition: create Pipeline project')
-    dashboardPage
-      .clickNewItemMenuLink()
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
       .typeNewItemName(randomItemName)
       .selectPipelineProject()
       .clickOKButton()

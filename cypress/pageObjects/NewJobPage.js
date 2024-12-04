@@ -1,12 +1,12 @@
 /// <reference types="cypress" />
+import BasePage from './basePage'
 
-class NewJobPage {
-  getJobNameField = () => cy.get('#name')
+class NewJobPage extends BasePage {
+  getItemNameField = () => cy.get('#name')
   getFreeStlPrjType = () => cy.get('.label').contains('Freestyle project')
   getPipelinePrjType = () => cy.get('span.label').contains('Pipeline')
   getPipelineSelectedState = () =>
     cy.get('.org_jenkinsci_plugins_workflow_job_WorkflowJob')
-  getOKButton = () => cy.get('#ok-button')
   getItemNameInvalidErrorMessage = () => cy.get('#itemname-invalid')
   getUnsaveItemInvalidName = () =>
     cy.get('#itemname-invalid').contains(/is an unsafe character/)
@@ -14,7 +14,6 @@ class NewJobPage {
   getFolferType = () => cy.get('.label').contains('Folder')
   getOrganizationFolderType = () =>
     cy.get('[class="jenkins_branch_OrganizationFolder"]')
-  getSaveButton = () => cy.get('button[name="Submit"]')
   getAllItemsList = () => cy.get('#items li')
   getUrlConfigurePageField = () => cy.location('href')
   getBreadcrumbsListItem = () => cy.get("[aria-current='page']")
@@ -22,8 +21,8 @@ class NewJobPage {
     cy.get('button[data-section-id="pipeline"]')
   getEmptyNameFieldReminder = () => cy.get('div[class$="validation-message"]')
 
-  typeNewItemName(prjName) {
-    this.getJobNameField().type(prjName)
+  typeNewItemName(itemName) {
+    this.getItemNameField().type(itemName)
     return this
   }
 
@@ -42,13 +41,8 @@ class NewJobPage {
     return this
   }
 
-  clickOKButton() {
-    this.getOKButton().click()
-    return this
-  }
-
   clearItemNameField() {
-    this.getJobNameField().clear()
+    this.getItemNameField().clear()
     return this
   }
 
@@ -59,11 +53,6 @@ class NewJobPage {
 
   selectOrganizationFolder() {
     this.getOrganizationFolderType().click()
-    return this
-  }
-
-  clickSaveButton() {
-    this.getSaveButton().click()
     return this
   }
 

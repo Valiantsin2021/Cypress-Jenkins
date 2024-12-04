@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
+import PipelinePage from '../pageObjects/PipelinePage'
 
-class MultibranchPipelinePage {}
+class MultibranchPipelinePage extends PipelinePage {}
 
 export default MultibranchPipelinePage

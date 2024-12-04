@@ -203,13 +203,12 @@ describe('US_00.000 | New Item > Create New item', () => {
   })
 
   it('TC_00.000.13 | Verify that after saving, new item is present on dashboard', () => {
-    dashboardPage
-      .clickNewItemMenuLink()
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
       .typeNewItemName(randomItemName)
       .selectFreestyleProject()
       .clickOKButton()
-      .clickSaveButton()
-    header.clickJenkinsLogo()
+    freestyleProjectPage.clickSaveButton().clickJenkinsLogo()
 
     dashboardPage
       .getJobTable()
