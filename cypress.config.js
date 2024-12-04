@@ -1,5 +1,5 @@
 const { allureCypress } = require('allure-cypress/reporter')
-
+const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
@@ -12,6 +12,7 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       allureCypress(on)
+      cypressSplit(on, config)
       return config
     }
   },
