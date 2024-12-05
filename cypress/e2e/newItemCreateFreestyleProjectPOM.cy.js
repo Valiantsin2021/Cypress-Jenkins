@@ -3,14 +3,13 @@
 import { faker } from '@faker-js/faker'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
+import FolderPage from '../pageObjects/FolderPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
-import FolderPage from '../pageObjects/FolderPage'
+import NewJobPage from '../pageObjects/NewJobPage'
 
-import { newItem } from '../fixtures/messages.json'
 import genData from '../fixtures/genData'
-import message from '../fixtures/messages.json'
+import message, { newItem } from '../fixtures/messages.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -180,5 +179,8 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     freestyleProjectPage
       .getProjectInfoSection()
       .should('include.text', `${project.folderName}/${project.name}`)
+  })
+  afterEach(() => {
+    cy.cleanData([folderName, project.name])
   })
 })

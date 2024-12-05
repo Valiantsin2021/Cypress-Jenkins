@@ -8,7 +8,7 @@ import NewJobPage from '../pageObjects/NewJobPage'
 const dashBoardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const header = new Header()
-
+const jobs = []
 describe('US_08.001 | Build history > Start to build a project', () => {
   newInstance
     .filter(
@@ -18,6 +18,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
         )
     )
     .forEach(item => {
+      jobs.push(`New ${item}`)
       it(`
         TC_08.001.01 | Verify build status icon for
         "Not built" ${item} is shown on "Dashboard" page
@@ -37,6 +38,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
           .eq(0)
           .should('have.attr', 'tooltip', 'Not built')
           .and('be.visible')
+        cy.cleanData([`New ${item}`])
       })
     })
 })

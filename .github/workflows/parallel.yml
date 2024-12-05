@@ -12,7 +12,23 @@ on:
 permissions:
   contents: write
 jobs:
+
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - name: Create matrix ⊹
+        id: prepare
+        uses: bahmutov/gh-build-matrix@main
+        with:
+          n: 3
+
+      - name: Print result 🖨
+        run: echo '${{ steps.prepare.outputs.matrix }}'
+
   run-test:
+    needs: prepare
     name: 'Run tests'
     runs-on: ubuntu-latest
 
@@ -20,11 +36,14 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [22.x]
-        containers: [1, 2]
+        containers: ${{ fromJSON(needs.prepare.outputs.matrix) }}
 
     steps:
       - name: Git clone
         uses: actions/checkout@v4
+
+      - name: Print GitHub strategy context 🖨
+        run: echo '${{ toJSON(strategy) }}'
 
       - name: Check for duplicated file names
         run: |
@@ -49,12 +68,14 @@ jobs:
           cache: 'npm'
 
       # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Install dependencies and cache them
         uses: cypress-io/github-action@v6
         with:
           runTests: false
 
+      - name: Catch "it.only" 🫴
+        run: npm run stop-only
+        
       - name: Static analysis
         run: npm run format && npm run lint
 
@@ -81,9 +102,6 @@ jobs:
         run: |
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
-      - name: Catch "it.only" 🫴
-        run: npm run stop-only
-
       - name: Run Cypress tests 🧪
         uses: cypress-io/github-action@v6
         with:
@@ -94,6 +112,7 @@ jobs:
           DEBUG: cypress-split
 
       - name: Create reports
+        if: always()
         run: |
           npm run report
 

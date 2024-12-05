@@ -3,14 +3,14 @@
 import { faker } from '@faker-js/faker'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 import configurePageData from '../fixtures/configurePageData.json'
-import newJobPageData from '../fixtures/newJobPageData.json'
-import genData from '../fixtures/genData'
 import { confirmationMessage } from '../fixtures/deleteProjectData.json'
+import genData from '../fixtures/genData'
+import newJobPageData from '../fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -143,5 +143,8 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     freestyleProjectPage
       .getConfirmationMessageQuestion()
       .should('have.text', `${confirmationMessage.question} ‘${project.name}’?`)
+  })
+  afterEach(() => {
+    cy.cleanData([project.name])
   })
 })

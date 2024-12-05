@@ -2,12 +2,12 @@
 import { faker } from '@faker-js/faker'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
-import allKeys from '../fixtures/newJobPageData.json'
-import { newItem } from '../fixtures/messages.json'
 import genData from '../fixtures/genData'
+import { newItem } from '../fixtures/messages.json'
+import allKeys from '../fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -125,5 +125,8 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .getItemNameInvalidErrorMessage()
       .should('have.text', newItem.itemNameDotWarningMessage)
       .and('have.css', 'color', errorMessageColor)
+  })
+  afterEach(() => {
+    cy.cleanData([project.name, randomItemName])
   })
 })

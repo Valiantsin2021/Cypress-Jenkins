@@ -1,9 +1,9 @@
 /// <reference types="cypress"/>
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
-import FolderPage from '../pageObjects/FolderPage.js'
 import genData from '../fixtures/genData'
+import DashboardPage from '../pageObjects/DashboardPage'
+import FolderPage from '../pageObjects/FolderPage.js'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -21,5 +21,6 @@ describe('US_04.004 | Folder > Add or Edit Description of a Folder', () => {
       .getFolderDescription()
       .should('be.visible')
       .and('have.text', folder.longDescription)
+    cy.cleanData([folder.name])
   })
 })

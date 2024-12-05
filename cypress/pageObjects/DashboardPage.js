@@ -13,7 +13,8 @@ class DashboardPage extends BasePage {
     cy.get(`span:contains('${itemName}') + .jenkins-menu-dropdown-chevron`)
   getJobTableDropdownChevron = () =>
     cy.get('.jenkins-table__link > .jenkins-menu-dropdown-chevron')
-  getJobTableDropdownItem = () => cy.get('.jenkins-dropdown__item ')
+  getJobTableDropdownItem = () =>
+    cy.get('.jenkins-dropdown__item ', { timeout: 25000 })
   getAllJobNames = () => cy.get('.jenkins-table__link span')
   getDeleteProjectDropdownMenuItem = () =>
     cy.get('button.jenkins-dropdown__item ').contains('Delete Project')

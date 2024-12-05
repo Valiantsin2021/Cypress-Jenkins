@@ -1,9 +1,9 @@
 /// <reference types="cypress"/>
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FolderPage from '../pageObjects/FolderPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 import genData from '../fixtures/genData'
 
@@ -46,5 +46,8 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       .typeNewFolderName(newFolderName.name)
       .getNewNameField()
       .should('have.value', newFolderName.name)
+  })
+  after(() => {
+    cy.cleanData([folderName.name, newFolderName.name])
   })
 })

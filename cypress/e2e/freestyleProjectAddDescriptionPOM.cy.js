@@ -101,4 +101,7 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
       .getJobDescription()
       .should('have.text', project.newDescription)
   })
+  afterEach(() => {
+    cy.cleanData([project.name])
+  })
 })

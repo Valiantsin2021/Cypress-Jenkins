@@ -96,10 +96,15 @@ export class JenkinsProjectManager {
       xhr.send()
     })
   }
-  async deleteAllJobs() {
+  async deleteAllJobs(testJobs = null) {
     try {
       await this.getCsrfCrumb()
-      const jobs = await this.getAllJobs()
+      let jobs
+      if (!testJobs) {
+        jobs = await this.getAllJobs()
+      } else {
+        jobs = testJobs
+      }
       const deletionResults = await Promise.allSettled(
         jobs.map(job => this.deleteJob(job))
       )
@@ -121,8 +126,8 @@ export class JenkinsProjectManager {
   }
 }
 
-Cypress.Commands.add('cleanData', () => {
-  const initiateBulkDeletion = function () {
+Cypress.Commands.add('cleanData', testJobs => {
+  const initiateBulkDeletion = function (testJobs) {
     const jenkinsManager = new JenkinsProjectManager(
       `http://${HOST}:${PORT}/`,
       USER_NAME,
@@ -130,19 +135,19 @@ Cypress.Commands.add('cleanData', () => {
     )
 
     jenkinsManager
-      .deleteAllJobs()
+      .deleteAllJobs(testJobs)
       .then(results => {
         Cypress.log({
-          name: 'Bulk Deletion Complete successfully: ',
+          name: 'Bulk Deletion Complete: ',
           message: results
         })
       })
       .catch(error => {
         Cypress.log({
-          name: 'Bulk Deletion Failed :',
+          name: 'Bulk Deletion Failed: ',
           message: error
         })
       })
   }
-  initiateBulkDeletion()
+  initiateBulkDeletion(testJobs)
 })

@@ -48,5 +48,6 @@ describe('US_16.002 | Dashboard > Create View', () => {
 
     header.clickJenkinsLogo()
     dashboardPage.getViewTab(view.name).should('be.visible')
+    cy.cleanData([project.name, folder.name, view.name])
   })
 })

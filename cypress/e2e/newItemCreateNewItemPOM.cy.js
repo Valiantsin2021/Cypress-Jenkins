@@ -20,7 +20,6 @@ const { projectName, projectNameInvalid, errorMessageColor } = allKeys
 describe('US_00.000 | New Item > Create New item', () => {
   const randomItemName = faker.lorem.words()
   const newRandomItemName = faker.lorem.words()
-  const wrongJobName = 'Item#1'
 
   it('TC_00.000.01| Create new item from "Create a job" button| Invalid data', () => {
     dashboardPage.clickNewItemMenuLink()
@@ -224,5 +223,8 @@ describe('US_00.000 | New Item > Create New item', () => {
       .getEmptyItemInvalidName()
       .should('contain.text', newItem.emptyNameFieldReminder)
       .and('have.css', 'color', errorMessageColor)
+  })
+  afterEach(() => {
+    cy.cleanData([randomItemName, newRandomItemName])
   })
 })
