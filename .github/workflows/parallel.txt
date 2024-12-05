@@ -12,19 +12,36 @@ on:
 permissions:
   contents: write
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - name: Create matrix ⊹
+        id: prepare
+        uses: bahmutov/gh-build-matrix@main
+        with:
+          n: 3
+
+      - name: Print result 🖨
+        run: echo '${{ steps.prepare.outputs.matrix }}'
+
   run-test:
+    needs: prepare
+    if: always()
     name: 'Run tests'
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
-      matrix:
-        node-version: [22.x]
-        containers: [1, 2]
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
 
     steps:
       - name: Git clone
         uses: actions/checkout@v4
+
+      - name: Print GitHub strategy context 🖨
+        run: echo '${{ toJSON(strategy) }}'
 
       - name: Check for duplicated file names
         run: |
@@ -45,15 +62,17 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
           cache: 'npm'
 
       # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Install dependencies and cache them
         uses: cypress-io/github-action@v6
         with:
           runTests: false
+
+      - name: Catch "it.only" 🫴
+        run: npm run stop-only
 
       - name: Static analysis
         run: npm run format && npm run lint
@@ -81,9 +100,6 @@ jobs:
         run: |
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
-      - name: Catch "it.only" 🫴
-        run: npm run stop-only
-
       - name: Run Cypress tests 🧪
         uses: cypress-io/github-action@v6
         with:
@@ -91,24 +107,64 @@ jobs:
         env:
           SPLIT: ${{ strategy.job-total }}
           SPLIT_INDEX: ${{ strategy.job-index }}
-          DEBUG: cypress-split
 
-      - name: Create reports
-        run: |
-          npm run report
-
-      - name: Create test summary
-        uses: test-summary/action@v2.4
+      - name: Upload Allure Results
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          paths: reports/*.xml
+          name: allure-results-${{strategy.job-index }}
+          path: allure-results
+          retention-days: 1
+
+      - name: Upload screenshots Results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-${{strategy.job-index }}
+          path: cypress-screenshots
+          retention-days: 1
+
+  generate-report:
+    runs-on: ubuntu-latest
+    needs: run-test
+    steps:
+      - name: Download all Allure Results
+        uses: actions/download-artifact@v4
+        with:
+          path: allure-results
+          pattern: allure-results-*
+
+      - name: Merge Allure Results
+        if: success()
+        run: |
+          # Combine all downloaded result folders into a single allure-results directory
+          mkdir -p final-allure-results
+          find allure-results -type d -name "allure-results-*" -exec cp -r {} final-allure-results \;
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1.11
+        with:
+          allure_results: final-allure-results
+          allure_report: allure-report
+
+      - name: Download all screenshots
+        uses: actions/download-artifact@v4
+        with:
+          path: cypress-screenshots
+          pattern: cypress-screenshots-*
+
+      - name: Merge screenshots
+        if: success()
+        run: |
+          # Combine all downloaded result folders into a single screenshots directory
+          mkdir -p final-screenshots
+          find cypress-screenshots -type d -name "cypress-screenshots-*" -exec cp -r {} final-cypress-screenshots \;
 
       - name: Artifacts screenshots
         uses: actions/upload-artifact@v4
-        if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
+          path: final-cypress-screenshots
 
       - name: Artifacts report
         uses: actions/upload-artifact@v4

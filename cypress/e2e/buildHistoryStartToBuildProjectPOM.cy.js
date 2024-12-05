@@ -1,9 +1,9 @@
 /// <reference types="cypress"/>
 
-import { newInstance } from '../fixtures/newJobPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
-import Header from '../pageObjects/Header'
 import NewJobPage from '../pageObjects/NewJobPage'
+import Header from '../pageObjects/Header'
+import { newInstance } from '../fixtures/newJobPageData.json'
 
 const dashBoardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -18,10 +18,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
         item !== 'Multibranch Pipeline'
     )
     .forEach(item => {
-      it(`
-        TC_08.001.01 | Verify build status icon for
-        "Not built" ${item} is shown on "Dashboard" page
-        `, () => {
+      it(`TC_08.001.01 | Verify build status icon for "Not built" ${item} is shown on "Dashboard" page`, () => {
         dashBoardPage.clickNewItemMenuLink()
         newJobPage
           .clearItemNameField()
