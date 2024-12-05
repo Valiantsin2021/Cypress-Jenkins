@@ -2,21 +2,21 @@
 
 import { faker } from '@faker-js/faker'
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import FolderPage from '../pageObjects/FolderPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
-import NewJobPage from '../pageObjects/NewJobPage'
-import PipelinePage from '../pageObjects/PipelinePage'
 import SearchResuls from '../pageObjects/SearchResultsPage'
+import DashboardPage from '../pageObjects/DashboardPage'
 import UserPage from '../pageObjects/UserPage'
+import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import NewJobPage from '../pageObjects/NewJobPage'
+import FolderPage from '../pageObjects/FolderPage'
+import PipelinePage from '../pageObjects/PipelinePage'
 
-import configurePageData from '../fixtures/configurePageData.json'
-import genData from '../fixtures/genData'
 import headerData from '../fixtures/headerData.json'
+import searchResultsData from '../fixtures/searchResultsData.json'
 import messages from '../fixtures/messages.json'
 import newJobPageData from '../fixtures/newJobPageData.json'
-import searchResultsData from '../fixtures/searchResultsData.json'
+import configurePageData from '../fixtures/configurePageData.json'
+import genData from '../fixtures/genData'
 
 const header = new Header()
 const newJobPage = new NewJobPage()
@@ -63,7 +63,7 @@ describe('US_14.002 | Header > Search Box', () => {
     searchResults.getConfigureItem().should('contain.text', 'configure')
   })
 
-  it.skip('TC_14.002.07 | Verify the search box provides auto-completion', () => {
+  it('TC_14.002.07 | Verify the search box provides auto-completion', () => {
     header.typeSearchTerm(headerData.search.input.matchForCon)
 
     header

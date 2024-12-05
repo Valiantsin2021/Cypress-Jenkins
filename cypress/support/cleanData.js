@@ -2,7 +2,7 @@ const USER_NAME = Cypress.env('local.admin.username')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
 const TOKEN = Cypress.env('local.admin.token')
-class JenkinsProjectManager {
+export class JenkinsProjectManager {
   constructor(baseUrl, username, apiToken) {
     this.baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
     this.username = username
@@ -96,10 +96,15 @@ class JenkinsProjectManager {
       xhr.send()
     })
   }
-  async deleteAllJobs() {
+  async deleteAllJobs(testJobs = null) {
     try {
       await this.getCsrfCrumb()
-      const jobs = await this.getAllJobs()
+      let jobs
+      if (!testJobs) {
+        jobs = await this.getAllJobs()
+      } else {
+        jobs = testJobs
+      }
       const deletionResults = await Promise.allSettled(
         jobs.map(job => this.deleteJob(job))
       )
@@ -121,8 +126,8 @@ class JenkinsProjectManager {
   }
 }
 
-Cypress.Commands.add('cleanData', () => {
-  const initiateBulkDeletion = function () {
+Cypress.Commands.add('cleanData', testJobs => {
+  const initiateBulkDeletion = function (testJobs) {
     const jenkinsManager = new JenkinsProjectManager(
       `http://${HOST}:${PORT}/`,
       USER_NAME,
@@ -130,13 +135,19 @@ Cypress.Commands.add('cleanData', () => {
     )
 
     jenkinsManager
-      .deleteAllJobs()
+      .deleteAllJobs(testJobs)
       .then(results => {
-        console.log('Bulk Deletion Complete', results)
+        Cypress.log({
+          name: 'Bulk Deletion Complete: ',
+          message: results
+        })
       })
       .catch(error => {
-        console.error('Bulk Deletion Failed', error)
+        Cypress.log({
+          name: 'Bulk Deletion Failed: ',
+          message: error
+        })
       })
   }
-  initiateBulkDeletion()
+  initiateBulkDeletion(testJobs)
 })
