@@ -2,7 +2,7 @@ const USER_NAME = Cypress.env('local.admin.username')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
 const TOKEN = Cypress.env('local.admin.token')
-class JenkinsProjectManager {
+export class JenkinsProjectManager {
   constructor(baseUrl, username, apiToken) {
     this.baseUrl = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/'
     this.username = username
@@ -132,10 +132,16 @@ Cypress.Commands.add('cleanData', () => {
     jenkinsManager
       .deleteAllJobs()
       .then(results => {
-        console.log('Bulk Deletion Complete', results)
+        Cypress.log({
+          name: 'Bulk Deletion Complete successfully: ',
+          message: results
+        })
       })
       .catch(error => {
-        console.error('Bulk Deletion Failed', error)
+        Cypress.log({
+          name: 'Bulk Deletion Failed :',
+          message: error
+        })
       })
   }
   initiateBulkDeletion()

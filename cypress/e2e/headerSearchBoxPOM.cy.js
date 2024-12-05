@@ -63,7 +63,7 @@ describe('US_14.002 | Header > Search Box', () => {
     searchResults.getConfigureItem().should('contain.text', 'configure')
   })
 
-  it.skip('TC_14.002.07 | Verify the search box provides auto-completion', () => {
+  it('TC_14.002.07 | Verify the search box provides auto-completion', () => {
     header.typeSearchTerm(headerData.search.input.matchForCon)
 
     header

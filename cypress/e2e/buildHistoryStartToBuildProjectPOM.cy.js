@@ -13,9 +13,9 @@ describe('US_08.001 | Build history > Start to build a project', () => {
   newInstance
     .filter(
       item =>
-        item !== 'Folder' &&
-        item !== 'Organization Folder' &&
-        item !== 'Multibranch Pipeline'
+        !['Folder', 'Organization Folder', 'Multibranch Pipeline'].includes(
+          item
+        )
     )
     .forEach(item => {
       it(`
