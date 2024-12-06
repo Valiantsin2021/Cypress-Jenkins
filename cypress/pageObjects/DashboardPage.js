@@ -13,9 +13,7 @@ class DashboardPage extends BasePage {
   getItemChevronIcon = itemName =>
     cy.get(`span:contains('${itemName}') + .jenkins-menu-dropdown-chevron`)
   getJobTableDropdownChevron = name =>
-    this.getJobTitleLink(name).get(
-      '.jenkins-table__link > .jenkins-menu-dropdown-chevron'
-    )
+    this.getJobTitleLink(name).find('.jenkins-menu-dropdown-chevron')
   getJobTableDropdownItem = () =>
     cy.get('.jenkins-dropdown__item ', { timeout: 30000 })
   getAllJobNames = () => cy.get('.jenkins-table__link span')

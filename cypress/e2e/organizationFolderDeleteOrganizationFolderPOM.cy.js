@@ -30,10 +30,7 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
   })
   it('TC_06.005.01 | Delete Organization Folder from a sidebar menu', () => {
     organizationFolderPage.clickSideMenuDeleteLink().clickYesButton()
-
-    organizationFolderPage
-      .getJobHeadline()
-      .should('not.contain.text', project.name)
+    dashboardPage.getMainPanel().should('not.contain.value', project.name)
   })
 
   it('TC_06.005.02 | Delete Organization Folder from breadcrumbs dropdown menu', () => {
@@ -42,10 +39,7 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickBreadcrumbsFolderDropdownMenu()
       .clickDropdownMenuDeleteLink()
       .clickYesButton()
-
-    organizationFolderPage
-      .getJobHeadline()
-      .should('not.contain.text', project.name)
+    dashboardPage.getMainPanel().should('not.contain.value', project.name)
   })
 
   it('TC_06.005.03 | Delete Organization Folder from project status table on Dashboard page', () => {
@@ -54,8 +48,7 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickJobTableDropdownChevron(project.name)
       .clickDeleteOrganizationFolderDropdownMenuItem()
       .clickYesButton()
-
-    dashboardPage.getJobHeadline().should('not.contain.text', project.name)
+    dashboardPage.getMainPanel().should('not.contain.value', project.name)
     organizationFolderPage
       .getJobHeadline()
       .should('not.contain.text', project.name)
@@ -63,6 +56,6 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
 
   it('TC_06.005.04 | Delete Organization Folder', () => {
     organizationFolderPage.clickSideMenuDeleteLink().clickYesButton()
-    dashboardPage.getJobHeadline().and('not.contain', 'No jobs found')
+    dashboardPage.getMainPanel().should('not.contain.value', project.name)
   })
 })
