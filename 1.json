@@ -1,0 +1,59 @@
+{
+  "_class": "hudson.model.Hudson",
+  "assignedLabels": [
+    {
+      "name": "built-in"
+    }
+  ],
+  "mode": "NORMAL",
+  "nodeDescription": "the Jenkins controller's built-in node",
+  "nodeName": "",
+  "numExecutors": 2,
+  "description": null,
+  "jobs": [
+    {
+      "_class": "hudson.model.FreeStyleProject",
+      "name": "123",
+      "url": "http://localhost:8081/job/123/",
+      "color": "notbuilt"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "view_hob",
+      "url": "http://localhost:8081/job/view_hob/",
+      "color": "notbuilt"
+    }
+  ],
+  "overallLoad": {},
+  "primaryView": {
+    "_class": "hudson.model.AllView",
+    "name": "all",
+    "url": "http://localhost:8081/"
+  },
+  "quietDownReason": null,
+  "quietingDown": false,
+  "slaveAgentPort": 50000,
+  "unlabeledLoad": {
+    "_class": "jenkins.model.UnlabeledLoadStatistics"
+  },
+  "url": null,
+  "useCrumbs": true,
+  "useSecurity": true,
+  "views": [
+    {
+      "_class": "hudson.model.AllView",
+      "name": "all",
+      "url": "http://localhost:8081/"
+    },
+    {
+      "_class": "hudson.model.MyView",
+      "name": "byee",
+      "url": "http://localhost:8081/view/byee/"
+    },
+    {
+      "_class": "hudson.model.ListView",
+      "name": "hello",
+      "url": "http://localhost:8081/view/hello/"
+    }
+  ]
+}
