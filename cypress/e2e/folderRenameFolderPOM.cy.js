@@ -60,4 +60,18 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       .getFolderNameOnMainPanel()
       .should('contain', 'is an unsafe character')
   })
+  it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
+    header.getBreadcrumbBar().should('contain', folderName.name)
+    header
+      .hoverBreadcrumbsFolderName()
+      .getBreadcrumbsFolderDropdownMenu()
+      .click()
+    dashboardPage.getRenameProjectDropdownMenuItem().click()
+
+    folderPage
+      .clearNewNameField()
+      .typeNewFolderName(newFolderName.name)
+      .getNewNameField()
+      .should('have.value', newFolderName.name)
+  })
 })
