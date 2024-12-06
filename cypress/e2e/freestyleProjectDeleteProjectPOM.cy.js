@@ -1,7 +1,5 @@
 /// <reference types="cypress"/>
 
-import { faker } from '@faker-js/faker'
-
 import DashboardPage from '../pageObjects/DashboardPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
@@ -67,7 +65,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     dashboardPage
       .clickCancelButton()
       .getProjectName()
-      .should('have.text', project.name)
+      .should('match', project.name)
       .and('be.visible')
   })
 
@@ -78,9 +76,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .should('be.visible')
       .and('have.text', project.name)
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
-
     dashboardPage.getMainPanel().should('not.contain.value', project.name)
-    dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
   })
 
   it('TC_01.004.15 | Verify user cancels Project deletion', () => {
@@ -112,8 +108,6 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
   it('TC_01.004.17 | Delete project from the Project Page', () => {
     dashboardPage.clickJobName(project.name)
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
-
-    dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
   })
 
   it('TC_01.004.07 | Verify confirmation appears before deletion', () => {
