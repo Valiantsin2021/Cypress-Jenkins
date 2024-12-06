@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import DashboardPage from '../pageObjects/DashboardPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'

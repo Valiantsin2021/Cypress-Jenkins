@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import { faker } from '@faker-js/faker'
 import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'

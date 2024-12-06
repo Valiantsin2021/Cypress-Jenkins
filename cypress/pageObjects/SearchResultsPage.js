@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import Header from '../pageObjects/Header'
 
 class SearchResultsPage extends Header {

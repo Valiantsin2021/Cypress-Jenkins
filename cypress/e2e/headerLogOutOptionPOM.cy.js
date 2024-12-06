@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import dashboardPageData from '../fixtures/dashboardPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'

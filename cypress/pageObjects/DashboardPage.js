@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 

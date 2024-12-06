@@ -1,10 +1,6 @@
-/// <reference types="cypress" />
-
 import { faker } from '@faker-js/faker'
-
 import DashboardPage from '../pageObjects/DashboardPage'
 import ManageJenkinsPage from '../pageObjects/ManageJenkinsPage'
-
 import messages from '../fixtures/messages.json'
 import searchResultsData from '../fixtures/searchResultsData.json'
 

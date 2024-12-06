@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import DashboardPage from '../pageObjects/DashboardPage'
 
 class ManageJenkinsPage extends DashboardPage {

@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import { newInstance } from '../fixtures/newJobPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'

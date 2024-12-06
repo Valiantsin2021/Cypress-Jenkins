@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import FolderPage from '../pageObjects/FolderPage'
 
 class OrganizationFolderPage extends FolderPage {

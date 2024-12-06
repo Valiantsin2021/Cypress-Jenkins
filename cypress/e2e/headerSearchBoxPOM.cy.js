@@ -1,7 +1,4 @@
-/// <reference types="cypress" />
-
 import { faker } from '@faker-js/faker'
-
 import DashboardPage from '../pageObjects/DashboardPage'
 import FolderPage from '../pageObjects/FolderPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'

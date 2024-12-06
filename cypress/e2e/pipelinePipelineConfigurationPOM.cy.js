@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import { faker } from '@faker-js/faker'
 import NewJobPage from '../pageObjects/NewJobPage'
 import PipelinePage from '../pageObjects/PipelinePage'
