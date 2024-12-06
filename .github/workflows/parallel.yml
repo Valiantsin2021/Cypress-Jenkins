@@ -141,6 +141,7 @@ jobs:
           # Combine all downloaded result folders into a single allure-results directory
           mkdir -p final-allure-results
           find allure-results -type d -name "allure-results-*" -exec cp -r {} final-allure-results \;
+          ls final-allure-results
 
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.11
@@ -148,26 +149,7 @@ jobs:
           allure_results: final-allure-results
           allure_report: allure-report
 
-      - name: Download all screenshots
-        uses: actions/download-artifact@v4
-        with:
-          path: cypress/screenshots
-          pattern: cypress-screenshots-*
-
-      - name: Merge screenshots
-        if: success()
-        run: |
-          # Combine all downloaded result folders into a single screenshots directory
-          mkdir -p final-screenshots
-          find cypress/screenshots -type d -name "cypress-screenshots-*" -exec cp -r {} final-cypress-screenshots \;
-
-      - name: Artifacts screenshots
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: final-cypress-screenshots
-
-      - name: Artifacts report
+      - name: Upload Allure report
         uses: actions/upload-artifact@v4
         if: always()
         with:
