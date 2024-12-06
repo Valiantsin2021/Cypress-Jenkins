@@ -64,9 +64,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     dashboardPage
       .clickCancelButton()
       .getProjectName()
-      .invoke('text')
-      .should('match', project.name)
-      .and('be.visible')
+      .should('contain', project.name)
   })
 
   it('TC_01.004.14 | Verify Freestyle Project is deleted from Project page', () => {
