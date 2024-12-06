@@ -22,7 +22,9 @@ class Header {
     cy.get('a[href="/"] .jenkins-menu-dropdown-chevron')
   getBreadcrumbsFolderName = () => cy.get(':nth-child(3) > .model-link')
   getBreadcrumbsFolderDropdownMenu = () =>
-    cy.get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron')
+    cy
+      .get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron')
+      .first()
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)
