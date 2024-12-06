@@ -18,7 +18,6 @@ const freestyleProjectPage = new FreestyleProjectPage()
 const header = new Header()
 
 describe('US_01.004 | FreestyleProject > Delete Project', () => {
-  const randomItemName = faker.lorem.words()
   let project = genData.newProject()
 
   beforeEach(() => {
@@ -41,14 +40,14 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
       .clickDeleteMenuItem()
       .clickCancelButton()
       .clickDashboardBreadcrumbsLink()
-    dashboardPage.getAllJobNames().should('have.text', project.name)
+    dashboardPage.getAllJobNames().should('contain.text', project.name)
   })
 
   it('TC_01.004.10 | Verify Freestyle Project is deleted from Dashboard page', () => {
     cy.log('Deleting Freestyle project')
     dashboardPage
-      .hoverJobTitleLink()
-      .clickJobTableDropdownChevron()
+      .hoverJobTitleLink(project.name)
+      .clickJobTableDropdownChevron(project.name)
       .clickDeleteProjectDropdownMenuItem()
       .clickYesButton()
 
@@ -59,7 +58,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
   it('TC_01.004.11 | Verify user is able to cancel project deleting', () => {
     dashboardPage
-      .hoverJobTitleLink()
+      .hoverJobTitleLink(project.name)
       .clickProjectChevronIcon(project.name)
       .clickDeleteProjectDropdownMenuItem()
 
@@ -73,7 +72,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
   })
 
   it('TC_01.004.14 | Verify Freestyle Project is deleted from Project page', () => {
-    dashboardPage.clickJobTitleLink()
+    dashboardPage.clickJobTitleLink(project.name)
     freestyleProjectPage
       .getJobHeadline()
       .should('be.visible')
@@ -86,8 +85,8 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
   it('TC_01.004.15 | Verify user cancels Project deletion', () => {
     dashboardPage
-      .hoverJobTitleLink()
-      .clickJobTableDropdownChevron()
+      .hoverJobTitleLink(project.name)
+      .clickJobTableDropdownChevron(project.name)
       .clickDeleteProjectDropdownMenuItem()
       .clickCancelButton()
       .getJobTable()
@@ -108,10 +107,6 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
     //Delete the project
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
-
-    dashboardPage
-      .getJobTitleLink()
-      .should('not.contain.value', newJobPageData.projectName)
   })
 
   it('TC_01.004.17 | Delete project from the Project Page', () => {

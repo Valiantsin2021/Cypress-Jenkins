@@ -40,7 +40,7 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
 
   it('TC_01.001.02 | Add a Description to an Existing Project', () => {
     freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
-    dashboardPage.clickJobTitleLink()
+    dashboardPage.clickJobTitleLink(project.name)
     freestyleProjectPage
       .clickAddDescriptionButton()
       .typeJobDescription(project.description)

@@ -22,7 +22,7 @@ const folderName = faker.commerce.product()
 describe('US_00.001 | New item > Create Freestyle Project', () => {
   let project = genData.newProject()
   afterEach(() => {
-    cy.cleanData([folderName, project.name])
+    cy.cleanData([folderName, project.name, project.folderName])
   })
   it('TC_00.001.19 | New freestyle project is created if user enter projects name, choose project type and save it', () => {
     dashboardPage.clickNewItemMenuLink()

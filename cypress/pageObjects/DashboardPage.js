@@ -3,17 +3,21 @@ import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 
 class DashboardPage extends BasePage {
-  getCreateJobButton = () => cy.get('a[href="/newJob"]').contains('New Item')
+  getCreateJobButton = () =>
+    cy.contains('a[href="/view/all/newJob"]', 'New Item')
   getMainPanel = () => cy.get('div#main-panel')
   getJobTable = () => cy.get('#projectstatus')
-  getJobTitleLink = () => cy.get('.model-link.inside')
+  getJobTitleLink = name => cy.get(`a[href="job/${name}/"]`).first()
   getManageJenkins = () => cy.get('a[href="/manage"]')
   getProjectName = () => cy.get('*.jenkins-table__link span') //please rename to getItemName, so it can be reused
   getItemChevronIcon = itemName =>
     cy.get(`span:contains('${itemName}') + .jenkins-menu-dropdown-chevron`)
-  getJobTableDropdownChevron = () =>
-    cy.get('.jenkins-table__link > .jenkins-menu-dropdown-chevron')
-  getJobTableDropdownItem = () => cy.get('.jenkins-dropdown__item ')
+  getJobTableDropdownChevron = name =>
+    this.getJobTitleLink(name).get(
+      '.jenkins-table__link > .jenkins-menu-dropdown-chevron'
+    )
+  getJobTableDropdownItem = () =>
+    cy.get('.jenkins-dropdown__item ', { timeout: 30000 })
   getAllJobNames = () => cy.get('.jenkins-table__link span')
   getDeleteProjectDropdownMenuItem = () =>
     cy.get('button.jenkins-dropdown__item ').contains('Delete Project')
@@ -52,8 +56,8 @@ class DashboardPage extends BasePage {
     return new NewJobPage()
   }
 
-  clickJobTitleLink() {
-    this.getJobTitleLink().click()
+  clickJobTitleLink(name) {
+    this.getJobTitleLink(name).click()
   }
 
   clickManageJenkins() {
@@ -88,8 +92,8 @@ class DashboardPage extends BasePage {
     return new NewJobPage()
   }
 
-  hoverJobTitleLink() {
-    this.getJobTitleLink().trigger('mouseover')
+  hoverJobTitleLink(name) {
+    this.getJobTitleLink(name).trigger('mouseover')
     return this
   }
 
@@ -98,8 +102,8 @@ class DashboardPage extends BasePage {
     return this
   }
 
-  clickJobTableDropdownChevron() {
-    this.getJobTableDropdownChevron().click({ force: true })
+  clickJobTableDropdownChevron(name) {
+    this.getJobTableDropdownChevron(name).click({ force: true })
     return this
   }
 

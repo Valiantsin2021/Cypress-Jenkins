@@ -51,7 +51,7 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
   it('TC_06.005.03 | Delete Organization Folder from project status table on Dashboard page', () => {
     header.clickJenkinsLogo()
     dashboardPage
-      .clickJobTableDropdownChevron()
+      .clickJobTableDropdownChevron(project.name)
       .clickDeleteOrganizationFolderDropdownMenuItem()
       .clickYesButton()
 
