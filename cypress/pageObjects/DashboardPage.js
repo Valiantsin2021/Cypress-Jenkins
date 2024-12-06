@@ -7,7 +7,8 @@ class DashboardPage extends BasePage {
     cy.contains('a[href="/view/all/newJob"]', 'New Item')
   getMainPanel = () => cy.get('div#main-panel')
   getJobTable = () => cy.get('#projectstatus')
-  getJobTitleLink = name => cy.get(`a[href="job/${name}/"]`).first()
+  getJobTitleLink = name =>
+    cy.get(`a[href="${encodeURI('job/' + name)}/"]`).first()
   getManageJenkins = () => cy.get('a[href="/manage"]')
   getProjectName = () => cy.get('*.jenkins-table__link span') //please rename to getItemName, so it can be reused
   getItemChevronIcon = itemName =>
