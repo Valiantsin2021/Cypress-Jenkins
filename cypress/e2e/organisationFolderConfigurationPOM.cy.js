@@ -2,8 +2,8 @@
 
 import { faker } from '@faker-js/faker'
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 import OrganizationFolderPage from '../pageObjects/OrganizationFolderPage'
 
 const dashboardPage = new DashboardPage()
@@ -51,5 +51,6 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
 
     header.clickJenkinsLogo()
     dashboardPage.getProjectName().contains(displayName).should('be.visible')
+    cy.cleanData([orgFolderName])
   })
 })

@@ -220,34 +220,28 @@ Cypress.Commands.add(
         USER_NAME,
         TOKEN
       )
-      const deletionPromises = []
-      if (testJobs) {
-        deletionPromises.push(jenkinsManager.deleteAllJobs(testJobs))
-      }
-      if (testViews) {
-        deletionPromises.push(jenkinsManager.deleteAllViews(testViews))
-      }
-      if (testNodes) {
-        deletionPromises.push(jenkinsManager.deleteAllNodes(testNodes))
-      }
-      if (all) {
-        deletionPromises.push(jenkinsManager.deleteAllJobs())
-        deletionPromises.push(jenkinsManager.deleteAllViews())
-        deletionPromises.push(jenkinsManager.deleteAllNodes())
-      }
+      const deletionPromises = [
+        ...(testJobs ? [jenkinsManager.deleteAllJobs(testJobs)] : []),
+        ...(testViews ? [jenkinsManager.deleteAllViews(testViews)] : []),
+        ...(testNodes ? [jenkinsManager.deleteAllNodes(testNodes)] : []),
+        ...(all
+          ? [
+              jenkinsManager.deleteAllJobs(),
+              jenkinsManager.deleteAllViews(),
+              jenkinsManager.deleteAllNodes()
+            ]
+          : [])
+      ]
       Promise.all(deletionPromises)
-        .then(results => {
+        .then(results =>
           Cypress.log({
-            name: 'Bulk Deletion Complete: ',
+            name: 'Bulk Deletion Complete',
             message: results.flat()
           })
-        })
-        .catch(error => {
-          Cypress.log({
-            name: 'Bulk Deletion Failed: ',
-            message: error
-          })
-        })
+        )
+        .catch(error =>
+          Cypress.log({ name: 'Bulk Deletion Failed', message: error })
+        )
     }
     initiateBulkDeletion(testJobs, testViews, testNodes)
   }

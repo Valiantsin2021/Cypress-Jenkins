@@ -6,6 +6,9 @@ class PipelinePage extends BasePage {
   getPipelineDescriptionField = () => cy.get('textarea[name="description"]')
   getConfigurePipelineMenuButton = () => cy.get('a[href$="configure"]')
   getPipelineJobDescription = () => cy.get('#description')
+  getStatusDisabledText = () =>
+    cy.get('#enable-project').contains('currently disabled')
+  getToggleSelector = () => cy.get('#enable-disable-project')
 
   clickOnSaveBtn() {
     this.getPipelineSaveBtn().click()
@@ -24,6 +27,11 @@ class PipelinePage extends BasePage {
 
   clearPipelineDescriptionField() {
     this.getPipelineDescriptionField().clear()
+    return this
+  }
+
+  clickOnToggle() {
+    this.getToggleSelector().uncheck({ force: true })
     return this
   }
 }

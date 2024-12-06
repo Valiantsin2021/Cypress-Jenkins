@@ -2,12 +2,12 @@
 import { faker } from '@faker-js/faker'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
-import allKeys from '../fixtures/newJobPageData.json'
-import { newItem } from '../fixtures/messages.json'
 import genData from '../fixtures/genData'
+import { newItem } from '../fixtures/messages.json'
+import allKeys from '../fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -17,8 +17,11 @@ const { projectNameInvalid, errorMessageColor } = allKeys
 
 describe('US_00.002 | New Item > Create Pipeline Project', () => {
   let project = genData.newProject()
-
   const randomItemName = faker.commerce.productName()
+
+  afterEach(() => {
+    cy.cleanData([project.name, randomItemName])
+  })
 
   it('TC_00.002.01 | Special characters are not allowed in the project name', () => {
     dashboardPage.clickNewItemMenuLink()

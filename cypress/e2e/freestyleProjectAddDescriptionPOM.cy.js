@@ -4,8 +4,8 @@ import { faker } from '@faker-js/faker'
 import genData from '../fixtures/genData'
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -22,7 +22,9 @@ describe('US_01.001 | FreestyleProject > Add description', () => {
       .selectFreestyleProject()
       .clickOKButton()
   })
-
+  afterEach(() => {
+    cy.cleanData([project.name])
+  })
   it('TC_01.001.01 | Add a description when creating a project', () => {
     freestyleProjectPage
       .typeJobDescription(project.description)

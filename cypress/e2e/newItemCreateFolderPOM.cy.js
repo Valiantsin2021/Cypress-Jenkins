@@ -1,8 +1,8 @@
 /// <reference types="cypress"/>
-import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
-import FolderPage from '../pageObjects/FolderPage'
 import genData from '../fixtures/genData'
+import DashboardPage from '../pageObjects/DashboardPage'
+import FolderPage from '../pageObjects/FolderPage'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -20,5 +20,6 @@ describe('US_00.004 | New item > Create Folder', () => {
     folderPage.getBreadcrumps().should('contain.text', folder.name)
     folderPage.clickJenkinsLogo()
     dashboardPage.getProjectName(folder.name).should('be.visible')
+    cy.cleanData([folder.name])
   })
 })

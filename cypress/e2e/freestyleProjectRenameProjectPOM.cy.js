@@ -1,12 +1,11 @@
 /// <reference types="cypress"/>
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 import genData from '../fixtures/genData'
-import { faker } from '@faker-js/faker'
 import messages from '../fixtures/messages.json'
 
 const dashboardPage = new DashboardPage()
@@ -17,7 +16,9 @@ const header = new Header()
 describe('US_01.002 | FreestyleProject > Rename Project', () => {
   let project = genData.newProject()
   let project2 = genData.newProject()
-
+  afterEach(() => {
+    cy.cleanData([project.name, project.newName])
+  })
   it.skip('TC_01.002.02 | Rename a project from the Project Page', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage
@@ -215,5 +216,6 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     freestyleProjectPage
       .getErrorMessageParagraph()
       .should('have.text', messages.renameItem.nameEndsWithDotError)
+    cy.cleanData([project.longName, project2.longName])
   })
 })

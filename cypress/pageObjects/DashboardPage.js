@@ -3,7 +3,7 @@ import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 
 class DashboardPage extends BasePage {
-  getCreateJobButton = () => cy.get('a[href="newJob"]').contains('Create a job')
+  getCreateJobButton = () => cy.get('a[href="/newJob"]').contains('New Item')
   getMainPanel = () => cy.get('div#main-panel')
   getJobTable = () => cy.get('#projectstatus')
   getJobTitleLink = () => cy.get('.model-link.inside')
