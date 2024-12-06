@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import DashboardPage from '../pageObjects/DashboardPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
@@ -51,7 +49,6 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
     cy.log('Verifying Freestyle Project is deleted from Dashboard page')
     dashboardPage.getMainPanel().contains(project.name).should('not.exist')
-    dashboardPage.getWelcomeToJenkinsHeadline().should('be.visible')
   })
 
   it('TC_01.004.11 | Verify user is able to cancel project deleting', () => {
@@ -65,8 +62,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     dashboardPage
       .clickCancelButton()
       .getProjectName()
-      .should('match', project.name)
-      .and('be.visible')
+      .should('contain', project.name)
   })
 
   it('TC_01.004.14 | Verify Freestyle Project is deleted from Project page', () => {

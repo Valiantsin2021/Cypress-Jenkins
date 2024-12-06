@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
 import FolderPage from '../pageObjects/FolderPage'

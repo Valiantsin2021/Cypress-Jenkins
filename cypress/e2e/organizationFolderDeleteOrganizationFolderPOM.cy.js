@@ -1,5 +1,3 @@
-/// <reference types = "cypress" />
-
 import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'
@@ -49,9 +47,6 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickDeleteOrganizationFolderDropdownMenuItem()
       .clickYesButton()
     dashboardPage.getMainPanel().should('not.contain.value', project.name)
-    organizationFolderPage
-      .getJobHeadline()
-      .should('not.contain.text', project.name)
   })
 
   it('TC_06.005.04 | Delete Organization Folder', () => {

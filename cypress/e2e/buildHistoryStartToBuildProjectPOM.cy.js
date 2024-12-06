@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import { newInstance } from '../fixtures/newJobPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'
@@ -34,6 +32,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
           .eq(0)
           .should('have.attr', 'tooltip', 'Not built')
           .and('be.visible')
+        cy.cleanData([`New ${item}`])
       })
     })
 })

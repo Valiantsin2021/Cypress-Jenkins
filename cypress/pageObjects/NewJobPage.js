@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import BasePage from './basePage'
 
 class NewJobPage extends BasePage {

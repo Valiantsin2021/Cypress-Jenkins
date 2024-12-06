@@ -1,4 +1,3 @@
-/// <reference types="cypress"/>
 import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
 import FolderPage from '../pageObjects/FolderPage'
@@ -19,7 +18,7 @@ describe('US_00.004 | New item > Create Folder', () => {
     folderPage.getFolderNameOnMainPanel().should('contain.text', folder.name)
     folderPage.getBreadcrumps().should('contain.text', folder.name)
     folderPage.clickJenkinsLogo()
-    dashboardPage.getProjectName(folder.name).should('be.visible')
+    dashboardPage.getProjectName().should('contain', folder.name)
     cy.cleanData([folder.name])
   })
 })

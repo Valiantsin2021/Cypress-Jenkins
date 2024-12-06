@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 import DashboardPage from './DashboardPage'
 
 class UserPage extends DashboardPage {

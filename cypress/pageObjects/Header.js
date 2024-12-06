@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 class Header {
   getSearchField = () => cy.get('#search-box')
   getSearchAutoCompletionBox = () => cy.get('div#search-box-completion li')

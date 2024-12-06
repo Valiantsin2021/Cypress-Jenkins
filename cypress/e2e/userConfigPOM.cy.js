@@ -1,5 +1,3 @@
-/// <reference types="cypress"/>
-
 import { faker } from '@faker-js/faker'
 import { userDropdownLink } from '../fixtures/dashboardPageData'
 import Header from '../pageObjects/Header'

@@ -1,13 +1,10 @@
-/// <reference types="cypress" />
 import { faker } from '@faker-js/faker'
-
-import DashboardPage from '../pageObjects/DashboardPage'
-import Header from '../pageObjects/Header'
-import NewJobPage from '../pageObjects/NewJobPage'
-
 import genData from '../fixtures/genData'
 import { newItem } from '../fixtures/messages.json'
 import allKeys from '../fixtures/newJobPageData.json'
+import DashboardPage from '../pageObjects/DashboardPage'
+import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -103,7 +100,9 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
 
       .getBreadcrumbsListItem()
       .should('have.text', 'Configuration')
-    newJobPage.getUrlConfigurePageField().should('include', project.name)
+    newJobPage
+      .getUrlConfigurePageField()
+      .should('include', decodeURIComponent(project.name))
   })
 
   it('TC_00.002.007 | New Pipeline Project check Item name valid', () => {
