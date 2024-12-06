@@ -140,7 +140,8 @@ jobs:
         run: |
           # Combine all downloaded result folders into a single allure-results directory
           mkdir -p final-allure-results
-          ls -la
+          ls allure-results
+          ls allure-results/*
           # cp -r allure-results-*/* final-allure-results/
 
       - name: Generate Allure Report
