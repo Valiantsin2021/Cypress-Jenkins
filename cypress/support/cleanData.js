@@ -15,7 +15,6 @@ export class JenkinsProjectManager {
       const xhr = new XMLHttpRequest()
       xhr.open('GET', `${this.baseUrl}crumbIssuer/api/json`, true)
 
-      // Basic authentication
       xhr.setRequestHeader(
         'Authorization',
         'Basic ' + btoa(`${this.username}:${this.apiToken}`)
@@ -39,10 +38,14 @@ export class JenkinsProjectManager {
       xhr.send()
     })
   }
-  async getAllJobs() {
+  async makeJenkinsApiRequest(endpoint, extractionCallback, errorMessage) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
-      xhr.open('GET', `${this.baseUrl}api/json?depth=1`, true)
+      const url = endpoint.startsWith('computer')
+        ? `${this.baseUrl}${endpoint}`
+        : `${this.baseUrl}api/json?depth=1`
+
+      xhr.open('GET', url, true)
       xhr.setRequestHeader(
         'Authorization',
         'Basic ' + btoa(`${this.username}:${this.apiToken}`)
@@ -51,24 +54,47 @@ export class JenkinsProjectManager {
       xhr.onload = () => {
         if (xhr.status === 200) {
           const response = JSON.parse(xhr.responseText)
-          const jobNames = response.jobs.map(job => job.name)
-          resolve(jobNames)
+          const extractedData = extractionCallback(response)
+          resolve(extractedData)
         } else {
-          reject(new Error('Failed to retrieve project list'))
+          reject(new Error(errorMessage))
         }
       }
 
-      xhr.onerror = () => reject(new Error('Network error retrieving projects'))
+      xhr.onerror = () => reject(new Error(`Network error ${errorMessage}`))
       xhr.send()
     })
   }
-
-  async deleteJob(jobName) {
+  async getAllJobs() {
+    return this.makeJenkinsApiRequest(
+      'api/json?depth=1',
+      response => response.jobs.map(job => job.name),
+      'Failed to retrieve project list'
+    )
+  }
+  async getAllViews() {
+    return this.makeJenkinsApiRequest(
+      'api/json?depth=1',
+      response => response.views.map(view => view.name),
+      'Failed to retrieve views list'
+    )
+  }
+  async getAllNodes() {
+    return this.makeJenkinsApiRequest(
+      'computer/api/json',
+      response =>
+        response.computer
+          .filter(node => node.displayName !== 'Built-In Node')
+          .map(node => node.displayName),
+      'Failed to retrieve nodes list'
+    )
+  }
+  async makeJenkinsDeleteRequest(resourceType, resourceName) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       xhr.open(
         'POST',
-        `${this.baseUrl}job/${encodeURIComponent(jobName)}/doDelete`,
+        `${this.baseUrl}${resourceType}/${encodeURIComponent(resourceName)}/doDelete`,
         true
       )
 
@@ -83,32 +109,36 @@ export class JenkinsProjectManager {
 
       xhr.onload = () => {
         if (xhr.status === 200 || xhr.status === 302) {
-          resolve(`Successfully deleted job: ${jobName}`)
+          resolve(`Successfully deleted ${resourceType}: ${resourceName}`)
         } else {
           reject(
-            new Error(`Failed to delete job: ${jobName}. Status: ${xhr.status}`)
+            new Error(
+              `Failed to delete ${resourceType}: ${resourceName}. Status: ${xhr.status}`
+            )
           )
         }
       }
 
       xhr.onerror = () =>
-        reject(new Error(`Network error deleting project: ${jobName}`))
+        reject(
+          new Error(`Network error deleting ${resourceType}: ${resourceName}`)
+        )
       xhr.send()
     })
+  }
+  async deleteJob(jobName) {
+    return this.makeJenkinsDeleteRequest('job', jobName)
   }
   async deleteAllJobs(testJobs = null) {
     try {
       await this.getCsrfCrumb()
-      let jobs
-      if (!testJobs) {
-        jobs = await this.getAllJobs()
-      } else {
-        jobs = testJobs
-      }
+      const jobs = testJobs || (await this.getAllJobs())
+
       const deletionResults = await Promise.allSettled(
         jobs.map(job => this.deleteJob(job))
       )
-      const results = deletionResults.map((result, index) => {
+
+      return deletionResults.map((result, index) => {
         const jobName = jobs[index]
         if (result.status === 'fulfilled') {
           console.log(`Job ${jobName} deleted successfully`)
@@ -118,36 +148,101 @@ export class JenkinsProjectManager {
           return result.reason.message
         }
       })
-      return results
     } catch (error) {
       console.error('Bulk deletion failed:', error)
       throw error
     }
   }
+  async deleteView(viewName) {
+    return this.makeJenkinsDeleteRequest('view', viewName)
+  }
+  async deleteAllViews(testViews = null) {
+    try {
+      await this.getCsrfCrumb()
+      const views = (testViews || (await this.getAllViews())).filter(
+        view => view !== 'all'
+      )
+
+      const deletionResults = await Promise.allSettled(
+        views.map(view => this.deleteView(view))
+      )
+
+      return deletionResults.map((result, index) => {
+        const viewName = views[index]
+        if (result.status === 'fulfilled') {
+          console.log(`View ${viewName} deleted successfully`)
+          return result.value
+        } else {
+          console.error(`View ${viewName} deletion failed:`, result.reason)
+          return result.reason.message
+        }
+      })
+    } catch (error) {
+      console.error('Bulk view deletion failed:', error)
+      throw error
+    }
+  }
+  async deleteNode(nodeName) {
+    return this.makeJenkinsDeleteRequest('computer', nodeName)
+  }
+  async deleteAllNodes(testNodes = null) {
+    try {
+      await this.getCsrfCrumb()
+      const nodes = testNodes || (await this.getAllNodes())
+
+      const deletionResults = await Promise.allSettled(
+        nodes.map(node => this.deleteNode(node))
+      )
+
+      return deletionResults.map((result, index) => {
+        const nodeName = nodes[index]
+        if (result.status === 'fulfilled') {
+          console.log(`Node ${nodeName} deleted successfully`)
+          return result.value
+        } else {
+          console.error(`Node ${nodeName} deletion failed:`, result.reason)
+          return result.reason.message
+        }
+      })
+    } catch (error) {
+      console.error('Bulk node deletion failed:', error)
+      throw error
+    }
+  }
 }
 
-Cypress.Commands.add('cleanData', testJobs => {
-  const initiateBulkDeletion = function (testJobs) {
-    const jenkinsManager = new JenkinsProjectManager(
-      `http://${HOST}:${PORT}/`,
-      USER_NAME,
-      TOKEN
-    )
-
-    jenkinsManager
-      .deleteAllJobs(testJobs)
-      .then(results => {
-        Cypress.log({
-          name: 'Bulk Deletion Complete: ',
-          message: results
-        })
-      })
-      .catch(error => {
-        Cypress.log({
-          name: 'Bulk Deletion Failed: ',
-          message: error
-        })
-      })
+Cypress.Commands.add(
+  'cleanData',
+  (testJobs, testViews, testNodes, all = false) => {
+    const initiateBulkDeletion = function (testJobs, testViews, testNodes) {
+      const jenkinsManager = new JenkinsProjectManager(
+        `http://${HOST}:${PORT}/`,
+        USER_NAME,
+        TOKEN
+      )
+      const deletionPromises = [
+        ...(testJobs ? [jenkinsManager.deleteAllJobs(testJobs)] : []),
+        ...(testViews ? [jenkinsManager.deleteAllViews(testViews)] : []),
+        ...(testNodes ? [jenkinsManager.deleteAllNodes(testNodes)] : []),
+        ...(all
+          ? [
+              jenkinsManager.deleteAllJobs(),
+              jenkinsManager.deleteAllViews(),
+              jenkinsManager.deleteAllNodes()
+            ]
+          : [])
+      ]
+      Promise.all(deletionPromises)
+        .then(results =>
+          Cypress.log({
+            name: 'Bulk Deletion Complete',
+            message: results.flat()
+          })
+        )
+        .catch(error =>
+          Cypress.log({ name: 'Bulk Deletion Failed', message: error })
+        )
+    }
+    initiateBulkDeletion(testJobs, testViews, testNodes)
   }
-  initiateBulkDeletion(testJobs)
-})
+)

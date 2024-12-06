@@ -2,21 +2,21 @@
 
 import { faker } from '@faker-js/faker'
 
-import Header from '../pageObjects/Header'
-import SearchResuls from '../pageObjects/SearchResultsPage'
 import DashboardPage from '../pageObjects/DashboardPage'
-import UserPage from '../pageObjects/UserPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FolderPage from '../pageObjects/FolderPage'
+import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 import PipelinePage from '../pageObjects/PipelinePage'
+import SearchResuls from '../pageObjects/SearchResultsPage'
+import UserPage from '../pageObjects/UserPage'
 
-import headerData from '../fixtures/headerData.json'
-import searchResultsData from '../fixtures/searchResultsData.json'
-import messages from '../fixtures/messages.json'
-import newJobPageData from '../fixtures/newJobPageData.json'
 import configurePageData from '../fixtures/configurePageData.json'
 import genData from '../fixtures/genData'
+import headerData from '../fixtures/headerData.json'
+import messages from '../fixtures/messages.json'
+import newJobPageData from '../fixtures/newJobPageData.json'
+import searchResultsData from '../fixtures/searchResultsData.json'
 
 const header = new Header()
 const newJobPage = new NewJobPage()
@@ -30,7 +30,7 @@ const pipelinePage = new PipelinePage()
 let searchTermNoMatches = faker.string.alpha(10)
 let project = genData.newProject()
 
-function createFreestyleProject(jobName) {
+const createFreestyleProject = function (jobName) {
   dashboardPage.clickNewItemMenuLink()
   newJobPage.typeNewItemName(jobName).selectFreestyleProject().clickOKButton()
   freestyleProjectPage.clickSaveButton()
@@ -54,6 +54,7 @@ describe('US_14.002 | Header > Search Box', () => {
     freestyleProjectPage
       .getJobHeadline()
       .should('have.text', newJobPageData.projectName)
+    cy.cleanData([newJobPageData.projectName])
   })
 
   it('TC_14.002.06 | Multiple matches are displayed on the result page', () => {
@@ -162,6 +163,7 @@ describe('US_14.002 | Header > Search Box', () => {
     freestyleProjectPage
       .getJobHeadline()
       .should('have.text', 'Project TC_14.002.15_A')
+    cy.cleanData(['New Folder TC_14.002.15_A', 'Project TC_14.002.15_A'])
   })
 
   it('TC_14.002.02| Verify error message appears when no matches found', () => {
@@ -188,6 +190,7 @@ describe('US_14.002 | Header > Search Box', () => {
       .each($row => {
         cy.wrap($row).invoke('text').should('contain', project.name.slice(0, 4))
       })
+    cy.cleanData([project.name])
   })
 
   it('TC_14.002.16 | Finds a build by its number', () => {
@@ -216,5 +219,6 @@ describe('US_14.002 | Header > Search Box', () => {
         )
       })
     })
+    cy.cleanData([project.name])
   })
 })

@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import LoginPage from '../pageObjects/LoginPage'
 import dashboardPageData from '../fixtures/dashboardPageData.json'
+import DashboardPage from '../pageObjects/DashboardPage'
 import Header from '../pageObjects/Header'
+import LoginPage from '../pageObjects/LoginPage'
 
 describe('US_14.003 | Header > Log out option', () => {
   const dashboardPage = new DashboardPage()

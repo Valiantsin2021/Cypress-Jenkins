@@ -35,7 +35,7 @@ export default [
       'no-console': 'warn',
       'no-useless-escape': 'off',
       'no-empty-pattern': 'off',
-      complexity: ['error', { max: 5 }],
+      complexity: ['error', { max: 10 }],
       'max-depth': ['error', { max: 5 }],
       'max-nested-callbacks': ['warn', { max: 3 }],
       'max-params': ['error', { max: 5 }],

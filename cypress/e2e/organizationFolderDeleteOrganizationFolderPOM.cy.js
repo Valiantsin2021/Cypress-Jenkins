@@ -2,9 +2,9 @@
 
 import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
+import Header from '../pageObjects/Header'
 import NewJobPage from '../pageObjects/NewJobPage'
 import OrganizationFolderPage from '../pageObjects/OrganizationFolderPage'
-import Header from '../pageObjects/Header'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -25,7 +25,9 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .getJobHeadline()
       .should('contain.text', project.name)
   })
-
+  afterEach(() => {
+    cy.cleanData([project.name])
+  })
   it('TC_06.005.01 | Delete Organization Folder from a sidebar menu', () => {
     organizationFolderPage.clickSideMenuDeleteLink().clickYesButton()
 

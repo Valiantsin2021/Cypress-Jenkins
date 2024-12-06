@@ -1,10 +1,10 @@
 /// <reference types="cypress"/>
 
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
 import MyViewsPage from '../pageObjects/MyViewsPage'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 import genData from '../fixtures/genData'
 
@@ -33,7 +33,9 @@ describe('US_16.002 | Dashboard > Create View', () => {
     freestyleProjectPage.clickSaveButton()
     header.clickJenkinsLogo()
   })
-
+  afterEach(() => {
+    cy.cleanData([project.name, folder.name], [view.name])
+  })
   it('TC_16.002.01 Create view from the Dashboard page', () => {
     dashboardPage
       .clickAddViewLink()
@@ -94,5 +96,6 @@ describe('US_16.002 | Dashboard > Create View', () => {
       cy.log(sortedTextValues)
       expect(textValues).to.deep.equal(sortedTextValues)
     })
+    cy.cleanData([pipeline.longName, orgFolder.longName])
   })
 })

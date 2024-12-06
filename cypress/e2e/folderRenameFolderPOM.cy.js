@@ -1,10 +1,10 @@
 /// <reference types="cypress"/>
 
+import genData from '../fixtures/genData'
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FolderPage from '../pageObjects/FolderPage'
 import Header from '../pageObjects/Header'
-import genData from '../fixtures/genData'
+import NewJobPage from '../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -20,7 +20,9 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     folderPage.clickSaveButton()
     header.clickJenkinsLogo()
   })
-
+  afterEach(() => {
+    cy.cleanData([folderName.name, newFolderName.name])
+  })
   it('TC_04.001.02 | Rename folder from drop-down menu', () => {
     dashboardPage
       .openDropdownForItem(folderName.name)

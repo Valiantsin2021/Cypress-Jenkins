@@ -2,13 +2,13 @@
 
 import { faker } from '@faker-js/faker'
 
-import Header from '../pageObjects/Header'
 import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
+import Header from '../pageObjects/Header'
+import NewJobPage from '../pageObjects/NewJobPage'
 
-import allKeys from '../fixtures/newJobPageData.json'
 import { newItem } from '../fixtures/messages.json'
+import allKeys from '../fixtures/newJobPageData.json'
 
 const header = new Header()
 const dashboardPage = new DashboardPage()
@@ -20,8 +20,9 @@ const { projectName, projectNameInvalid, errorMessageColor } = allKeys
 describe('US_00.000 | New Item > Create New item', () => {
   const randomItemName = faker.lorem.words()
   const newRandomItemName = faker.lorem.words()
-  const wrongJobName = 'Item#1'
-
+  afterEach(() => {
+    cy.cleanData([randomItemName, newRandomItemName])
+  })
   it('TC_00.000.01| Create new item from "Create a job" button| Invalid data', () => {
     dashboardPage.clickNewItemMenuLink()
 
