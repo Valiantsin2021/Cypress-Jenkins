@@ -102,7 +102,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .should('have.text', 'Configuration')
     newJobPage
       .getUrlConfigurePageField()
-      .should('include', decodeURIComponent(project.name))
+      .should('include', encodeURIComponent(project.name))
   })
 
   it('TC_00.002.007 | New Pipeline Project check Item name valid', () => {
