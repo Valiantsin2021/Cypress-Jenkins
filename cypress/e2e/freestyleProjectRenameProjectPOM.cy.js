@@ -35,7 +35,9 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     freestyleProjectPage.getJobHeadline().should('have.text', project.newName)
     freestyleProjectPage.clickDashboardBreadcrumbsLink()
 
-    dashboardPage.getJobTitleLink().should('have.text', project.newName)
+    dashboardPage
+      .getJobTitleLink(project.newName)
+      .should('have.text', project.newName)
   })
 
   it('TC-01.002.06| Rename a project name from the Dashboard page', () => {
@@ -45,7 +47,7 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
 
     dashboardPage
-      .clickJobTableDropdownChevron()
+      .clickJobTableDropdownChevron(project.name)
       .clickRenameProjectDropdownMenuItem()
     freestyleProjectPage.getNewNameField().click()
     freestyleProjectPage.clearRenameField().typeRenameField(project.newName)
@@ -63,14 +65,16 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
     //Navigate drop-down menu
     dashboardPage
-      .clickJobTableDropdownChevron()
+      .clickJobTableDropdownChevron(project.name)
       .clickRenameProjectDropdownMenuItem()
     //Rename job
     freestyleProjectPage.typeNewName(project.newName).clickRenameButton()
     //Checks
     freestyleProjectPage.getJobHeadline().should('contain', project.newName)
     freestyleProjectPage.clickDashboardBreadcrumbsLink()
-    dashboardPage.getJobTitleLink().should('contain', project.newName)
+    dashboardPage
+      .getJobTitleLink(project.newName)
+      .should('contain', project.newName)
   })
 
   it('TC_01.002.10 | Receive an Error when the new name is invalid', () => {
@@ -116,7 +120,7 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
 
     dashboardPage
-      .clickJobTableDropdownChevron()
+      .clickJobTableDropdownChevron(project.name)
       .clickRenameProjectDropdownMenuItem()
     freestyleProjectPage.clickRenameButton()
 
