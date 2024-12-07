@@ -129,6 +129,7 @@ jobs:
     needs: run-test
     if: always()
     steps:
+      - uses: actions/checkout@v4
       - name: Download all Allure Results
         uses: actions/download-artifact@v4
         with:
@@ -142,10 +143,20 @@ jobs:
           mkdir -p final-allure-results
           cp -r allure-results/allure-results-*/* final-allure-results/
 
+      - name: Load test report history
+        uses: actions/checkout@v3
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       - name: Generate Allure Report
         uses: simple-elf/allure-report-action@v1.11
         with:
+          gh_pages: gh-pages
           allure_results: final-allure-results
+          allure_history: allure-history
           allure_report: allure-report
 
       - name: Upload Allure report
@@ -160,4 +171,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
           publish_dir: allure-report
