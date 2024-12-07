@@ -11,6 +11,12 @@ module.exports = defineConfig({
   watchForFileChanges: false,
   e2e: {
     setupNodeEvents(on, config) {
+      on('task', {
+        print(s) {
+          console.log(s)
+          return null
+        }
+      })
       allureCypress(on)
       cypressSplit(on, config)
       return config

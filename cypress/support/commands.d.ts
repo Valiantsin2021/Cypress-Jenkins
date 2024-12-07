@@ -23,5 +23,10 @@ declare namespace Cypress {
       testNodes: string[],
       all = false
     ): Promise<void>
+    /**
+     * Custom command to print to console log
+     * @example cy.print({ foo: 'bar' })
+     */
+    print(object: object): void
   }
 }

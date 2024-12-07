@@ -1,3 +1,5 @@
+import '@testing-library/cypress/add-commands'
+
 const USER_NAME = Cypress.env('local.admin.username')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
@@ -212,4 +214,7 @@ Cypress.Commands.add(
   }
 )
 
-import '@testing-library/cypress/add-commands'
+Cypress.Commands.overwrite('log', (log, message, ...args) => {
+  log(message, ...args)
+  cy.task('print', [message, ...args].join(', '), { log: false })
+})
