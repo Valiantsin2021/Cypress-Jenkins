@@ -17,7 +17,7 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
   afterEach(() => {
     cy.cleanData([project.name, project.newName])
   })
-  it.skip('TC_01.002.02 | Rename a project from the Project Page', () => {
+  it('TC_01.002.02 | Rename a project from the Project Page', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage
       .typeNewItemName(project.name)
