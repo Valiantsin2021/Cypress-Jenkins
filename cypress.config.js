@@ -17,7 +17,14 @@ module.exports = defineConfig({
           return null
         }
       })
-      allureCypress(on)
+      allureCypress(on, config, {
+        environmentInfo: {
+          os_platform: os.platform(),
+          os_release: os.release(),
+          os_version: os.version(),
+          node_version: process.version,
+        }
+      })
       cypressSplit(on, config)
       return config
     }
