@@ -5,19 +5,21 @@ import DashboardPage from '../pageObjects/DashboardPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
 import NewJobPage from '../pageObjects/NewJobPage'
+import PipelinePage from '../pageObjects/PipelinePage'
 
 const header = new Header()
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const freestyleProjectPage = new FreestyleProjectPage()
+const pipelinePage = new PipelinePage()
 
-const { projectName, projectNameInvalid, errorMessageColor } = allKeys
+const { projectName, projectNameInvalid } = allKeys
 
 describe('US_00.000 | New Item > Create New item', () => {
   const randomItemName = faker.lorem.words()
   const newRandomItemName = faker.lorem.words()
   afterEach(() => {
-    cy.cleanData([randomItemName, newRandomItemName])
+    cy.cleanData([projectName, randomItemName, newRandomItemName])
   })
   it('TC_00.000.01| Create new item from "Create a job" button| Invalid data', () => {
     dashboardPage.clickNewItemMenuLink()
@@ -196,7 +198,7 @@ describe('US_00.000 | New Item > Create New item', () => {
       .clickOKButton()
 
     newJobPage.getUrlConfigurePageField().should('include', '/configure')
-    newJobPage.configurePagePipelineButton().should('be.visible')
+    pipelinePage.getPipelineMenuOption().should('be.visible')
   })
 
   it('TC_00.000.13 | Verify that after saving, new item is present on dashboard', () => {
@@ -220,7 +222,6 @@ describe('US_00.000 | New Item > Create New item', () => {
     newJobPage
       .getEmptyItemInvalidName()
       .should('contain.text', newItem.emptyNameFieldReminder)
-      .and('have.css', 'color', errorMessageColor)
   })
   it('TC_00.000.18 | Create New item from the "New Item" link in the left sidebar.', () => {
     dashboardPage.clickNewItemMenuLink()

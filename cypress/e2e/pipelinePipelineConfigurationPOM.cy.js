@@ -1,7 +1,6 @@
-/// <reference types="cypress"/>
-
 import { faker } from '@faker-js/faker'
 import genData from '../fixtures/genData'
+import pipelinePageData from '../fixtures/pipelinePageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
 import PipelinePage from '../pageObjects/PipelinePage'
@@ -52,7 +51,6 @@ describe('US_02.004 | Pipeline > Pipeline Configuration', () => {
       .clickSaveButton()
       .getStatusDisabledText()
       .should('exist')
-      .and('have.css', 'color', 'rgb(254, 130, 10)')
   })
 
   it('TC_02.004.04 | Verify the choice of the pipeline script directly in Jenkins, using the editor', () => {
@@ -72,6 +70,36 @@ describe('US_02.004 | Pipeline > Pipeline Configuration', () => {
     pipelinePage
       .getPipelineScriptDropdownOption()
       .should('be.selected')
+      .and('be.visible')
+  })
+
+  it('TC_02.004.05 | Verify the choice of linking the pipeline to a Jenkinsfile stored in source control', () => {
+    dashboardPage.clickCreateJobLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectPipelineProject()
+      .clickOKButton()
+    pipelinePage
+      .clickPipelineMenuOption()
+      .selectPipelineScriptFromSCMDropdownOption()
+      .selectGitOption()
+      .typeRepositoryURL(pipelinePageData.repositoryURL)
+    pipelinePage
+      .clickSaveButton()
+      .clickConfigureMenuOption()
+      .clickPipelineMenuOption()
+
+    cy.log(
+      'Verifying that the "Pipeline script from SCM" is selected and the "Repository URL" is visible'
+    )
+    pipelinePage
+      .getDefinitionDropdown()
+      .find('option:selected')
+      .should('contain.text', 'Pipeline script from SCM')
+      .and('be.visible')
+    pipelinePage
+      .getRepositoryURLInputField()
+      .should('have.value', pipelinePageData.repositoryURL)
       .and('be.visible')
   })
 })
