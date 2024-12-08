@@ -32,7 +32,7 @@ describe('US_16.002 | Dashboard > Create View', () => {
     header.clickJenkinsLogo()
   })
   afterEach(() => {
-    cy.cleanData([project.name, folder.name], [view.name])
+    cy.cleanData([project.name, folder.name, view.name])
   })
   it('TC_16.002.01 Create view from the Dashboard page', () => {
     dashboardPage

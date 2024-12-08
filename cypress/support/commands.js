@@ -56,6 +56,28 @@ class JenkinsProjectManager {
   }
 
   /**
+   * Determine the resource type for a given resource name
+   * @param {string} resourceName - Name of the resource
+   * @returns {Promise<string>} Resource type (job, view, or node)
+   * @private
+   */
+  async #determineResourceType(resourceName) {
+    const resourceTypes = ['jobs', 'views', 'nodes']
+
+    for (const type of resourceTypes) {
+      const resources = await this.#listResource(type)
+      if (resources.includes(resourceName)) {
+        // Remove the 's' from the end to get the singular resource type
+        return type.slice(0, -1)
+      }
+    }
+
+    throw new Error(
+      `Resource type could not be determined for: ${resourceName}`
+    )
+  }
+
+  /**
    * List resources of a specific type from Jenkins
    * @param {string} resourceType - Type of resource to list (jobs, views, or nodes)
    * @returns {Promise<string[]>} Array of resource names
@@ -68,6 +90,7 @@ class JenkinsProjectManager {
       views: 'api/json?depth=1',
       nodes: 'computer/api/json'
     }
+
     const response = await fetch(`${this.baseUrl}${endpoints[resourceType]}`, {
       headers: {
         Authorization: this.#getAuthHeader()
@@ -120,19 +143,43 @@ class JenkinsProjectManager {
   }
 
   /**
-   * Delete all resources of a specific type
-   * @param {string} resourceType - Type of resource to bulk delete (job, view, or node)
-   * @param {string[]} [testResources=null] - Optional array of specific resources to delete
+   * Delete all resources or specific resources
+   * @param {string[]} [resources=null] - Optional array of specific resources to delete
+   * @param {boolean} [deleteAll=false] - Flag to delete all resources of all types
    * @returns {Promise<string[]>} Array of deletion results (success or error messages)
-   * @throws {Error} If bulk deletion fails
+   * @throws {Error} If deletion fails
    */
-  async deleteAllResources(resourceType, testResources = null) {
+  async deleteResources(resources = null, deleteAll = false) {
     try {
-      const resources =
-        testResources || (await this.#listResource(resourceType + 's'))
+      // If deleteAll is true, delete all resources across all types
+      if (deleteAll) {
+        const allResourceTypes = ['jobs', 'views', 'nodes']
+        const deletionResults = await Promise.allSettled(
+          allResourceTypes.map(type => this.deleteAllResourcesOfType(type))
+        )
 
+        return deletionResults.flatMap((result, index) => {
+          const resourceType = allResourceTypes[index]
+          if (result.status === 'fulfilled') {
+            return result.value
+          } else {
+            console.error(`${resourceType} deletion failed:`, result.reason)
+            return result.reason.message
+          }
+        })
+      }
+
+      // If no resources provided, return empty array
+      if (!resources || resources.length === 0) {
+        return []
+      }
+
+      // Determine resource types and delete specific resources
       const deletionResults = await Promise.allSettled(
-        resources.map(resource => this.#deleteResource(resourceType, resource))
+        resources.map(async resource => {
+          const resourceType = await this.#determineResourceType(resource)
+          return this.#deleteResource(resourceType, resource)
+        })
       )
 
       return deletionResults.map((result, index) => {
@@ -141,78 +188,72 @@ class JenkinsProjectManager {
           return result.value
         } else {
           console.error(
-            `${resourceType} ${resourceName} deletion failed:`,
+            `Resource ${resourceName} deletion failed:`,
             result.reason
           )
           return result.reason.message
         }
       })
     } catch (error) {
-      console.error(`Bulk ${resourceType} deletion failed:`, error)
+      console.error('Resource deletion failed:', error)
       throw error
     }
   }
 
   /**
-   * Delete all Jenkins jobs
-   * @param {string[]} [testJobs=null] - Optional array of specific jobs to delete
-   * @returns {Promise<string[]>} Array of job deletion results
+   * Delete all resources of a specific type
+   * @param {string} resourceType - Type of resource to bulk delete (jobs, views, or nodes)
+   * @returns {Promise<string[]>} Array of deletion results
+   * @private
    */
-  deleteAllJobs = testJobs => this.deleteAllResources('job', testJobs)
+  async deleteAllResourcesOfType(resourceType) {
+    const resources = await this.#listResource(resourceType)
 
-  /**
-   * Delete all Jenkins views
-   * @param {string[]} [testViews=null] - Optional array of specific views to delete
-   * @returns {Promise<string[]>} Array of view deletion results
-   */
-  deleteAllViews = testViews => this.deleteAllResources('view', testViews)
-
-  /**
-   * Delete all Jenkins nodes
-   * @param {string[]} [testNodes=null] - Optional array of specific nodes to delete
-   * @returns {Promise<string[]>} Array of node deletion results
-   */
-  deleteAllNodes = testNodes => this.deleteAllResources('node', testNodes)
-}
-
-Cypress.Commands.add(
-  'cleanData',
-  (testJobs, testViews, testNodes, all = false) => {
-    const jenkinsManager = new JenkinsProjectManager(
-      `http://${HOST}:${PORT}/`,
-      USER_NAME,
-      TOKEN
+    const deletionResults = await Promise.allSettled(
+      resources.map(resource =>
+        this.#deleteResource(resourceType.slice(0, -1), resource)
+      )
     )
 
-    const deletionPromises = [
-      ...(testJobs ? [jenkinsManager.deleteAllJobs(testJobs)] : []),
-      ...(testViews ? [jenkinsManager.deleteAllViews(testViews)] : []),
-      ...(testNodes ? [jenkinsManager.deleteAllNodes(testNodes)] : []),
-      ...(all
-        ? [
-            jenkinsManager.deleteAllJobs(),
-            jenkinsManager.deleteAllViews(),
-            jenkinsManager.deleteAllNodes()
-          ]
-        : [])
-    ]
-
-    return Promise.all(deletionPromises)
-      .then(results => {
-        Cypress.log({
-          name: 'Bulk Deletion Complete',
-          message: results.flat().filter(Boolean)
-        })
-      })
-      .catch(error => {
-        Cypress.log({
-          name: 'Bulk Deletion Failed',
-          message: error
-        })
-        throw error
-      })
+    return deletionResults.map((result, index) => {
+      const resourceName = resources[index]
+      if (result.status === 'fulfilled') {
+        return result.value
+      } else {
+        console.error(
+          `${resourceType} ${resourceName} deletion failed:`,
+          result.reason
+        )
+        return result.reason.message
+      }
+    })
   }
-)
+}
+
+// Cypress command for clean data
+Cypress.Commands.add('cleanData', (resources, all = false) => {
+  const jenkinsManager = new JenkinsProjectManager(
+    `http://${HOST}:${PORT}/`,
+    USER_NAME,
+    TOKEN
+  )
+
+  return jenkinsManager
+    .deleteResources(resources, all)
+    .then(results => {
+      Cypress.log({
+        name: 'Bulk Deletion Complete',
+        message: results.filter(Boolean)
+      })
+    })
+    .catch(error => {
+      Cypress.log({
+        name: 'Bulk Deletion Failed',
+        message: error
+      })
+      throw error
+    })
+})
 
 Cypress.Commands.overwrite('log', (log, message, ...args) => {
   log(message, ...args)
