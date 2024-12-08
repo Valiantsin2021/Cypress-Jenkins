@@ -107,7 +107,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     header.clickJenkinsLogo()
 
     dashboardPage.openProjectPage(folder.name)
-    folderPage.getProjectName().contains(project.name).should('be.visible')
+    folderPage.getItemName().contains(project.name).should('be.visible')
     cy.cleanData([project.name, folder.name])
   })
 
@@ -136,8 +136,42 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
       .clickJenkinsLogo()
     dashboardPage.openProjectPage(project.folderName)
 
-    folderPage.getProjectName().should('have.text', project.name)
+    folderPage.getItemName().should('have.text', project.name)
     cy.cleanData([project.name, project.folderName])
+  })
+
+  it('TC_01.006.09 | Move a project from a folder to the Dashboard page', () => {
+    dashboardPage.clickNewItemMenuOption()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+    freestyleProjectPage.clickSaveButton().clickJenkinsLogo()
+    dashboardPage.clickNewItemMenuOption()
+    newJobPage.typeNewItemName(folder.name).selectFolder().clickOKButton()
+    freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
+    dashboardPage
+      .clickProjectChevronIcon(project.name)
+      .clickMoveTheProjectButton()
+    freestyleProjectPage
+      .selectNewProjectDestination(`Jenkins » ${folder.name}`)
+      .clickMoveButton()
+      .clickDashboardBreadcrumbsLink()
+
+    dashboardPage.clickJobName(folder.name)
+    folderPage.clickItemName(project.name)
+    freestyleProjectPage
+      .clickMoveMenuOption()
+      .selectNewProjectDestination(`Jenkins`)
+      .clickMoveButton()
+      .clickDashboardBreadcrumbsLink()
+
+    dashboardPage
+      .getJobTitleLink(project.name)
+      .contains(project.name)
+      .should('have.text', project.name)
+      .and('be.visible')
+    cy.cleanData([project.name, folder.name])
   })
 
   it('TC_01.006.10 | Verify a project is moved to an existing folder from the Project page', () => {
@@ -171,7 +205,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     cy.log('Verifying that the project was moved to the folder')
     dashboardPage.openProjectPage(project.folderName)
     folderPage
-      .getProjectName()
+      .getItemName()
       .should('contain.text', project.name)
       .and('be.visible')
     cy.cleanData([project.name, project.newName, project.folderName])

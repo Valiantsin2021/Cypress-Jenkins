@@ -61,7 +61,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
     dashboardPage
       .clickCancelButton()
-      .getProjectName()
+      .getItemName()
       .should('contain', project.name)
   })
 

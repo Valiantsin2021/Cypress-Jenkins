@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
+import genData from '../fixtures/genData'
+import message, { newItem } from '../fixtures/messages.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import FolderPage from '../pageObjects/FolderPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
 import NewJobPage from '../pageObjects/NewJobPage'
-import genData from '../fixtures/genData'
-import message, { newItem } from '../fixtures/messages.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -20,6 +20,7 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
   afterEach(() => {
     cy.cleanData([folderName, project.name, project.folderName])
   })
+
   it('TC_00.001.19 | New freestyle project is created if user enter projects name, choose project type and save it', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage
@@ -45,7 +46,7 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     freestyleProjectPage.clickSaveButton()
     header.clickJenkinsLogo()
 
-    dashboardPage.getProjectName().should('contain', folderName)
+    dashboardPage.getItemName().should('contain', folderName)
   })
 
   it('TC_00.001.13 | Verify that duplicate names are not allowed during project creation', () => {

@@ -9,7 +9,7 @@ class DashboardPage extends BasePage {
   getJobTitleLink = name =>
     cy.get(`a[href="${encodeURI('job/' + name)}/"]`).first()
   getManageJenkins = () => cy.get('a[href="/manage"]')
-  getProjectName = () => cy.get('*.jenkins-table__link span') //please rename to getItemName, so it can be reused
+  getItemName = () => cy.get('*.jenkins-table__link span')
   getItemChevronIcon = itemName =>
     cy.get(`span:contains('${itemName}') + .jenkins-menu-dropdown-chevron`)
   getJobTableDropdownChevron = name =>
@@ -43,6 +43,9 @@ class DashboardPage extends BasePage {
     cy.get('th[initialsortdir="down"] span.sortarrow')
   getAllItemNamesFromNameColumn = () =>
     cy.get('table#projectstatus tbody tr a span')
+  getBuildNowDropdownMenuItem = () =>
+    cy.get('button.jenkins-dropdown__item').contains('Build Now')
+  getNotificationBar = () => cy.get('#notification-bar')
 
   selectNewItemFromDashboardChevron() {
     this.getJobTableDropdownItem().each($els => {
@@ -64,7 +67,7 @@ class DashboardPage extends BasePage {
   }
 
   openProjectPage(projectName) {
-    this.getProjectName().contains(projectName).click()
+    this.getItemName().contains(projectName).click()
   }
 
   getSessionCookie(cookieName) {
@@ -77,7 +80,7 @@ class DashboardPage extends BasePage {
   }
 
   openDropdownForItem(projectName) {
-    this.getProjectName()
+    this.getItemName()
       .contains(projectName)
       .trigger('mouseover')
       .should('be.visible')
@@ -163,6 +166,11 @@ class DashboardPage extends BasePage {
 
   clickSortingArrowOfNameColumn() {
     this.getSortingArrowOfNameColumn().click()
+    return this
+  }
+
+  clickBuildNowDropdownMenuItem() {
+    this.getBuildNowDropdownMenuItem().click()
     return this
   }
 }
