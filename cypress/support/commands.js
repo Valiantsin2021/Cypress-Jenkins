@@ -67,14 +67,9 @@ class JenkinsProjectManager {
     for (const type of resourceTypes) {
       const resources = await this.#listResource(type)
       if (resources.includes(resourceName)) {
-        // Remove the 's' from the end to get the singular resource type
         return type.slice(0, -1)
       }
     }
-
-    throw new Error(
-      `Resource type could not be determined for: ${resourceName}`
-    )
   }
 
   /**
@@ -126,7 +121,6 @@ class JenkinsProjectManager {
   async #deleteResource(resourceType, resourceName) {
     const csrfCrumb = await this.#getCsrfCrumb()
     const deleteUrl = `${this.baseUrl}${resourceType}/${encodeURIComponent(resourceName)}/doDelete`
-
     const response = await fetch(deleteUrl, {
       method: 'POST',
       headers: {
@@ -134,12 +128,10 @@ class JenkinsProjectManager {
         [csrfCrumb.name]: csrfCrumb.value
       }
     })
-
-    if (!response.ok)
-      throw new Error(`Failed to delete ${resourceType}: ${resourceName}`)
-
-    console.log(`Successfully deleted ${resourceType}: ${resourceName}`)
-    return `Successfully deleted ${resourceType}: ${resourceName}`
+    if (response.ok) {
+      console.log(`Successfully deleted ${resourceType}: ${resourceName}`)
+      return `Successfully deleted ${resourceType}: ${resourceName}`
+    }
   }
 
   /**
@@ -151,7 +143,6 @@ class JenkinsProjectManager {
    */
   async deleteResources(resources = null, deleteAll = false) {
     try {
-      // If deleteAll is true, delete all resources across all types
       if (deleteAll) {
         const allResourceTypes = ['jobs', 'views', 'nodes']
         const deletionResults = await Promise.allSettled(
@@ -168,13 +159,9 @@ class JenkinsProjectManager {
           }
         })
       }
-
-      // If no resources provided, return empty array
       if (!resources || resources.length === 0) {
         return []
       }
-
-      // Determine resource types and delete specific resources
       const deletionResults = await Promise.allSettled(
         resources.map(async resource => {
           const resourceType = await this.#determineResourceType(resource)
