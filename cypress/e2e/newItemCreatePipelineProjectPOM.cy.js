@@ -82,7 +82,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
     header.clickJenkinsLogo()
 
     dashboardPage
-      .getProjectName()
+      .getItemName()
       .should('be.visible')
       .and('contain.text', project.name)
     dashboardPage

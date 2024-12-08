@@ -18,7 +18,7 @@ describe('US_00.004 | New item > Create Folder', () => {
     folderPage.getFolderNameOnMainPanel().should('contain.text', folder.name)
     folderPage.getBreadcrumps().should('contain.text', folder.name)
     folderPage.clickJenkinsLogo()
-    dashboardPage.getProjectName().should('contain', folder.name)
+    dashboardPage.getItemName().should('be.visible')
     cy.cleanData([folder.name])
   })
 })

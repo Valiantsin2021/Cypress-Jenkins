@@ -15,8 +15,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   beforeEach(() => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage.typeNewItemName(folderName.name).selectFolder().clickOKButton()
-    folderPage.clickSaveButton()
-    header.clickJenkinsLogo()
+    folderPage.clickSaveButton().clickJenkinsLogo()
   })
   afterEach(() => {
     cy.cleanData([folderName.name, newFolderName.name])
@@ -60,6 +59,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       .getFolderNameOnMainPanel()
       .should('contain', 'is an unsafe character')
   })
+
   it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
     header
       .hoverBreadcrumbsFolderName()
@@ -72,5 +72,18 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       .typeNewFolderName(newFolderName.name)
       .getNewNameField()
       .should('have.value', newFolderName.name)
+  })
+
+  it('TC_04.001.05 | Rename folder from drop-down menu', () => {
+    dashboardPage
+      .openDropdownForItem(folderName.name)
+      .clickRenameDropdownOption()
+    folderPage
+      .clearNewNameField()
+      .typeNewFolderName(newFolderName.name)
+      .clickRenameButton()
+    folderPage
+      .getFolderNameOnMainPanel()
+      .should('include.text', `${newFolderName.name}`)
   })
 })
