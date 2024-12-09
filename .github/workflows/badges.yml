@@ -2,7 +2,8 @@ name: badges
 on:
   schedule:
     - cron: '0 3 * * *'
-
+permissions:
+  contents: write
 jobs:
   badges:
     name: Badges

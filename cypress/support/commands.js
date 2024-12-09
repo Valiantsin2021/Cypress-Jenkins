@@ -58,7 +58,7 @@ class JenkinsProjectManager {
   /**
    * Determine the resource type for a given resource name
    * @param {string} resourceName - Name of the resource
-   * @returns {Promise<string>} Resource type (job, view, or node)
+   * @returns {Promise<string>} Resource type (job, view, node, or user)
    * @private
    */
   async #determineResourceType(resourceName) {
@@ -70,6 +70,7 @@ class JenkinsProjectManager {
         return type.slice(0, -1)
       }
     }
+    return 'user'
   }
 
   /**
@@ -112,7 +113,7 @@ class JenkinsProjectManager {
 
   /**
    * Delete a specific resource from Jenkins
-   * @param {string} resourceType - Type of resource to delete (job, view, or node)
+   * @param {string} resourceType - Type of resource to delete (job, view, node, or user)
    * @param {string} resourceName - Name of the resource to delete
    * @returns {Promise<string>} Deletion success message
    * @throws {Error} If resource deletion fails
@@ -120,7 +121,15 @@ class JenkinsProjectManager {
    */
   async #deleteResource(resourceType, resourceName) {
     const csrfCrumb = await this.#getCsrfCrumb()
-    const deleteUrl = `${this.baseUrl}${resourceType}/${encodeURIComponent(resourceName)}/doDelete`
+    let deleteUrl
+    switch (resourceType) {
+      case 'user':
+        deleteUrl = `${this.baseUrl}manage/securityRealm/user/${encodeURIComponent(resourceName)}/doDelete`
+        break
+      default:
+        deleteUrl = `${this.baseUrl}${resourceType}/${encodeURIComponent(resourceName)}/doDelete`
+    }
+
     const response = await fetch(deleteUrl, {
       method: 'POST',
       headers: {
