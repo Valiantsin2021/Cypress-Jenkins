@@ -6,6 +6,7 @@ class ManageJenkinsPage extends DashboardPage {
     cy.get('.jenkins-search__results__no-results-label')
   getSearchResultList = () => cy.get('.jenkins-search__results > *')
   getXButtonSearchField = () => cy.get('.jenkins-search__shortcut')
+  getUsersIcon = () => cy.get('a[href="securityRealm/"]')
 
   typeSearchWord(word) {
     this.getSettingsSearchField().type(word)
@@ -23,6 +24,11 @@ class ManageJenkinsPage extends DashboardPage {
   }
   clickXButtonSearchField() {
     this.getXButtonSearchField().click({ force: true })
+    return this
+  }
+
+  clickUsersIcon() {
+    this.getUsersIcon().click({ force: true })
     return this
   }
 }
