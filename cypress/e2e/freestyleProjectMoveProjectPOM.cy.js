@@ -45,7 +45,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
 
     const randomFolderNumber = faker.number.int({ min: 1, max: 5 })
     const selectedFolder = `${newJobPageData.folderName} ` + randomFolderNumber
-    dashboardPage.openProjectPage(newJobPageData.projectName)
+    dashboardPage.clickItemName(newJobPageData.projectName)
     freestyleProjectPage
       .clickMoveMenuOption()
       .selectNewProjectDestination(`/${selectedFolder}`)
@@ -99,14 +99,14 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     freestyleProjectPage.clickSaveButton()
     header.clickJenkinsLogo()
 
-    dashboardPage.openProjectPage(project.name)
+    dashboardPage.clickItemName(project.name)
     freestyleProjectPage
       .clickMoveMenuOption()
       .selectNewProjectDestination(`Jenkins » ${folder.name}`)
       .clickMoveButton()
     header.clickJenkinsLogo()
 
-    dashboardPage.openProjectPage(folder.name)
+    dashboardPage.clickItemName(folder.name)
     folderPage.getItemName().contains(project.name).should('be.visible')
     cy.cleanData([project.name, folder.name])
   })
@@ -134,7 +134,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
       .selectNewProjectDestination(`/${project.folderName}`)
       .clickMoveButton()
       .clickJenkinsLogo()
-    dashboardPage.openProjectPage(project.folderName)
+    dashboardPage.clickItemName(project.folderName)
 
     folderPage.getItemName().should('have.text', project.name)
     cy.cleanData([project.name, project.folderName])
@@ -194,7 +194,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     header.clickJenkinsLogo()
 
     cy.log('Moving the Freestyle project into the Folder')
-    dashboardPage.openProjectPage(project.name)
+    dashboardPage.clickItemName(project.name)
     cy.url({ decode: true }).should('include', project.name)
     freestyleProjectPage
       .clickMoveMenuOption()
@@ -203,7 +203,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     header.clickJenkinsLogo()
 
     cy.log('Verifying that the project was moved to the folder')
-    dashboardPage.openProjectPage(project.folderName)
+    dashboardPage.clickItemName(project.folderName)
     folderPage
       .getItemName()
       .should('contain.text', project.name)

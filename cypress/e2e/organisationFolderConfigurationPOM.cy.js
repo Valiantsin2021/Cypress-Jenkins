@@ -25,7 +25,7 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
     header.clickJenkinsLogo()
 
     cy.log('Steps:')
-    dashboardPage.openProjectPage(orgFolderName)
+    dashboardPage.clickItemName(orgFolderName)
     organizationFolderPage
       .clickConfigureLMenuOption()
       .typeDisplayName(displayName)

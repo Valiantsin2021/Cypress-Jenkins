@@ -1,9 +1,10 @@
 const { allureCypress } = require('allure-cypress/reporter')
 const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
-import * as os from "node:os"
+import * as os from 'node:os'
 
 module.exports = defineConfig({
+  projectId: '347hg6',
   viewportWidth: 1920,
   viewportHeight: 1080,
   chromeWebSecurity: false,
@@ -23,7 +24,7 @@ module.exports = defineConfig({
           os_platform: os.platform(),
           os_release: os.release(),
           os_version: os.version(),
-          node_version: process.version,
+          node_version: process.version
         }
       })
       cypressSplit(on, config)

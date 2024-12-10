@@ -18,5 +18,6 @@ describe('US_13.001 | Create new User', () => {
     manageJenkinsPage.clickUsersIcon()
     securityUsersPage.clickCreateUser()
     addUserPage.createUser(userName, password, email)
+    cy.cleanData([userName])
   })
 })
