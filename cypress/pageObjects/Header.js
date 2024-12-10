@@ -25,6 +25,7 @@ class Header {
     cy
       .get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron')
       .first()
+  getHeader = () => cy.get('#page-header')
 
   typeSearchTerm(term) {
     this.getSearchField().type(term)

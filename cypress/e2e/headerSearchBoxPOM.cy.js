@@ -218,4 +218,10 @@ describe('US_14.002 | Header > Search Box', () => {
     })
     cy.cleanData([project.name])
   })
+
+  it('TC_14.002.11 | Verify that Dashboard page has a Search box on its top right', () => {
+    header.getDashboardLink().should('be.visible')
+    header.getHeader().should('exist')
+    header.getSearchField().should('exist')
+  })
 })
