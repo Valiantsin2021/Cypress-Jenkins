@@ -4,6 +4,7 @@ const USER_NAME = Cypress.env('local.admin.username')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
 const TOKEN = Cypress.env('local.admin.token')
+const PASSWORD = Cypress.env('local.admin.password')
 class JenkinsProjectManager {
   /**
    * Create a new Jenkins Project Manager instance
@@ -255,3 +256,15 @@ Cypress.Commands.overwrite('log', (log, message, ...args) => {
   log(message, ...args)
   cy.task('print', [message, ...args].join(', '), { log: false })
 })
+
+Cypress.Commands.add('login', (userName = USERNAME, pass = PASSWORD) => {
+  cy.intercept('POST', '/j_spring_security_check').as('security_check')
+
+  cy.visit(`http://${LOCAL_HOST}:${LOCAL_PORT}/login`)
+  cy.get('#j_username').type(userName)
+  cy.get('input[name="j_password"]').type(pass)
+  cy.get('button[name="Submit"]').click()
+  cy.wait('@security_check')
+})
+
+Cypress.Commands.add('createItemBasedOnType', (itemName, itemType) => {})
