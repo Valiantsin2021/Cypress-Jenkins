@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
-import genData from '../fixtures/genData'
+import genData from '../../fixtures/genData'
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
-import NewJobPage from '../pageObjects/NewJobPage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
+import NewJobPage from '../../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

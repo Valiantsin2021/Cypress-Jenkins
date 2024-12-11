@@ -2,6 +2,7 @@ import 'allure-cypress'
 import 'cypress-real-events'
 import './commands'
 import './globalHooks'
+import '@bahmutov/cy-api'
 
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
 Cypress.on(

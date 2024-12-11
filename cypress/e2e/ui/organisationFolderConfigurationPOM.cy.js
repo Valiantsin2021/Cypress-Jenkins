@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import DashboardPage from '../pageObjects/DashboardPage'
-import Header from '../pageObjects/Header'
-import NewJobPage from '../pageObjects/NewJobPage'
-import OrganizationFolderPage from '../pageObjects/OrganizationFolderPage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import Header from '../../pageObjects/Header'
+import NewJobPage from '../../pageObjects/NewJobPage'
+import OrganizationFolderPage from '../../pageObjects/OrganizationFolderPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
