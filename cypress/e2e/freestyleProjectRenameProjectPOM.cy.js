@@ -1,10 +1,10 @@
+import { faker } from '@faker-js/faker'
+import genData from '../fixtures/genData'
+import messages from '../fixtures/messages.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
 import Header from '../pageObjects/Header'
 import NewJobPage from '../pageObjects/NewJobPage'
-
-import genData from '../fixtures/genData'
-import messages from '../fixtures/messages.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -32,10 +32,38 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
     cy.url({ decode: true }).should('include', project.newName)
     freestyleProjectPage.getJobHeadline().should('have.text', project.newName)
     freestyleProjectPage.clickDashboardBreadcrumbsLink()
+  })
+  it('TC_01.002.03 | Rename a project from the Dashboard page using Cyrillic', () => {
+    const cyrillicName = [
+      'Новый проект',
+      'Тест-кейсы',
+      'Проект1',
+      'Главная страница',
+      'Создание сервиса',
+      'Функциональный продукт',
+      'Решение задачи'
+    ]
+    let newProjectName = faker.helpers.arrayElement(cyrillicName)
+
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage
+      .typeNewItemName(project.name)
+      .selectFreestyleProject()
+      .clickOKButton()
+      .clickSaveButton()
+      .clickJenkinsLogo()
 
     dashboardPage
-      .getJobTitleLink(project.newName)
-      .should('have.text', project.newName)
+      .clickProjectChevronIcon(project.name)
+      .clickRenameDropdownOption()
+    freestyleProjectPage
+      .clearRenameField()
+      .typeNewName(newProjectName)
+      .clickRenameButton()
+      .getJobHeadline()
+      .should('include.text', newProjectName)
+
+    header.getBreadcrumps().should('contain', newProjectName)
   })
 
   it('TC-01.002.06| Rename a project name from the Dashboard page', () => {
