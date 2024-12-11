@@ -2,7 +2,8 @@ import genData from '../../fixtures/genData'
 import DashboardPage from '../../pageObjects/DashboardPage'
 import FolderPage from '../../pageObjects/FolderPage'
 import NewJobPage from '../../pageObjects/NewJobPage'
-
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const folderPage = new FolderPage()
@@ -28,7 +29,10 @@ describe('US_00.004 | New item > Create Folder', () => {
     newJobPage.clickOKButton()
     folderPage.verifyTitleConfigurationIsVisible().clickSaveButton()
     cy.wait('@checkName')
-    cy.request('GET', `/job/${endPoint}/`).then(response => {
+    cy.request(
+      'GET',
+      `http://${LOCAL_HOST}:${LOCAL_PORT}/job/${endPoint}/`
+    ).then(response => {
       //comment for educational purpose only: uncomment to see that respose simply return an html page
       //cy.log(response.body)
       expect(response.status).to.eq(200)
