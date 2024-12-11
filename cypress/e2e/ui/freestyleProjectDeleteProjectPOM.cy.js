@@ -1,12 +1,12 @@
-import DashboardPage from '../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
-import Header from '../pageObjects/Header'
-import NewJobPage from '../pageObjects/NewJobPage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
+import Header from '../../pageObjects/Header'
+import NewJobPage from '../../pageObjects/NewJobPage'
 
-import configurePageData from '../fixtures/configurePageData.json'
-import { confirmationMessage } from '../fixtures/deleteProjectData.json'
-import genData from '../fixtures/genData'
-import newJobPageData from '../fixtures/newJobPageData.json'
+import configurePageData from '../../fixtures/configurePageData.json'
+import { confirmationMessage } from '../../fixtures/deleteProjectData.json'
+import genData from '../../fixtures/genData'
+import newJobPageData from '../../fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

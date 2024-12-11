@@ -1,7 +1,7 @@
-import genData from '../fixtures/genData'
-import DashboardPage from '../pageObjects/DashboardPage'
-import FolderPage from '../pageObjects/FolderPage'
-import NewJobPage from '../pageObjects/NewJobPage'
+import genData from '../../fixtures/genData'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import FolderPage from '../../pageObjects/FolderPage'
+import NewJobPage from '../../pageObjects/NewJobPage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

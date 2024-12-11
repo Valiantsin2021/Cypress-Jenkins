@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker'
-import genData from '../fixtures/genData'
-import pipelinePageData from '../fixtures/pipelinePageData.json'
-import DashboardPage from '../pageObjects/DashboardPage'
-import NewJobPage from '../pageObjects/NewJobPage'
-import PipelinePage from '../pageObjects/PipelinePage'
-import BasePage from '../pageObjects/basePage'
+import genData from '../../fixtures/genData'
+import pipelinePageData from '../../fixtures/pipelinePageData.json'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import NewJobPage from '../../pageObjects/NewJobPage'
+import PipelinePage from '../../pageObjects/PipelinePage'
+import BasePage from '../../pageObjects/basePage'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

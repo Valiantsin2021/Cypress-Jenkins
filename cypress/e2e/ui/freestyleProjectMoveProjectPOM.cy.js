@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker'
-import genData from '../fixtures/genData'
+import genData from '../../fixtures/genData'
 
-import DashboardPage from '../pageObjects/DashboardPage'
-import FolderPage from '../pageObjects/FolderPage'
-import FreestyleProjectPage from '../pageObjects/FreestyleProjectPage'
-import Header from '../pageObjects/Header'
-import NewJobPage from '../pageObjects/NewJobPage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import FolderPage from '../../pageObjects/FolderPage'
+import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
+import Header from '../../pageObjects/Header'
+import NewJobPage from '../../pageObjects/NewJobPage'
 
-import newJobPageData from '../fixtures/newJobPageData.json'
+import newJobPageData from '../../fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

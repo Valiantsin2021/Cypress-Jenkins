@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
-import messages from '../fixtures/messages.json'
-import searchResultsData from '../fixtures/searchResultsData.json'
-import ConfigurePage from '../pageObjects/ConfigurePage'
-import DashboardPage from '../pageObjects/DashboardPage'
-import ManageJenkinsPage from '../pageObjects/ManageJenkinsPage'
+import messages from '../../fixtures/messages.json'
+import searchResultsData from '../../fixtures/searchResultsData.json'
+import ConfigurePage from '../../pageObjects/ConfigurePage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import ManageJenkinsPage from '../../pageObjects/ManageJenkinsPage'
 
 const dashboardPage = new DashboardPage()
 const manageJenkinsPage = new ManageJenkinsPage()

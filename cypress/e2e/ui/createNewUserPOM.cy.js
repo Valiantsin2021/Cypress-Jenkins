@@ -1,7 +1,7 @@
-import AddUserPage from '../pageObjects/AddUserPage'
-import DashboardPage from '../pageObjects/DashboardPage'
-import ManageJenkinsPage from '../pageObjects/ManageJenkinsPage'
-import SecurityUsersPage from '../pageObjects/SecurityUsersPage'
+import AddUserPage from '../../pageObjects/AddUserPage'
+import DashboardPage from '../../pageObjects/DashboardPage'
+import ManageJenkinsPage from '../../pageObjects/ManageJenkinsPage'
+import SecurityUsersPage from '../../pageObjects/SecurityUsersPage'
 
 const dashboardPage = new DashboardPage()
 const manageJenkinsPage = new ManageJenkinsPage()
