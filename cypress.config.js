@@ -1,7 +1,7 @@
 const { allureCypress } = require('allure-cypress/reporter')
 const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
-import * as os from 'node:os'
+const os = require('os')
 
 module.exports = defineConfig({
   viewportWidth: 1920,

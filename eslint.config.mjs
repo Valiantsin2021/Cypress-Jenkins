@@ -1,3 +1,4 @@
+import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
 import pluginChaiFriendly from 'eslint-plugin-chai-friendly'
 import pluginCypress from 'eslint-plugin-cypress/flat'
@@ -5,6 +6,7 @@ import noOnlyTests from 'eslint-plugin-no-only-tests'
 import globals from 'globals'
 
 export default [
+  js.configs.recommended,
   pluginCypress.configs.recommended,
   pluginChaiFriendly.configs.recommendedFlat,
   {

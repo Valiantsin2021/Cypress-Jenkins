@@ -2,7 +2,6 @@ import BasePage from './basePage'
 
 class FreestyleProjectPage extends BasePage {
   getJobDescription = () => cy.get('[id="description"]') // please rename to getProjectDescription since we are inside a project
-  getJobDescriptionField = () => cy.get('textarea[name="description"]') // please rename to getProjectDescriptionield since we are inside a project
   getJobDescriptionField = () => cy.get('textarea[name="description"]')
   getAddDescriptionButton = () => cy.get('[href="editDescription"]')
   getProjectDestination = () => cy.get('select[name="destination"]')
