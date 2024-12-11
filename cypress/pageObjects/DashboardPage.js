@@ -46,6 +46,9 @@ class DashboardPage extends BasePage {
   getBuildNowDropdownMenuItem = () =>
     cy.get('button.jenkins-dropdown__item').contains('Build Now')
   getNotificationBar = () => cy.get('#notification-bar')
+  getLastStableColumn = () => cy.contains('.sortheader', 'Last Stable')
+  getWeatherColumn = () => cy.get('a[href="#"]').contains('W')
+  getDescriptionColumn = () => cy.get('a[href="#"]').contains('Description')
 
   selectNewItemFromDashboardChevron() {
     this.getJobTableDropdownItem().each($els => {
@@ -171,6 +174,11 @@ class DashboardPage extends BasePage {
 
   clickBuildNowDropdownMenuItem() {
     this.getBuildNowDropdownMenuItem().click()
+    return this
+  }
+
+  clickViewTab(viewName) {
+    this.getViewTab(viewName).click()
     return this
   }
 }
