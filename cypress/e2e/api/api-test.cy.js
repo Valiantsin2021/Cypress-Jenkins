@@ -10,7 +10,6 @@ import {
   updatedUser
 } from '../../fixtures/api_data.js'
 import { constants } from '../../fixtures/constants_products.js'
-process.env.API = true
 const assertHeaders = headers => {
   const headersArr = Object.entries(headers)
   expect(headersArr).to.deep.include(['transfer-encoding', 'chunked'])
