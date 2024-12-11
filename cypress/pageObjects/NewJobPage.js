@@ -43,11 +43,6 @@ class NewJobPage extends BasePage {
     return this
   }
 
-  selectPipelineProject() {
-    this.getPipelinePrjType().click()
-    return this
-  }
-
   selectOrganizationFolder() {
     this.getOrganizationFolderType().click()
     return this

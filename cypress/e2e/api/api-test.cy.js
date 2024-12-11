@@ -11,24 +11,23 @@ import {
 } from '../../fixtures/api_data.js'
 import { constants } from '../../fixtures/constants_products.js'
 const assertHeaders = headers => {
-  const headersArr = Object.entries(headers)
-  expect(headersArr).to.deep.include(['transfer-encoding', 'chunked'])
-  expect(headersArr).to.deep.include(['connection', 'keep-alive'])
-  expect(headersArr).to.deep.include(['vary', 'Accept,Cookie,Accept-Encoding'])
-  expect(headersArr).to.deep.include(['referrer-policy', 'same-origin'])
-  expect(headersArr).to.deep.include(['x-frame-options', 'DENY'])
-  expect(headersArr).to.deep.include(['x-content-type-options', 'nosniff'])
-  expect(headersArr).to.deep.include([
+  expect(headers).to.have.property('transfer-encoding', 'chunked')
+  expect(headers).to.have.property('connection', 'keep-alive')
+  expect(headers).to.have.property('vary', 'Accept,Cookie,Accept-Encoding')
+  expect(headers).to.have.property('referrer-policy', 'same-origin')
+  expect(headers).to.have.property('x-frame-options', 'DENY')
+  expect(headers).to.have.property('x-content-type-options', 'nosniff')
+  expect(headers).to.have.property(
     'x-powered-by',
     'Phusion Passenger(R) 6.0.23'
-  ])
-  expect(headersArr).to.deep.include(['status', '200 OK'])
-  expect(headersArr).to.deep.include([
+  )
+  expect(headers).to.have.property('status', '200 OK')
+  expect(headers).to.have.property(
     'nel',
     '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
-  ])
-  expect(headersArr).to.deep.include(['content-encoding', 'gzip'])
-  expect(headersArr).to.deep.include(['alt-svc', 'h3=":443"; ma=86400'])
+  )
+  expect(headers).to.have.property('content-encoding', 'gzip')
+  expect(headers).to.have.property('alt-svc', 'h3=":443"; ma=86400')
 }
 describe('Automation excersize API:', () => {
   it('API 1: Get All Products List (productsList)', () => {

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import 'allure-cypress'
 import 'cypress-real-events'
 import './commands'

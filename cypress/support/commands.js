@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import '@testing-library/cypress/add-commands'
 
 const USER_NAME = Cypress.env('local.admin.username')
