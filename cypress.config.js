@@ -12,6 +12,7 @@ module.exports = defineConfig({
   defaultCommandTimeout: 7000,
   watchForFileChanges: false,
   e2e: {
+    baseUrl: 'https://www.automationexercise.com',
     setupNodeEvents(on, config) {
       on('task', {
         print(s) {

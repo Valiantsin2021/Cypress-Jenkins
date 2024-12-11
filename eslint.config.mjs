@@ -46,7 +46,7 @@ export default [
       ],
       'max-lines': [
         'error',
-        { max: 250, skipComments: true, skipBlankLines: true }
+        { max: 1000, skipComments: true, skipBlankLines: true }
       ],
       'max-len': ['warn', { code: 80, ignoreComments: true, ignoreUrls: true }],
       'no-multiple-empty-lines': ['error', { max: 1 }],

@@ -18,6 +18,7 @@
     "cypress-real-events": "^1.13.0"
   },
   "devDependencies": {
+    "@bahmutov/cy-api": "^2.2.6",
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@faker-js/faker": "^9.3.0",
@@ -25,17 +26,17 @@
     "@types/node": "^22.10.1",
     "allure-commandline": "2.32.0",
     "allure-cypress": "3.0.6",
-    "cypress": "^13.16.0",
-    "stop-only": "^3.4.1",
-    "cypress-split": "^1.24.6",
     "cy-spok": "^1.6.2",
+    "cypress": "^13.16.0",
+    "cypress-split": "^1.24.6",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-chai-friendly": "^1.0.1",
     "eslint-plugin-cypress": "4.1.0",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
-    "prettier": "^3.4.1"
+    "prettier": "^3.4.1",
+    "stop-only": "^3.4.1"
   },
   "peerDependencies": {
     "cypress": ">=12"
