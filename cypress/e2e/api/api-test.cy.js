@@ -11,7 +11,9 @@ import {
   payloadwithoutPassword,
   registeredUser,
   requestsData,
-  updatedUser
+  updatedUser,
+  productFieldKeys,
+  userFieldKeys
 } from '../../fixtures/api_constants.js'
 const {
   methodNotSupported,
@@ -29,6 +31,7 @@ const {
   verifyLogin,
   getUserDetailByEmail,
   createAccount,
+  login,
   updateAccount,
   deleteAccount
 } = endpoints
@@ -40,24 +43,7 @@ const {
   userUpdated,
   accountDeleted
 } = messages
-const userFieldKeys = [
-  'id',
-  'name',
-  'email',
-  'title',
-  'birth_day',
-  'birth_month',
-  'birth_year',
-  'first_name',
-  'last_name',
-  'company',
-  'address1',
-  'address2',
-  'country',
-  'state',
-  'city',
-  'zipcode'
-]
+
 const assertHeaders = headers => {
   expect(headers).to.have.property('transfer-encoding', 'chunked')
   expect(headers).to.have.property('connection', 'keep-alive')
@@ -98,13 +84,7 @@ describe('Automation excersize API:', () => {
         'Assert body["products"] have length: 34'
       ).to.eq(34)
       body['products'].forEach(product => {
-        expect(product).to.have.keys([
-          'id',
-          'name',
-          'price',
-          'brand',
-          'category'
-        ])
+        expect(product).to.have.keys(productFieldKeys)
       })
       for (let i = 0; i < body['products'].length; i++) {
         expect(
@@ -236,14 +216,9 @@ describe('Automation excersize API:', () => {
         body['products'].length,
         'Assert body["products"] has length: 1'
       ).to.eq(1)
+
       body['products'].forEach(product => {
-        expect(product).to.have.keys([
-          'id',
-          'name',
-          'price',
-          'brand',
-          'category'
-        ])
+        expect(product).to.have.keys(productFieldKeys)
       })
       for (let i = 0; i < body['products'].length; i++) {
         expect(
@@ -467,7 +442,7 @@ describe('Automation excersize API:', () => {
       cy.wrap(data).then(data => {
         cy.api({
           method: 'POST',
-          url: '/login',
+          url: login,
           form: true,
           headers,
           body: data

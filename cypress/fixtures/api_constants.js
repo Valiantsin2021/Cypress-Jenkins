@@ -7,6 +7,7 @@ export const endpoints = {
   verifyLogin: '/api/verifyLogin',
   getUserDetailByEmail: '/api/getUserDetailByEmail',
   createAccount: '/createAccount',
+  login: '/login',
   updateAccount: '/api/updateAccount',
   deleteAccount: '/api/deleteAccount'
 }
@@ -149,3 +150,22 @@ export const payloadLoginWrongPassword = {
   email: payloadCreateUser.email,
   password: requestsData.wrongPassword
 }
+export const userFieldKeys = [
+  'id',
+  'name',
+  'email',
+  'title',
+  'birth_day',
+  'birth_month',
+  'birth_year',
+  'first_name',
+  'last_name',
+  'company',
+  'address1',
+  'address2',
+  'country',
+  'state',
+  'city',
+  'zipcode'
+]
+export const productFieldKeys = ['id', 'name', 'price', 'brand', 'category']
