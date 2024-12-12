@@ -5,8 +5,7 @@ class LoginPage {
   getPassword = () => cy.get('#j_password')
 
   getSessionCookie(cookieName) {
-    cy.getCookies().then(cookies => cookies.find(cookie => cookie.name.includes(cookieName)).value)
-    return this
+    return cy.getCookies().then(cookies => cookies.find(cookie => cookie.name.includes(cookieName)).value)
   }
 
   typeLogin(userName) {
