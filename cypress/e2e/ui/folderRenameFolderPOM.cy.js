@@ -21,24 +21,15 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     cy.cleanData([folderName.name, newFolderName.name])
   })
   it('TC_04.001.02 | Rename folder from drop-down menu', () => {
-    dashboardPage
-      .openDropdownForItem(folderName.name)
-      .clickRenameDropdownOption()
-    folderPage
-      .clearNewNameField()
-      .typeNewFolderName(newFolderName.name)
-      .clickRenameButton()
+    dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
+    folderPage.clearNewNameField().typeNewFolderName(newFolderName.name).clickRenameButton()
     folderPage.verifyFolderUrl(newFolderName.name)
 
-    folderPage
-      .getFolderNameOnMainPanel()
-      .should('include.text', `${newFolderName.name}`)
+    folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
   })
 
   it('TC_04.001.06 | Successfully enter a valid folder name in the special field', () => {
-    dashboardPage
-      .openDropdownForItem(folderName.name)
-      .clickRenameDropdownOption()
+    dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
     folderPage
       .clearNewNameField()
       .typeNewFolderName(newFolderName.name)
@@ -47,24 +38,17 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   })
 
   it('TC_04.001.03| Verify that error message is displayed when an invalid folder name is entered in the Rename Folder field', () => {
-    dashboardPage
-      .openDropdownForItem(folderName.name)
-      .clickRenameDropdownOption()
+    dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
     folderPage
       .clearNewNameField()
       .typeNewFolderName(newFolderName.name + '*')
       .clickRenameButton()
 
-    folderPage
-      .getFolderNameOnMainPanel()
-      .should('contain', 'is an unsafe character')
+    folderPage.getFolderNameOnMainPanel().should('contain', 'is an unsafe character')
   })
 
   it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
-    header
-      .hoverBreadcrumbsFolderName()
-      .getBreadcrumbsFolderDropdownMenu()
-      .click()
+    header.hoverBreadcrumbsFolderName().getBreadcrumbsFolderDropdownMenu().click()
     dashboardPage.getRenameProjectDropdownMenuItem().click()
 
     folderPage
@@ -75,15 +59,8 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   })
 
   it('TC_04.001.05 | Rename folder from drop-down menu', () => {
-    dashboardPage
-      .openDropdownForItem(folderName.name)
-      .clickRenameDropdownOption()
-    folderPage
-      .clearNewNameField()
-      .typeNewFolderName(newFolderName.name)
-      .clickRenameButton()
-    folderPage
-      .getFolderNameOnMainPanel()
-      .should('include.text', `${newFolderName.name}`)
+    dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
+    folderPage.clearNewNameField().typeNewFolderName(newFolderName.name).clickRenameButton()
+    folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
   })
 })

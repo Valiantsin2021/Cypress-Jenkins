@@ -13,11 +13,9 @@ export const endpoints = {
 }
 export const errorMessages = {
   methodNotSupported: 'This request method is not supported.',
-  searchParamMissing:
-    'Bad request, search_product parameter is missing in POST request.',
+  searchParamMissing: 'Bad request, search_product parameter is missing in POST request.',
   userExists: 'User exists!',
-  emailOrPasswordMissing:
-    'Bad request, email or password parameter is missing in POST request.',
+  emailOrPasswordMissing: 'Bad request, email or password parameter is missing in POST request.',
   userNotFound: 'User not found!',
   accountNotFound: 'Account not found!',
   emailNotFound: 'Account not found with this email, try another email!'
@@ -35,16 +33,7 @@ export const requestsData = {
   wrongEmail: '12345qwert@co.co',
   wrongPassword: '12345qwert',
   categories: ['WOMEN', 'MEN', 'KIDS'],
-  brands: [
-    ' Polo',
-    ' H&M',
-    ' Madame',
-    ' Mast & Harbour',
-    ' Babyhug',
-    ' Allen Solly Junior',
-    ' Kookie Kids',
-    ' Biba'
-  ],
+  brands: [' Polo', ' H&M', ' Madame', ' Mast & Harbour', ' Babyhug', ' Allen Solly Junior', ' Kookie Kids', ' Biba'],
   products: [
     'Blue Top',
     'Men Tshirt',

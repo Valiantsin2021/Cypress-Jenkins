@@ -3,15 +3,7 @@ function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
 const statuses = ['active', 'inactive']
-const countries = [
-  'India',
-  'United States',
-  'Canada',
-  'Australia',
-  'New Zealand',
-  'Israel',
-  'Singapore'
-]
+const countries = ['India', 'United States', 'Canada', 'Australia', 'New Zealand', 'Israel', 'Singapore']
 export class UserBuilder {
   constructor() {
     /**
@@ -31,8 +23,7 @@ export class UserBuilder {
     this.user.id = faker.string.uuid()
     this.user.firstName = faker.person.firstName('male')
     this.user.lastName = faker.person.lastName('male')
-    this.user.name =
-      faker.person.firstName('male') + ' ' + faker.person.lastName('male')
+    this.user.name = faker.person.firstName('male') + ' ' + faker.person.lastName('male')
     this.user.title = faker.person.prefix()
     this.user.email = faker.internet.email().toLowerCase()
     this.user.countryCode = faker.number.int({ min: 0, max: 30 })

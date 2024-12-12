@@ -10,13 +10,7 @@ const manageJenkinsPage = new ManageJenkinsPage()
 const configurePage = new ConfigurePage()
 
 const randomSearchWord = faker.animal.type() + faker.finance.accountNumber(3)
-const listOfPossibleSearchResults = [
-  'System',
-  'Tools',
-  'Security',
-  'Credentials',
-  'Credential Providers'
-]
+const listOfPossibleSearchResults = ['System', 'Tools', 'Security', 'Credentials', 'Credential Providers']
 
 describe('US_09.001 | Manage Jenkins > Search settings', () => {
   it('TC_09.001.02 | Verify "No results" is shown if no settings match the search criteria', () => {
@@ -77,9 +71,7 @@ describe('US_09.001 | Manage Jenkins > Search settings', () => {
         cy.wrap(menuItems).then(array => {
           array.forEach(dropDownItem => {
             if (dropDownItem !== 'Reload Configuration from Disk') {
-              manageJenkinsPage
-                .typeSearchWord(dropDownItem)
-                .clickSearchResult(dropDownItem)
+              manageJenkinsPage.typeSearchWord(dropDownItem).clickSearchResult(dropDownItem)
               cy.contains(`${dropDownItem}`).should('exist')
               configurePage.clickBreadcrumbsManageJenkins()
             }

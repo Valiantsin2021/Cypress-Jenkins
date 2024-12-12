@@ -9,16 +9,12 @@ describe('US_14.003 | Header > Log out option', () => {
   const header = new Header()
 
   it('TC_14.003.03 | All session-related cookies are cleared', () => {
-    dashboardPage
-      .getSessionCookie(dashboardPageData.sessionIdCookie)
-      .then(sessionCookie => {
-        dashboardPage.clickLogOutButton()
-        loginPage
-          .getSessionCookie(dashboardPageData.sessionIdCookie)
-          .then(updatedSessionCookie => {
-            expect(sessionCookie).not.to.equal(updatedSessionCookie)
-          })
+    dashboardPage.getSessionCookie(dashboardPageData.sessionIdCookie).then(sessionCookie => {
+      dashboardPage.clickLogOutButton()
+      loginPage.getSessionCookie(dashboardPageData.sessionIdCookie).then(updatedSessionCookie => {
+        expect(sessionCookie).not.to.equal(updatedSessionCookie)
       })
+    })
   })
 
   it('RF_14.003.04 | Verify Log out button is seen and works properly.', () => {

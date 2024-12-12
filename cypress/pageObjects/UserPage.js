@@ -8,9 +8,9 @@ class UserPage extends DashboardPage {
   getUserDescription = () => cy.get('#description')
   getEditDescriptionBtn = () => cy.get('#description-link')
   getUserDescriptionFieldFromStatus = () => cy.get('.jenkins-input')
-  getAppearanceDark = () =>
-    cy.get(':nth-child(1) > .help-sibling > .app-theme-picker__item > label')
+  getAppearanceDark = () => cy.get(':nth-child(1) > .help-sibling > .app-theme-picker__item > label')
   getDarkTheme = () => cy.get('html').invoke('attr', 'data-theme')
+  getUserNameFieldFromConfig = () => cy.get('input[name="_.fullName"]')
 
   checkCheckBox() {
     this.getInsensitiveSearchCheckBox().check({ force: true })
@@ -49,6 +49,16 @@ class UserPage extends DashboardPage {
 
   clickAppearanceDark() {
     this.getAppearanceDark().click()
+    return this
+  }
+
+  clearUserNameFieldFromConfig() {
+    this.getUserNameFieldFromConfig().clear()
+    return this
+  }
+
+  typeUserName(userName) {
+    this.getUserNameFieldFromConfig().type(userName)
     return this
   }
 }

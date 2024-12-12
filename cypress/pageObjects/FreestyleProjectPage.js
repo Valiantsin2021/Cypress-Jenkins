@@ -66,10 +66,7 @@ class FreestyleProjectPage extends BasePage {
 
       // Assertions for error messages
       this.getHeaderOnRename().should('have.text', 'Error')
-      this.getErrorMessageParagraph().should(
-        'have.text',
-        `‘${char}’ is an unsafe character`
-      )
+      this.getErrorMessageParagraph().should('have.text', `‘${char}’ is an unsafe character`)
       // Navigate back to retry the next character
       cy.go('back')
     })
@@ -77,10 +74,7 @@ class FreestyleProjectPage extends BasePage {
 
   assertRenameError() {
     this.getHeaderOnRename().should('have.text', 'Error')
-    this.getErrorMessageParagraph().should(
-      'have.text',
-      'The new name is the same as the current name.'
-    )
+    this.getErrorMessageParagraph().should('have.text', 'The new name is the same as the current name.')
     return this
   }
 

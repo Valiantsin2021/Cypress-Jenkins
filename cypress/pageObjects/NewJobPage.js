@@ -4,15 +4,12 @@ class NewJobPage extends BasePage {
   getItemNameField = () => cy.get('#name')
   getFreeStlPrjType = () => cy.get('.label').contains('Freestyle project')
   getPipelinePrjType = () => cy.get('span.label').contains('Pipeline')
-  getPipelineSelectedState = () =>
-    cy.get('.org_jenkinsci_plugins_workflow_job_WorkflowJob')
+  getPipelineSelectedState = () => cy.get('.org_jenkinsci_plugins_workflow_job_WorkflowJob')
   getItemNameInvalidErrorMessage = () => cy.get('#itemname-invalid')
-  getUnsaveItemInvalidName = () =>
-    cy.get('#itemname-invalid').contains(/is an unsafe character/)
+  getUnsaveItemInvalidName = () => cy.get('#itemname-invalid').contains(/is an unsafe character/)
   getEmptyItemInvalidName = () => cy.get('#itemname-required')
   getFolferType = () => cy.get('.label').contains('Folder')
-  getOrganizationFolderType = () =>
-    cy.get('[class="jenkins_branch_OrganizationFolder"]')
+  getOrganizationFolderType = () => cy.get('[class="jenkins_branch_OrganizationFolder"]')
   getAllItemsList = () => cy.get('#items li')
   getUrlConfigurePageField = () => cy.location('href')
   getBreadcrumbsListItem = () => cy.get("[aria-current='page']")
@@ -59,18 +56,12 @@ class NewJobPage extends BasePage {
   }
 
   verifyItemInvalidNameMessageExist() {
-    this.getItemNameInvalidErrorMessage().should(
-      'not.have.class',
-      'input-message-disabled'
-    )
+    this.getItemNameInvalidErrorMessage().should('not.have.class', 'input-message-disabled')
     return this
   }
 
   verifyItemInvalidNameMessageNotExist() {
-    this.getItemNameInvalidErrorMessage().should(
-      'have.class',
-      'input-message-disabled'
-    )
+    this.getItemNameInvalidErrorMessage().should('have.class', 'input-message-disabled')
     return this
   }
 }

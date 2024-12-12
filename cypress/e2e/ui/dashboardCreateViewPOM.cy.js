@@ -20,10 +20,7 @@ describe('US_16.002 | Dashboard > Create View', () => {
 
   beforeEach(() => {
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(project.name)
-      .selectFreestyleProject()
-      .clickOKButton()
+    newJobPage.typeNewItemName(project.name).selectFreestyleProject().clickOKButton()
     freestyleProjectPage.clickSaveButton()
     header.clickJenkinsLogo()
 
@@ -59,32 +56,20 @@ describe('US_16.002 | Dashboard > Create View', () => {
 
     cy.log('Creating more items on the dashboard')
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(pipeline.longName)
-      .selectPipelineProject()
-      .clickOKButton()
+    newJobPage.typeNewItemName(pipeline.longName).selectPipelineProject().clickOKButton()
     header.clickJenkinsLogo()
 
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(orgFolder.longName)
-      .selectOrganizationFolder()
-      .clickOKButton()
+    newJobPage.typeNewItemName(orgFolder.longName).selectOrganizationFolder().clickOKButton()
     header.clickJenkinsLogo()
 
     cy.log('Creating new view')
-    myViewsPage
-      .clickAddNewViewLink()
-      .typeViewName(view.name)
-      .clickMyViewRadio()
-      .clickCreateButton()
+    myViewsPage.clickAddNewViewLink().typeViewName(view.name).clickMyViewRadio().clickCreateButton()
 
     cy.log('Hitting on sorting arrow to sort in desc order')
     dashboardPage.clickSortingArrowOfNameColumn()
 
-    cy.log(
-      'getting an array of all names, sorting the array in desc order, compare initial and sorted arrays'
-    )
+    cy.log('getting an array of all names, sorting the array in desc order, compare initial and sorted arrays')
     dashboardPage.getAllItemNamesFromNameColumn().then($cells => {
       const textValues = $cells
         .map((index, cell) => Cypress.$(cell).text())
@@ -140,14 +125,8 @@ describe('US_16.002 | Dashboard > Create View', () => {
       'Verifying that the 1st View contains the "Weather" column, includes the "Last Stable" column, but lacks the "Description" column'
     )
     dashboardPage.clickViewTab(view.name)
-    dashboardPage
-      .getWeatherColumn()
-      .should('be.visible')
-      .and('contain.text', 'W')
-    dashboardPage
-      .getLastStableColumn()
-      .should('be.visible')
-      .and('contain.text', 'Last Stable')
+    dashboardPage.getWeatherColumn().should('be.visible').and('contain.text', 'W')
+    dashboardPage.getLastStableColumn().should('be.visible').and('contain.text', 'Last Stable')
     dashboardPage.getDescriptionColumn().should('not.exist')
 
     cy.log(
@@ -155,10 +134,7 @@ describe('US_16.002 | Dashboard > Create View', () => {
     )
     dashboardPage.clickViewTab(newView.name)
     dashboardPage.getWeatherColumn().should('not.exist')
-    dashboardPage
-      .getDescriptionColumn()
-      .should('be.visible')
-      .and('contain.text', 'Description')
+    dashboardPage.getDescriptionColumn().should('be.visible').and('contain.text', 'Description')
     dashboardPage.getLastStableColumn().should('not.exist')
   })
 })
