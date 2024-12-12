@@ -64,7 +64,7 @@ const assertHeaders = headers => {
   expect(headers).to.have.property('alt-svc', 'h3=":443"; ma=86400')
 }
 describe('Automation excersize API:', () => {
-  it('API 1: Get All Products List (productsList)', () => {
+  it('API 1: GET All Products List (productsList)', () => {
     // Arrange
     // Act
     cy.api({ url: productsList }).then(response => {
