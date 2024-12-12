@@ -14,14 +14,8 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
 
   beforeEach(() => {
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(project.name)
-      .selectOrganizationFolder()
-      .clickOKButton()
-    organizationFolderPage
-      .clickSaveButton()
-      .getJobHeadline()
-      .should('contain.text', project.name)
+    newJobPage.typeNewItemName(project.name).selectOrganizationFolder().clickOKButton()
+    organizationFolderPage.clickSaveButton().getJobHeadline().should('contain.text', project.name)
   })
   afterEach(() => {
     cy.cleanData([project.name])

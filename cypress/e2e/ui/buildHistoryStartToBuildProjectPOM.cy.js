@@ -10,28 +10,18 @@ const header = new Header()
 describe('US_08.001 | Build history > Start to build a project', () => {
   function createItemByType(itemsType, itemsName) {
     dashBoardPage.clickNewItemMenuLink()
-    newJobPage
-      .clearItemNameField()
-      .typeNewItemName(`${itemsName}`)
-      .getAllItemsList()
-      .contains(itemsType)
-      .click()
+    newJobPage.clearItemNameField().typeNewItemName(`${itemsName}`).getAllItemsList().contains(itemsType).click()
     newJobPage.clickOKButton().clickSaveButton()
     header.clickDashboardBtn()
   }
   const itemsForBuilding = newInstance.filter(
-    item =>
-      !['Folder', 'Organization Folder', 'Multibranch Pipeline'].includes(item)
+    item => !['Folder', 'Organization Folder', 'Multibranch Pipeline'].includes(item)
   )
 
   itemsForBuilding.forEach(item => {
     it(`TC_08.001.01 | Build status icon for "Not built" ${item} is shown on "Dashboard" page`, () => {
       createItemByType(item, `New ${item}`)
-      dashBoardPage
-        .getAllIconsProjectRow(item)
-        .eq(0)
-        .should('have.attr', 'tooltip', 'Not built')
-        .and('be.visible')
+      dashBoardPage.getAllIconsProjectRow(item).eq(0).should('have.attr', 'tooltip', 'Not built').and('be.visible')
       cy.cleanData([`New ${item}`])
     })
   })
@@ -47,11 +37,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
         .and('contain.text', 'Build Now: Done.')
 
       dashBoardPage.clickItemName(`New ${item}`)
-      dashBoardPage
-        .getBuildHistoryRows()
-        .should('have.length', 1)
-        .contains('1')
-        .should('be.visible')
+      dashBoardPage.getBuildHistoryRows().should('have.length', 1).contains('1').should('be.visible')
       cy.cleanData([`New ${item}`])
     })
   })
@@ -62,18 +48,14 @@ describe('US_08.001 | Build history > Start to build a project', () => {
       createItemByType(item, `New ${item}`)
       dashBoardPage.clickItemName(`New ${item}`)
 
-      cy.log(
-        'Start the first build and verify the build appeared in the build history.'
-      )
+      cy.log('Start the first build and verify the build appeared in the build history.')
       dashBoardPage
         .clickBuildNowMenuOption()
         .getBuildHistoryRows()
         .should('have.length.greaterThan', 0)
         .and('be.visible')
 
-      cy.log(
-        'Start the second build and receive from the build history his number.'
-      )
+      cy.log('Start the second build and receive from the build history his number.')
       dashBoardPage
         .clickBuildNowMenuOption()
         .getBuildHistoryRows()

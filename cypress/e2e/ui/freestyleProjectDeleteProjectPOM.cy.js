@@ -18,13 +18,8 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
   beforeEach(() => {
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(project.name)
-      .selectFreestyleProject()
-      .clickOKButton()
-    freestyleProjectPage
-      .typeJobDescription(project.description)
-      .clickSaveButton()
+    newJobPage.typeNewItemName(project.name).selectFreestyleProject().clickOKButton()
+    freestyleProjectPage.typeJobDescription(project.description).clickSaveButton()
     header.clickJenkinsLogo()
   })
   afterEach(() => {
@@ -32,10 +27,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
   })
   it('TC_01.004.05 | Cancel deletion', () => {
     dashboardPage.clickJobName(project.name)
-    freestyleProjectPage
-      .clickDeleteMenuItem()
-      .clickCancelButton()
-      .clickDashboardBreadcrumbsLink()
+    freestyleProjectPage.clickDeleteMenuItem().clickCancelButton().clickDashboardBreadcrumbsLink()
     dashboardPage.getAllJobNames().should('contain.text', project.name)
   })
 
@@ -59,18 +51,12 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
 
     dashboardPage.getCancelButton().should('be.visible')
 
-    dashboardPage
-      .clickCancelButton()
-      .getItemName()
-      .should('contain', project.name)
+    dashboardPage.clickCancelButton().getItemName().should('contain', project.name)
   })
 
   it('TC_01.004.14 | Verify Freestyle Project is deleted from Project page', () => {
     dashboardPage.clickJobTitleLink(project.name)
-    freestyleProjectPage
-      .getJobHeadline()
-      .should('be.visible')
-      .and('have.text', project.name)
+    freestyleProjectPage.getJobHeadline().should('be.visible').and('have.text', project.name)
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
     dashboardPage.getMainPanel().should('not.contain.value', project.name)
   })
@@ -89,13 +75,8 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
   it('TC_01.004.04 | FreestyleProject > Delete Project|Delete a project from the Project Page', () => {
     //Create a project
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(newJobPageData.projectName)
-      .selectFreestyleProject()
-      .clickOKButton()
-    freestyleProjectPage
-      .typeJobDescription(configurePageData.projectDescription)
-      .clickSaveButton()
+    newJobPage.typeNewItemName(newJobPageData.projectName).selectFreestyleProject().clickOKButton()
+    freestyleProjectPage.typeJobDescription(configurePageData.projectDescription).clickSaveButton()
 
     //Delete the project
     freestyleProjectPage.clickDeleteMenuItem().clickYesButton()
@@ -124,9 +105,7 @@ describe('US_01.004 | FreestyleProject > Delete Project', () => {
     freestyleProjectPage.clickDeleteMenuItem()
 
     freestyleProjectPage.getConfirmationMessageDialog().should('be.visible')
-    freestyleProjectPage
-      .getConfirmationMessageTitle()
-      .should('have.text', confirmationMessage.title)
+    freestyleProjectPage.getConfirmationMessageTitle().should('have.text', confirmationMessage.title)
     freestyleProjectPage
       .getConfirmationMessageQuestion()
       .should('have.text', `${confirmationMessage.question} ‘${project.name}’?`)

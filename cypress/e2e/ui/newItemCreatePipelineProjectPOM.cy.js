@@ -33,9 +33,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage.typeNewItemName(randomItemName).selectPipelineProject()
 
-    newJobPage
-      .getPipelineSelectedState()
-      .should('have.attr', 'aria-checked', 'true')
+    newJobPage.getPipelineSelectedState().should('have.attr', 'aria-checked', 'true')
   })
 
   it('TC_00.002.04 | Create Pipeline Project with an empty item name field', () => {
@@ -50,10 +48,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
   it('TC_00.002.05 | Create Pipeline Project with an already existing name of a project', () => {
     cy.log('Precondition: create Pipeline project')
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(randomItemName)
-      .selectPipelineProject()
-      .clickOKButton()
+    newJobPage.typeNewItemName(randomItemName).selectPipelineProject().clickOKButton()
     header.clickJenkinsLogo()
 
     cy.log('Create project with an existing name')
@@ -63,10 +58,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .clearItemNameField()
       .typeNewItemName(randomItemName)
       .getItemNameInvalidErrorMessage()
-      .should(
-        'have.text',
-        `${newItem.duplicateNotAllowedMessage} ‘${randomItemName}’`
-      )
+      .should('have.text', `${newItem.duplicateNotAllowedMessage} ‘${randomItemName}’`)
       .and('have.css', 'color', errorMessageColor)
 
     newJobPage.getOKButton().should('be.disabled')
@@ -74,21 +66,11 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
 
   it('TC_00.002.14 | Create Pipeline Project', () => {
     dashboardPage.clickCreateJobLink()
-    newJobPage
-      .typeNewItemName(project.name)
-      .selectPipelineProject()
-      .clickOKButton()
-      .clickSaveButton()
+    newJobPage.typeNewItemName(project.name).selectPipelineProject().clickOKButton().clickSaveButton()
     header.clickJenkinsLogo()
 
-    dashboardPage
-      .getItemName()
-      .should('be.visible')
-      .and('contain.text', project.name)
-    dashboardPage
-      .getJobTable()
-      .should('contain.text', project.name)
-      .and('be.visible')
+    dashboardPage.getItemName().should('be.visible').and('contain.text', project.name)
+    dashboardPage.getJobTable().should('contain.text', project.name).and('be.visible')
   })
 
   it('TC_00.002.15 | The url of the configure page contains new project name', () => {
@@ -100,9 +82,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
 
       .getBreadcrumbsListItem()
       .should('have.text', 'Configuration')
-    newJobPage
-      .getUrlConfigurePageField()
-      .should('include', encodeURIComponent(project.name))
+    newJobPage.getUrlConfigurePageField().should('include', encodeURIComponent(project.name))
   })
 
   it('TC_00.002.007 | New Pipeline Project check Item name valid', () => {
@@ -114,10 +94,7 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
         .typeNewItemName(allKeys.projectNameSpecialSymbols[i])
         .verifyItemInvalidNameMessageExist()
         .getItemNameInvalidErrorMessage()
-        .should(
-          'have.text',
-          `» ‘${allKeys.projectNameSpecialSymbols[i]}’ is an unsafe character`
-        )
+        .should('have.text', `» ‘${allKeys.projectNameSpecialSymbols[i]}’ is an unsafe character`)
         .and('have.css', 'color', errorMessageColor)
     }
     newJobPage

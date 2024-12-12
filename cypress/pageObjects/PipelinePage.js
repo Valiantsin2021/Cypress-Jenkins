@@ -5,22 +5,15 @@ class PipelinePage extends BasePage {
   getPipelineDescriptionField = () => cy.get('textarea[name="description"]')
   getConfigureMenuOption = () => cy.get('a[href$="configure"]')
   getPipelineJobDescription = () => cy.get('#description')
-  getStatusDisabledText = () =>
-    cy.get('#enable-project').contains('currently disabled')
+  getStatusDisabledText = () => cy.get('#enable-project').contains('currently disabled')
   getToggleSelector = () => cy.get('#enable-disable-project')
-  getPipelineScriptDropdownOption = () =>
-    cy.get('.jenkins-select__input.dropdownList').contains('Pipeline script')
-  getScriptedPipelineDropdownOption = () =>
-    cy.get('.samples > select').contains('Scripted Pipeline')
+  getPipelineScriptDropdownOption = () => cy.get('.jenkins-select__input.dropdownList').contains('Pipeline script')
+  getScriptedPipelineDropdownOption = () => cy.get('.samples > select').contains('Scripted Pipeline')
   getScriptEditorDropdown = () => cy.get('.samples > select')
   getScriptEditorInputField = () => cy.get('.ace_content')
   getPipelineMenuOption = () => cy.get('button[data-section-id="pipeline"]')
-  getDefinitionDropdown = () =>
-    cy.get(
-      ':nth-child(9) > :nth-child(2) > .jenkins-select > .jenkins-select__input'
-    )
-  getSCMDropdown = () =>
-    cy.get(':nth-child(9) > .jenkins-select > .jenkins-select__input')
+  getDefinitionDropdown = () => cy.get(':nth-child(9) > :nth-child(2) > .jenkins-select > .jenkins-select__input')
+  getSCMDropdown = () => cy.get(':nth-child(9) > .jenkins-select > .jenkins-select__input')
   getRepositoryURLInputField = () => cy.get('input[name="_.url"]').first()
 
   clickSaveButton() {
@@ -54,9 +47,7 @@ class PipelinePage extends BasePage {
   }
 
   clickPipelineScriptDropdownOption() {
-    this.getPipelineScriptDropdownOption()
-      .contains('Pipeline script')
-      .click({ force: true })
+    this.getPipelineScriptDropdownOption().contains('Pipeline script').click({ force: true })
     return this
   }
 

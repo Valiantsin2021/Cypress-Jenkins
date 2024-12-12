@@ -18,10 +18,7 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
   it('TC_06.001.01 | A Jenkins administrator can change Display Name and Description from empty values by clicking Save button', () => {
     cy.log('Preconditions:')
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(orgFolderName)
-      .selectOrganizationFolder()
-      .clickOKButton()
+    newJobPage.typeNewItemName(orgFolderName).selectOrganizationFolder().clickOKButton()
     header.clickJenkinsLogo()
 
     cy.log('Steps:')
@@ -41,9 +38,7 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
 
     organizationFolderPage.getDescription().should('have.text', description)
 
-    organizationFolderPage
-      .getFolderName()
-      .should('contain.text', `Folder name: ${orgFolderName}`)
+    organizationFolderPage.getFolderName().should('contain.text', `Folder name: ${orgFolderName}`)
 
     cy.url().should('match', new RegExp(`${encodedOrgFolderName}\/?$`))
 
@@ -55,15 +50,10 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
   it('TC_06.001.02 | Can see a Preview of the added Description by clicking on the Preview button', () => {
     cy.log('create a new org folder')
     dashboardPage.clickNewItemMenuLink()
-    newJobPage
-      .typeNewItemName(orgFolderName)
-      .selectOrganizationFolder()
-      .clickOKButton()
+    newJobPage.typeNewItemName(orgFolderName).selectOrganizationFolder().clickOKButton()
 
     cy.log('before clicking Preview link')
-    organizationFolderPage
-      .typeDescription(description)
-      .checkPreviewDescriptionBeforeClick()
+    organizationFolderPage.typeDescription(description).checkPreviewDescriptionBeforeClick()
 
     cy.log('after clicking Preview link')
     organizationFolderPage
@@ -72,15 +62,10 @@ describe('US_06.001 | Organisation folder > Configuration', () => {
       .should('be.visible')
       .and('have.css', 'color', 'rgb(0, 111, 230)')
       .and('have.text', 'Hide preview')
-    organizationFolderPage
-      .getPreviewDescriptionField()
-      .should('be.visible')
-      .and('have.text', description)
+    organizationFolderPage.getPreviewDescriptionField().should('be.visible').and('have.text', description)
 
     cy.log('after clicking Hide preview')
-    organizationFolderPage
-      .clickHidePreviewLink()
-      .checkPreviewDescriptionBeforeClick()
+    organizationFolderPage.clickHidePreviewLink().checkPreviewDescriptionBeforeClick()
     cy.cleanData([orgFolderName])
   })
 })

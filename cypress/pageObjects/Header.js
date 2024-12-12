@@ -1,16 +1,13 @@
 class Header {
   getSearchField = () => cy.get('#search-box')
   getSearchAutoCompletionBox = () => cy.get('div#search-box-completion li')
-  getUserDropdownlink = () =>
-    cy.get('#page-header .jenkins-menu-dropdown-chevron')
-  getDropdownConfigureItem = () =>
-    cy.get('.jenkins-dropdown > [href*="/configure"]')
+  getUserDropdownlink = () => cy.get('#page-header .jenkins-menu-dropdown-chevron')
+  getDropdownConfigureItem = () => cy.get('.jenkins-dropdown > [href*="/configure"]')
   getJenkinsLogo = () => cy.get('a#jenkins-home-link')
   getUserNameLink = () => cy.get('[href^="/user"]')
   getUserDropdownMenu = () => cy.get('.jenkins-dropdown')
   getUserDropdownIcon = () => cy.get('.jenkins-dropdown__item__icon')
-  getSearchAutofillSuggestionList = () =>
-    cy.get('li[style]:not([style="display: none;"])')
+  getSearchAutofillSuggestionList = () => cy.get('li[style]:not([style="display: none;"])')
   getLogOutButton = () => cy.get('a[href="/logout"]')
 
   getBreadcrumps = () => cy.get('.jenkins-breadcrumbs')
@@ -18,13 +15,10 @@ class Header {
   getDashboardLink = () => cy.get('a[href="/"].model-link')
   getBreadcrumbBar = () => cy.get('#breadcrumbBar')
   getDashboardBreadcrumb = () => cy.get('a[href="/"].model-link')
-  getDashboardBreadcrumbChevron = () =>
-    cy.get('a[href="/"] .jenkins-menu-dropdown-chevron')
+  getDashboardBreadcrumbChevron = () => cy.get('a[href="/"] .jenkins-menu-dropdown-chevron')
   getBreadcrumbsFolderName = () => cy.get(':nth-child(3) > .model-link')
   getBreadcrumbsFolderDropdownMenu = () =>
-    cy
-      .get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron')
-      .first()
+    cy.get(':nth-child(3) > .model-link > .jenkins-menu-dropdown-chevron').first()
   getHeader = () => cy.get('#page-header')
 
   typeSearchTerm(term) {
@@ -48,7 +42,7 @@ class Header {
   }
 
   clickUserDropdownLink() {
-    this.getUserDropdownlink().realHover().click()
+    this.getUserDropdownlink().realHover().click({ force: true })
     return this
   }
 

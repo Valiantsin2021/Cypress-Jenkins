@@ -106,9 +106,7 @@ class JenkinsProjectManager {
       case 'views':
         return data.views.map(view => view.name).filter(view => view !== 'all')
       case 'nodes':
-        return data.computer
-          .filter(node => node.displayName !== 'Built-In Node')
-          .map(node => node.displayName)
+        return data.computer.filter(node => node.displayName !== 'Built-In Node').map(node => node.displayName)
       default:
         throw new Error(`Unsupported resource type: ${resourceType}`)
     }
@@ -186,10 +184,7 @@ class JenkinsProjectManager {
         if (result.status === 'fulfilled') {
           return result.value
         } else {
-          console.error(
-            `Resource ${resourceName} deletion failed:`,
-            result.reason
-          )
+          console.error(`Resource ${resourceName} deletion failed:`, result.reason)
           return result.reason.message
         }
       })
@@ -209,9 +204,7 @@ class JenkinsProjectManager {
     const resources = await this.#listResource(resourceType)
 
     const deletionResults = await Promise.allSettled(
-      resources.map(resource =>
-        this.#deleteResource(resourceType.slice(0, -1), resource)
-      )
+      resources.map(resource => this.#deleteResource(resourceType.slice(0, -1), resource))
     )
 
     return deletionResults.map((result, index) => {
@@ -219,10 +212,7 @@ class JenkinsProjectManager {
       if (result.status === 'fulfilled') {
         return result.value
       } else {
-        console.error(
-          `${resourceType} ${resourceName} deletion failed:`,
-          result.reason
-        )
+        console.error(`${resourceType} ${resourceName} deletion failed:`, result.reason)
         return result.reason.message
       }
     })
@@ -231,11 +221,7 @@ class JenkinsProjectManager {
 
 // Cypress command for clean data
 Cypress.Commands.add('cleanData', (resources, all = false) => {
-  const jenkinsManager = new JenkinsProjectManager(
-    `http://${HOST}:${PORT}/`,
-    USER_NAME,
-    TOKEN
-  )
+  const jenkinsManager = new JenkinsProjectManager(`http://${HOST}:${PORT}/`, USER_NAME, TOKEN)
 
   return jenkinsManager
     .deleteResources(resources, all)

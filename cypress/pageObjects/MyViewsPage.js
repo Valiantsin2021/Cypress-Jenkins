@@ -4,22 +4,16 @@ class MyViewsPage extends DashboardPage {
   getAddNewViewLink = () => cy.get('a[title="New View"]')
   getViewTab = viewName => cy.get('div.tab').contains(viewName)
   getViewNameInput = () => cy.get('input#name')
-  getIncludeGlobalViewButton = () =>
-    cy.get('label[for="hudson.model.ProxyView"]')
+  getIncludeGlobalViewButton = () => cy.get('label[for="hudson.model.ProxyView"]')
   getCreateButton = () => cy.get('button#ok')
-  getCurrentViewBreadcrumbsItem = () =>
-    cy.get('.jenkins-breadcrumbs__list-item').eq(3)
-  getMyViewsBreadcrumbsItem = () =>
-    cy.get('.jenkins-breadcrumbs__list-item').contains('My Views')
+  getCurrentViewBreadcrumbsItem = () => cy.get('.jenkins-breadcrumbs__list-item').eq(3)
+  getMyViewsBreadcrumbsItem = () => cy.get('.jenkins-breadcrumbs__list-item').contains('My Views')
   getMyViewsRadio = () => cy.get('label[for="hudson.model.MyView"]')
   getCheckboxForJob = () => cy.get('.listview-jobs .jenkins-checkbox')
   getListViewRadio = () => cy.get('label[for="hudson.model.ListView"]')
   getAddColumnButton = () => cy.findByRole('button', { name: /Add column/ })
   getColumnDropdownOption = () => cy.get('button.jenkins-dropdown__item ')
-  getDeleteWeatherColumnButton = () =>
-    cy.get(
-      'div[descriptorid="hudson.views.WeatherColumn"] button[title="Delete"]'
-    )
+  getDeleteWeatherColumnButton = () => cy.get('div[descriptorid="hudson.views.WeatherColumn"] button[title="Delete"]')
 
   clickAddNewViewLink() {
     this.getAddNewViewLink().click()

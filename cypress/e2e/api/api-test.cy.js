@@ -35,14 +35,7 @@ const {
   updateAccount,
   deleteAccount
 } = endpoints
-const {
-  responseStatusOK,
-  bodyMessage,
-  responseCode,
-  userCreated,
-  userUpdated,
-  accountDeleted
-} = messages
+const { responseStatusOK, bodyMessage, responseCode, userCreated, userUpdated, accountDeleted } = messages
 
 const assertHeaders = headers => {
   expect(headers).to.have.property('transfer-encoding', 'chunked')
@@ -51,29 +44,17 @@ const assertHeaders = headers => {
   expect(headers).to.have.property('referrer-policy', 'same-origin')
   expect(headers).to.have.property('x-frame-options', 'DENY')
   expect(headers).to.have.property('x-content-type-options', 'nosniff')
-  expect(headers).to.have.property(
-    'x-powered-by',
-    'Phusion Passenger(R) 6.0.23'
-  )
+  expect(headers).to.have.property('x-powered-by', 'Phusion Passenger(R) 6.0.23')
   expect(headers).to.have.property('status', '200 OK')
-  expect(headers).to.have.property(
-    'nel',
-    '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
-  )
+  expect(headers).to.have.property('nel', '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}')
   expect(headers).to.have.property('content-encoding', 'gzip')
   expect(headers).to.have.property('alt-svc', 'h3=":443"; ma=86400')
 }
-const verifyStatusAndHeaders = (
-  response,
-  expectedGlobalCode,
-  expectedInnerCode
-) => {
+const verifyStatusAndHeaders = (response, expectedGlobalCode, expectedInnerCode) => {
   const body = JSON.parse(response.body)
   assertHeaders(response.headers)
   expect(response.status, responseStatusOK).to.eq(expectedGlobalCode)
-  expect(body['responseCode'], responseCode(expectedInnerCode)).to.eq(
-    expectedInnerCode
-  )
+  expect(body['responseCode'], responseCode(expectedInnerCode)).to.eq(expectedInnerCode)
 }
 describe('Automation excersize API:', () => {
   it('API 1: Get All Products List (productsList)', () => {
@@ -83,36 +64,17 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 200)
       const body = JSON.parse(response.body)
-      expect(body['products'], 'Assert body["products"] is array').to.be.an(
-        'array'
-      )
-      expect(body['products'], 'Assert body["products"] is array').to.be.an(
-        'array'
-      )
-      expect(
-        body['products'].length,
-        'Assert body["products"] have length: 34'
-      ).to.eq(34)
+      expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
+      expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
+      expect(body['products'].length, 'Assert body["products"] have length: 34').to.eq(34)
       body['products'].forEach(product => {
         expect(product).to.have.keys(productFieldKeys)
       })
       for (let i = 0; i < body['products'].length; i++) {
-        expect(
-          body['products'][i]['id'],
-          `Assert body["products"][${i}]["id"] is a number`
-        ).to.be.gt(0)
-        expect(
-          body['products'][i]['name'],
-          `Assert body["products"][${i}]["name"] is a string`
-        ).to.be.a('string')
-        expect(
-          body['products'][i]['price'],
-          `Assert body["products"][${i}]["price"] is a string`
-        ).to.be.a('string')
-        expect(
-          body['products'][i]['brand'],
-          `Assert body["products"][${i}]["brand"] is a string`
-        ).to.be.a('string')
+        expect(body['products'][i]['id'], `Assert body["products"][${i}]["id"] is a number`).to.be.gt(0)
+        expect(body['products'][i]['name'], `Assert body["products"][${i}]["name"] is a string`).to.be.a('string')
+        expect(body['products'][i]['price'], `Assert body["products"][${i}]["price"] is a string`).to.be.a('string')
+        expect(body['products'][i]['brand'], `Assert body["products"][${i}]["brand"] is a string`).to.be.a('string')
         expect(
           body['products'][i]['category']['usertype']['usertype'],
           `Assert body["products"][${i}]['category']['usertype']['usertype'] is a string`
@@ -144,9 +106,7 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 405)
       const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
-        methodNotSupported
-      )
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
   })
   it('API 3: Get All Brands List (brandsList)', () => {
@@ -157,26 +117,14 @@ describe('Automation excersize API:', () => {
       verifyStatusAndHeaders(response, 200, 200)
       const body = JSON.parse(response.body)
       expect(body['brands'], 'Assert body["brands"] is array').to.be.an('array')
-      expect(
-        body['brands'].length,
-        'Assert body["brands"] have length: 34'
-      ).to.eq(34)
+      expect(body['brands'].length, 'Assert body["brands"] have length: 34').to.eq(34)
       body['brands'].forEach(brand => {
         expect(brand).to.have.keys(['id', 'brand'])
       })
       for (let i = 0; i < body['brands'].length; i++) {
-        expect(
-          body['brands'][i],
-          `Assert body['brands'][${i}] has property "id"`
-        ).to.have.property('id')
-        expect(
-          body['brands'][i]['id'],
-          `Assert body['brands'][${i}]['id'] is a number`
-        ).to.be.gt(0)
-        expect(
-          body['brands'][i]['brand'],
-          `Assert body['brands'][${i}]['brand'] is a string`
-        ).to.be.a('string')
+        expect(body['brands'][i], `Assert body['brands'][${i}] has property "id"`).to.have.property('id')
+        expect(body['brands'][i]['id'], `Assert body['brands'][${i}]['id'] is a number`).to.be.gt(0)
+        expect(body['brands'][i]['brand'], `Assert body['brands'][${i}]['brand'] is a string`).to.be.a('string')
       }
     })
   })
@@ -191,9 +139,7 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 405)
       const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
-        methodNotSupported
-      )
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
   })
   it('API 5: POST To Search Products (searchProduct)', () => {
@@ -211,38 +157,18 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 200)
       const body = JSON.parse(response.body)
-      expect(body['products'], 'Assert body["products"] is array').to.be.an(
-        'array'
-      )
-      expect(
-        body['products'].length,
-        'Assert body["products"] has length: 1'
-      ).to.eq(1)
+      expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
+      expect(body['products'].length, 'Assert body["products"] has length: 1').to.eq(1)
 
       body['products'].forEach(product => {
         expect(product).to.have.keys(productFieldKeys)
       })
       for (let i = 0; i < body['products'].length; i++) {
-        expect(
-          body['products'][i],
-          `Assert body["products"][${i}] has property "id"`
-        ).to.have.property('id')
-        expect(
-          body['products'][i]['id'],
-          `Assert body["products"][${i}]["id"] is a number`
-        ).to.be.gt(0)
-        expect(
-          body['products'][i]['name'],
-          `Assert body["products"][${i}]["name"] is a string`
-        ).to.be.a('string')
-        expect(
-          body['products'][i]['price'],
-          `Assert body["products"][${i}]["price"] is a string`
-        ).to.be.a('string')
-        expect(
-          body['products'][i]['brand'],
-          `Assert body["products"][${i}]["brand"] is a string`
-        ).to.be.a('string')
+        expect(body['products'][i], `Assert body["products"][${i}] has property "id"`).to.have.property('id')
+        expect(body['products'][i]['id'], `Assert body["products"][${i}]["id"] is a number`).to.be.gt(0)
+        expect(body['products'][i]['name'], `Assert body["products"][${i}]["name"] is a string`).to.be.a('string')
+        expect(body['products'][i]['price'], `Assert body["products"][${i}]["price"] is a string`).to.be.a('string')
+        expect(body['products'][i]['brand'], `Assert body["products"][${i}]["brand"] is a string`).to.be.a('string')
         expect(
           body['products'][i]['category']['usertype']['usertype'],
           `Assert body["products"][${i}]['category']['usertype']['usertype'] is a string`
@@ -261,9 +187,7 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 400)
       const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(searchParamMissing)).to.eq(
-        searchParamMissing
-      )
+      expect(body['message'], bodyMessage(searchParamMissing)).to.eq(searchParamMissing)
     })
   })
   it('API 7: POST To Verify Login with valid details (verifyLogin)', () => {
@@ -298,9 +222,7 @@ describe('Automation excersize API:', () => {
         // Assert
         verifyStatusAndHeaders(response, 200, 400)
         const body = JSON.parse(response.body)
-        expect(body['message'], bodyMessage(emailOrPasswordMissing)).to.eq(
-          emailOrPasswordMissing
-        )
+        expect(body['message'], bodyMessage(emailOrPasswordMissing)).to.eq(emailOrPasswordMissing)
       })
     })
   }
@@ -311,9 +233,7 @@ describe('Automation excersize API:', () => {
       // Assert
       verifyStatusAndHeaders(response, 200, 405)
       const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
-        methodNotSupported
-      )
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
   })
   it('API 10: POST To Verify Login with invalid details (verifyLogin)', () => {
@@ -352,66 +272,41 @@ describe('Automation excersize API:', () => {
       verifyStatusAndHeaders(response, 200, 200)
       const body = JSON.parse(response.body)
       expect(body['user']).to.have.keys(userFieldKeys)
-      expect(
-        body['user']['id'],
-        'Assert body["user"]["id"] matches a number'
-      ).to.be.gt(0)
-      expect(
-        body['user']['name'],
-        'Assert body["user"]["name"] matches a string'
-      ).to.eq(registeredUser.registeredName)
-      expect(
-        body['user']['email'],
-        'Assert body["user"]["email"] matches a string'
-      ).to.eq(registeredUser.registeredEmail)
-      expect(
-        body['user']['title'],
-        'Assert body["user"]["title"] is empty'
-      ).to.eq('')
-      expect(
-        body['user']['birth_day'],
-        'Assert body["user"]["birth_day"] matches a string'
-      ).to.eq(registeredUser.registeredBirthday)
-      expect(
-        body['user']['birth_month'],
-        'Assert body["user"]["birth_month"] matches a string'
-      ).to.eq(registeredUser.registeredMonth)
-      expect(
-        body['user']['birth_year'],
-        'Assert body["user"]["birth_year"] matches a string'
-      ).to.eq(registeredUser.registeredYear)
-      expect(
-        body['user']['first_name'],
-        'Assert body["user"]["first_name"] matches a string'
-      ).to.eq(registeredUser.registeredFirstName)
-      expect(
-        body['user']['last_name'],
-        'Assert body["user"]["last_name"] matches a string'
-      ).to.eq(registeredUser.registeredLastName)
-      expect(
-        body['user']['company'],
-        'Assert body["user"]["company"] matches a string'
-      ).to.eq(registeredUser.registeredCompany)
-      expect(
-        body['user']['address1'],
-        'Assert body["user"]["address1"] matches a string'
-      ).to.eq(registeredUser.registeredAddress)
-      expect(
-        body['user']['address2'],
-        'Assert body["user"]["address2"] is empty'
-      ).to.eq('')
-      expect(
-        body['user']['country'],
-        'Assert body["user"]["country"] matches a string'
-      ).to.eq(registeredUser.registeredCountry)
-      expect(
-        body['user']['state'],
-        'Assert body["user"]["state"] matches a string'
-      ).to.eq(registeredUser.registeredState)
-      expect(
-        body['user']['city'],
-        'Assert body["user"]["city"] matches a string'
-      ).to.eq(registeredUser.registeredCity)
+      expect(body['user']['id'], 'Assert body["user"]["id"] matches a number').to.be.gt(0)
+      expect(body['user']['name'], 'Assert body["user"]["name"] matches a string').to.eq(registeredUser.registeredName)
+      expect(body['user']['email'], 'Assert body["user"]["email"] matches a string').to.eq(
+        registeredUser.registeredEmail
+      )
+      expect(body['user']['title'], 'Assert body["user"]["title"] is empty').to.eq('')
+      expect(body['user']['birth_day'], 'Assert body["user"]["birth_day"] matches a string').to.eq(
+        registeredUser.registeredBirthday
+      )
+      expect(body['user']['birth_month'], 'Assert body["user"]["birth_month"] matches a string').to.eq(
+        registeredUser.registeredMonth
+      )
+      expect(body['user']['birth_year'], 'Assert body["user"]["birth_year"] matches a string').to.eq(
+        registeredUser.registeredYear
+      )
+      expect(body['user']['first_name'], 'Assert body["user"]["first_name"] matches a string').to.eq(
+        registeredUser.registeredFirstName
+      )
+      expect(body['user']['last_name'], 'Assert body["user"]["last_name"] matches a string').to.eq(
+        registeredUser.registeredLastName
+      )
+      expect(body['user']['company'], 'Assert body["user"]["company"] matches a string').to.eq(
+        registeredUser.registeredCompany
+      )
+      expect(body['user']['address1'], 'Assert body["user"]["address1"] matches a string').to.eq(
+        registeredUser.registeredAddress
+      )
+      expect(body['user']['address2'], 'Assert body["user"]["address2"] is empty').to.eq('')
+      expect(body['user']['country'], 'Assert body["user"]["country"] matches a string').to.eq(
+        registeredUser.registeredCountry
+      )
+      expect(body['user']['state'], 'Assert body["user"]["state"] matches a string').to.eq(
+        registeredUser.registeredState
+      )
+      expect(body['user']['city'], 'Assert body["user"]["city"] matches a string').to.eq(registeredUser.registeredCity)
     })
   })
   it('API 15: Login registered User (login)', () => {
@@ -472,70 +367,40 @@ describe('Automation excersize API CRUD:', () => {
       const body = JSON.parse(response.body)
       expect(body).to.have.keys(['responseCode', 'user'])
       expect(body['user']).to.have.keys(userFieldKeys)
-      expect(
-        body['user']['id'],
-        'Assert body["user"]["id"] matches a number'
-      ).to.be.gt(0)
-      expect(
-        body['user']['name'],
-        'Assert body["user"]["name"] matches a string'
-      ).to.eq(payloadCreateUser.name)
-      expect(
-        body['user']['email'],
-        'Assert body["user"]["email"] matches a string'
-      ).to.eq(payloadCreateUser.email)
-      expect(
-        body['user']['title'],
-        'Assert body["user"]["title"] is empty'
-      ).to.eq(user.title)
-      expect(
-        body['user']['birth_day'],
-        'Assert body["user"]["birth_day"] matches a string'
-      ).to.eq(payloadCreateUser.birth_date)
-      expect(
-        body['user']['birth_month'],
-        'Assert body["user"]["birth_month"] matches a string'
-      ).to.eq(payloadCreateUser.birth_month)
-      expect(
-        body['user']['birth_year'],
-        'Assert body["user"]["birth_year"] matches a string'
-      ).to.eq(payloadCreateUser.birth_year)
-      expect(
-        body['user']['first_name'],
-        'Assert body["user"]["first_name"] matches a string'
-      ).to.eq(payloadCreateUser.firstname)
-      expect(
-        body['user']['last_name'],
-        'Assert body["user"]["last_name"] matches a string'
-      ).to.eq(payloadCreateUser.lastname)
-      expect(
-        body['user']['company'],
-        'Assert body["user"]["company"] matches a string'
-      ).to.eq(payloadCreateUser.company)
-      expect(
-        body['user']['address1'],
-        'Assert body["user"]["address1"] matches a string'
-      ).to.eq(payloadCreateUser.address1)
-      expect(
-        body['user']['address2'],
-        'Assert body["user"]["address2"] is empty'
-      ).to.eq('')
-      expect(
-        body['user']['country'],
-        'Assert body["user"]["country"] matches a string'
-      ).to.eq(payloadCreateUser.country)
-      expect(
-        body['user']['state'],
-        'Assert body["user"]["state"] matches a string'
-      ).to.eq(payloadCreateUser.state)
-      expect(
-        body['user']['city'],
-        'Assert body["user"]["city"] matches a string'
-      ).to.eq(payloadCreateUser.city)
-      expect(
-        body['user']['zipcode'],
-        'Assert body["user"]["zipcode"] matches a string'
-      ).to.eq(payloadCreateUser.zipcode)
+      expect(body['user']['id'], 'Assert body["user"]["id"] matches a number').to.be.gt(0)
+      expect(body['user']['name'], 'Assert body["user"]["name"] matches a string').to.eq(payloadCreateUser.name)
+      expect(body['user']['email'], 'Assert body["user"]["email"] matches a string').to.eq(payloadCreateUser.email)
+      expect(body['user']['title'], 'Assert body["user"]["title"] is empty').to.eq(user.title)
+      expect(body['user']['birth_day'], 'Assert body["user"]["birth_day"] matches a string').to.eq(
+        payloadCreateUser.birth_date
+      )
+      expect(body['user']['birth_month'], 'Assert body["user"]["birth_month"] matches a string').to.eq(
+        payloadCreateUser.birth_month
+      )
+      expect(body['user']['birth_year'], 'Assert body["user"]["birth_year"] matches a string').to.eq(
+        payloadCreateUser.birth_year
+      )
+      expect(body['user']['first_name'], 'Assert body["user"]["first_name"] matches a string').to.eq(
+        payloadCreateUser.firstname
+      )
+      expect(body['user']['last_name'], 'Assert body["user"]["last_name"] matches a string').to.eq(
+        payloadCreateUser.lastname
+      )
+      expect(body['user']['company'], 'Assert body["user"]["company"] matches a string').to.eq(
+        payloadCreateUser.company
+      )
+      expect(body['user']['address1'], 'Assert body["user"]["address1"] matches a string').to.eq(
+        payloadCreateUser.address1
+      )
+      expect(body['user']['address2'], 'Assert body["user"]["address2"] is empty').to.eq('')
+      expect(body['user']['country'], 'Assert body["user"]["country"] matches a string').to.eq(
+        payloadCreateUser.country
+      )
+      expect(body['user']['state'], 'Assert body["user"]["state"] matches a string').to.eq(payloadCreateUser.state)
+      expect(body['user']['city'], 'Assert body["user"]["city"] matches a string').to.eq(payloadCreateUser.city)
+      expect(body['user']['zipcode'], 'Assert body["user"]["zipcode"] matches a string').to.eq(
+        payloadCreateUser.zipcode
+      )
     })
   })
   it('API 11.2: POST To Verify Login Created User with valid details', () => {
@@ -584,70 +449,40 @@ describe('Automation excersize API CRUD:', () => {
       const body = JSON.parse(response.body)
       expect(body).to.have.keys(['responseCode', 'user'])
       expect(body['user']).to.have.keys(userFieldKeys)
-      expect(
-        body['user']['id'],
-        'Assert body["user"]["id"] matches a number'
-      ).to.be.gt(0)
-      expect(
-        body['user']['name'],
-        'Assert body["user"]["name"] matches a string'
-      ).to.eq(payloadUpdateUser.name)
-      expect(
-        body['user']['email'],
-        'Assert body["user"]["email"] matches a string'
-      ).to.eq(payloadUpdateUser.email)
-      expect(
-        body['user']['title'],
-        'Assert body["user"]["title"] is empty'
-      ).to.eq(updatedUser.title)
-      expect(
-        body['user']['birth_day'],
-        'Assert body["user"]["birth_day"] matches a string'
-      ).to.eq(payloadUpdateUser.birth_date)
-      expect(
-        body['user']['birth_month'],
-        'Assert body["user"]["birth_month"] matches a string'
-      ).to.eq(payloadUpdateUser.birth_month)
-      expect(
-        body['user']['birth_year'],
-        'Assert body["user"]["birth_year"] matches a string'
-      ).to.eq(payloadUpdateUser.birth_year)
-      expect(
-        body['user']['first_name'],
-        'Assert body["user"]["first_name"] matches a string'
-      ).to.eq(payloadUpdateUser.firstname)
-      expect(
-        body['user']['last_name'],
-        'Assert body["user"]["last_name"] matches a string'
-      ).to.eq(payloadUpdateUser.lastname)
-      expect(
-        body['user']['company'],
-        'Assert body["user"]["company"] matches a string'
-      ).to.eq(payloadUpdateUser.company)
-      expect(
-        body['user']['address1'],
-        'Assert body["user"]["address1"] matches a string'
-      ).to.eq(payloadUpdateUser.address1)
-      expect(
-        body['user']['address2'],
-        'Assert body["user"]["address2"] is empty'
-      ).to.eq('')
-      expect(
-        body['user']['country'],
-        'Assert body["user"]["country"] matches a string'
-      ).to.eq(payloadUpdateUser.country)
-      expect(
-        body['user']['state'],
-        'Assert body["user"]["state"] matches a string'
-      ).to.eq(payloadUpdateUser.state)
-      expect(
-        body['user']['city'],
-        'Assert body["user"]["city"] matches a string'
-      ).to.eq(payloadUpdateUser.city)
-      expect(
-        body['user']['zipcode'],
-        'Assert body["user"]["zipcode"] matches a string'
-      ).to.eq(payloadUpdateUser.zipcode)
+      expect(body['user']['id'], 'Assert body["user"]["id"] matches a number').to.be.gt(0)
+      expect(body['user']['name'], 'Assert body["user"]["name"] matches a string').to.eq(payloadUpdateUser.name)
+      expect(body['user']['email'], 'Assert body["user"]["email"] matches a string').to.eq(payloadUpdateUser.email)
+      expect(body['user']['title'], 'Assert body["user"]["title"] is empty').to.eq(updatedUser.title)
+      expect(body['user']['birth_day'], 'Assert body["user"]["birth_day"] matches a string').to.eq(
+        payloadUpdateUser.birth_date
+      )
+      expect(body['user']['birth_month'], 'Assert body["user"]["birth_month"] matches a string').to.eq(
+        payloadUpdateUser.birth_month
+      )
+      expect(body['user']['birth_year'], 'Assert body["user"]["birth_year"] matches a string').to.eq(
+        payloadUpdateUser.birth_year
+      )
+      expect(body['user']['first_name'], 'Assert body["user"]["first_name"] matches a string').to.eq(
+        payloadUpdateUser.firstname
+      )
+      expect(body['user']['last_name'], 'Assert body["user"]["last_name"] matches a string').to.eq(
+        payloadUpdateUser.lastname
+      )
+      expect(body['user']['company'], 'Assert body["user"]["company"] matches a string').to.eq(
+        payloadUpdateUser.company
+      )
+      expect(body['user']['address1'], 'Assert body["user"]["address1"] matches a string').to.eq(
+        payloadUpdateUser.address1
+      )
+      expect(body['user']['address2'], 'Assert body["user"]["address2"] is empty').to.eq('')
+      expect(body['user']['country'], 'Assert body["user"]["country"] matches a string').to.eq(
+        payloadUpdateUser.country
+      )
+      expect(body['user']['state'], 'Assert body["user"]["state"] matches a string').to.eq(payloadUpdateUser.state)
+      expect(body['user']['city'], 'Assert body["user"]["city"] matches a string').to.eq(payloadUpdateUser.city)
+      expect(body['user']['zipcode'], 'Assert body["user"]["zipcode"] matches a string').to.eq(
+        payloadUpdateUser.zipcode
+      )
     })
   })
   it('API 12.3: DELETE To Delete User Account with invalid details', () => {
@@ -663,9 +498,7 @@ describe('Automation excersize API CRUD:', () => {
         // Assert
         verifyStatusAndHeaders(response, 200, 404)
         const body = JSON.parse(response.body)
-        expect(body['message'], bodyMessage(accountNotFound)).to.eq(
-          accountNotFound
-        )
+        expect(body['message'], bodyMessage(accountNotFound)).to.eq(accountNotFound)
       })
     }
   })
