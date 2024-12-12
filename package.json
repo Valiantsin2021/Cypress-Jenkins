@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "cypress.config.js",
+  "type": "module",
   "scripts": {
     "test": "npx cypress run --headless",
     "badges": "npx -p dependency-version-badge update-badge cypress",

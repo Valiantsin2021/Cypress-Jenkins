@@ -1,15 +1,63 @@
 import { user } from '../../fixtures/DataBuilder.js'
 import {
-  payloadPOST,
-  payloadPUT,
+  endpoints,
+  errorMessages,
+  messages,
+  payloadCreateUser,
+  payloadLoginWrongEmail,
+  payloadLoginWrongPassword,
+  payloadUpdateUser,
   payloadwithoutEmail,
   payloadwithoutPassword,
-  payloadWrongEmail,
-  payloadWrongPassword,
   registeredUser,
+  requestsData,
   updatedUser
-} from '../../fixtures/api_data.js'
-import { constants } from '../../fixtures/constants_products.js'
+} from '../../fixtures/api_constants.js'
+const {
+  methodNotSupported,
+  searchParamMissing,
+  userExists,
+  emailOrPasswordMissing,
+  userNotFound,
+  accountNotFound,
+  emailNotFound
+} = errorMessages
+const {
+  productsList,
+  brandsList,
+  searchProduct,
+  verifyLogin,
+  getUserDetailByEmail,
+  createAccount,
+  updateAccount,
+  deleteAccount
+} = endpoints
+const {
+  responseStatusOK,
+  bodyMessage,
+  responseCode,
+  userCreated,
+  userUpdated,
+  accountDeleted
+} = messages
+const userFieldKeys = [
+  'id',
+  'name',
+  'email',
+  'title',
+  'birth_day',
+  'birth_month',
+  'birth_year',
+  'first_name',
+  'last_name',
+  'company',
+  'address1',
+  'address2',
+  'country',
+  'state',
+  'city',
+  'zipcode'
+]
 const assertHeaders = headers => {
   expect(headers).to.have.property('transfer-encoding', 'chunked')
   expect(headers).to.have.property('connection', 'keep-alive')
@@ -33,13 +81,15 @@ describe('Automation excersize API:', () => {
   it('API 1: Get All Products List (productsList)', () => {
     // Arrange
     // Act
-    cy.api({ url: '/api/productsList' }).then(response => {
+    cy.api({ url: productsList }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
-      expect(response.status, 'Response status OK').to.eq(200)
-      cy.log(Object.entries(response.headers))
+      expect(response.status, responseStatusOK).to.eq(200)
       assertHeaders(response.headers)
       expect(body['responseCode']).to.eq(200)
+      expect(body['products'], 'Assert body["products"] is array').to.be.an(
+        'array'
+      )
       expect(body['products'], 'Assert body["products"] is array').to.be.an(
         'array'
       )
@@ -60,7 +110,7 @@ describe('Automation excersize API:', () => {
         expect(
           body['products'][i]['id'],
           `Assert body["products"][${i}]["id"] is a number`
-        ).to.be.a('number')
+        ).to.be.gt(0)
         expect(
           body['products'][i]['name'],
           `Assert body["products"][${i}]["name"] is a string`
@@ -87,47 +137,39 @@ describe('Automation excersize API:', () => {
   it('API 2: POST To All Products List (productsList)', () => {
     // Arrange
     // Act
+    const type = 'string'
     const data = {
       id: 1,
-      name: 'string',
-      price: 'string',
-      brand: 'string',
+      name: type,
+      price: type,
+      brand: type,
       category: {
         usertype: {
-          usertype: 'string'
+          usertype: type
         },
-        category: constants.categories[0]
+        category: requestsData.categories[0]
       }
     }
-    cy.api({ method: 'POST', url: '/api/productsList', data }).then(
-      response => {
-        // Assert
-        const body = JSON.parse(response.body)
-        assertHeaders(response.headers)
-        expect(response.status, 'Response status OK').to.eq(200)
-        expect(
-          body['responseCode'],
-          'Assert body["responseCode"] matches a number'
-        ).to.eq(405)
-        expect(
-          body['message'],
-          'Assert body["message"] matches a string'
-        ).to.eq('This request method is not supported.')
-      }
-    )
+    cy.api({ method: 'POST', url: productsList, data }).then(response => {
+      // Assert
+      const body = JSON.parse(response.body)
+      assertHeaders(response.headers)
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(405)).to.eq(405)
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
+        methodNotSupported
+      )
+    })
   })
   it('API 3: Get All Brands List (brandsList)', () => {
     // Arrange
     // Act
-    cy.api({ url: '/api/brandsList' }).then(response => {
+    cy.api({ url: brandsList }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
       expect(body['brands'], 'Assert body["brands"] is array').to.be.an('array')
       expect(
         body['brands'].length,
@@ -144,7 +186,7 @@ describe('Automation excersize API:', () => {
         expect(
           body['brands'][i]['id'],
           `Assert body['brands'][${i}]['id'] is a number`
-        ).to.be.a('number')
+        ).to.be.gt(0)
         expect(
           body['brands'][i]['brand'],
           `Assert body['brands'][${i}]['brand'] is a string`
@@ -157,42 +199,36 @@ describe('Automation excersize API:', () => {
     // Act
     const data = {
       id: 1,
-      brand: constants.brands[0]
+      brand: requestsData.brands[0]
     }
-    cy.api({ method: 'PUT', url: '/api/brandsList', data }).then(response => {
+    cy.api({ method: 'PUT', url: brandsList, data }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(405)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'This request method is not supported.'
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(405)).to.eq(405)
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
+        methodNotSupported
       )
     })
   })
   it('API 5: POST To Search Products (searchProduct)', () => {
     // Arrange
     const data = {
-      search_product: constants.products[0]
+      search_product: requestsData.products[0]
     }
     // Act
     cy.api({
       method: 'POST',
-      url: '/api/searchProduct?search_product=top',
+      url: searchProduct,
       form: true,
       body: data
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
       expect(body['products'], 'Assert body["products"] is array').to.be.an(
         'array'
       )
@@ -212,12 +248,12 @@ describe('Automation excersize API:', () => {
       for (let i = 0; i < body['products'].length; i++) {
         expect(
           body['products'][i],
-          `Assert body["products"][${i}]has property "id"`
+          `Assert body["products"][${i}] has property "id"`
         ).to.have.property('id')
         expect(
           body['products'][i]['id'],
           `Assert body["products"][${i}]["id"] is a number`
-        ).to.be.a('number')
+        ).to.be.gt(0)
         expect(
           body['products'][i]['name'],
           `Assert body["products"][${i}]["name"] is a string`
@@ -244,17 +280,14 @@ describe('Automation excersize API:', () => {
   it('API 6: POST To Search Product without search_product parameter (searchProduct)', () => {
     // Arrange
     // Act
-    cy.api({ method: 'POST', url: '/api/searchProduct' }).then(response => {
+    cy.api({ method: 'POST', url: searchProduct }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(400)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'Bad request, search_product parameter is missing in POST request.'
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(400)).to.eq(400)
+      expect(body['message'], bodyMessage(searchParamMissing)).to.eq(
+        searchParamMissing
       )
     })
   })
@@ -267,46 +300,35 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({
       method: 'POST',
-      url: '/api/verifyLogin',
+      url: verifyLogin,
       form: true,
       body: data
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'User exists!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
+      expect(body['message'], bodyMessage(userExists)).to.eq(userExists)
     })
   })
   for (let data of [payloadwithoutEmail, payloadwithoutPassword]) {
-    it(`API 8: POST To Verify Login with invalid details (verifyLogin): ${JSON.stringify(data.form)}`, () => {
+    it(`API 8: POST To Verify Login with invalid details (verifyLogin): ${JSON.stringify(data)}`, () => {
       // Arrange
       // Act
       cy.api({
         method: 'POST',
-        url: '/api/verifyLogin',
+        url: verifyLogin,
         form: true,
         body: data
       }).then(response => {
         // Assert
         const body = JSON.parse(response.body)
         assertHeaders(response.headers)
-        expect(response.status, 'Response status OK').to.eq(200)
-        expect(
-          body['responseCode'],
-          'Assert body["responseCode"] matches a number'
-        ).to.eq(400)
-        expect(
-          body['message'],
-          'Assert body["message"] matches a string'
-        ).to.eq(
-          'Bad request, email or password parameter is missing in POST request.'
+        expect(response.status, responseStatusOK).to.eq(200)
+        expect(body['responseCode'], responseCode(400)).to.eq(400)
+        expect(body['message'], bodyMessage(emailOrPasswordMissing)).to.eq(
+          emailOrPasswordMissing
         )
       })
     })
@@ -314,50 +336,41 @@ describe('Automation excersize API:', () => {
   it('API 9: DELETE To Verify Login endpoint (verifyLogin)', () => {
     // Arrange
     // Act
-    cy.api({ method: 'DELETE', url: '/api/verifyLogin' }).then(response => {
+    cy.api({ method: 'DELETE', url: verifyLogin }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(405)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'This request method is not supported.'
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(405)).to.eq(405)
+      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(
+        methodNotSupported
       )
     })
   })
   it('API 10: POST To Verify Login with invalid details (verifyLogin)', () => {
     // Arrange
-    const payloadWrongEmail = {
-      email: constants.wrongEmail,
+    const payloadLoginWrongEmail = {
+      email: requestsData.wrongEmail,
       password: registeredUser.registeredPassword
     }
-    const payloadWrongPassword = {
+    const payloadLoginWrongPassword = {
       email: registeredUser.registeredEmail,
-      password: constants.wrongPassword
+      password: requestsData.wrongPassword
     }
-    for (let data of [payloadWrongEmail, payloadWrongPassword]) {
+    for (let data of [payloadLoginWrongEmail, payloadLoginWrongPassword]) {
       // Act
       cy.api({
         method: 'POST',
-        url: '/api/verifyLogin',
+        url: verifyLogin,
         form: true,
         body: data
       }).then(response => {
         // Assert
         const body = JSON.parse(response.body)
         assertHeaders(response.headers)
-        expect(response.status, 'Response status OK').to.eq(200)
-        expect(
-          body['responseCode'],
-          'Assert body["responseCode"] matches a number'
-        ).to.eq(404)
-        expect(
-          body['message'],
-          'Assert body["message"] matches a string'
-        ).to.eq('User not found!')
+        expect(response.status, responseStatusOK).to.eq(200)
+        expect(body['responseCode'], responseCode(404)).to.eq(404)
+        expect(body['message'], bodyMessage(userNotFound)).to.eq(userNotFound)
       })
     }
   })
@@ -367,29 +380,13 @@ describe('Automation excersize API:', () => {
       email: registeredUser.registeredEmail
     }
     // Act
-    cy.api({ url: '/api/getUserDetailByEmail', qs: data }).then(response => {
+    cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(body['user']).to.have.keys([
-        'id',
-        'name',
-        'email',
-        'title',
-        'birth_day',
-        'birth_month',
-        'birth_year',
-        'first_name',
-        'last_name',
-        'company',
-        'address1',
-        'address2',
-        'country',
-        'state',
-        'city',
-        'zipcode'
-      ])
-      expect(response.status, 'Response status OK').to.eq(200)
+      expect(body['user']).to.have.keys(userFieldKeys)
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
       expect(
         body['user']['id'],
         'Assert body["user"]["id"] matches a number'
@@ -463,18 +460,21 @@ describe('Automation excersize API:', () => {
     cy.api({ url: '/' }).then(response => {
       const csrf = response.headers['set-cookie'][0].split(';')[0].split('=')[1]
       data.csrfmiddlewaretoken = csrf
-      cy.api({
-        method: 'POST',
-        url: '/createAccount',
-        form: true,
-        headers: {
-          Referer: `https://www.automationexercise.com/login`,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: data
-      }).then(response => {
-        // Assert
-        expect(response.status, 'Response status OK').to.eq(200)
+      const headers = {
+        Referer: `https://www.automationexercise.com/login`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+      cy.wrap(data).then(data => {
+        cy.api({
+          method: 'POST',
+          url: '/login',
+          form: true,
+          headers,
+          body: data
+        }).then(response => {
+          // Assert
+          expect(response.status, responseStatusOK).to.eq(200)
+        })
       })
     })
   })
@@ -485,57 +485,32 @@ describe('Automation excersize API CRUD:', () => {
     // Act
     cy.api({
       method: 'POST',
-      url: '/api/createAccount',
+      url: `/api${createAccount}`,
       form: true,
-      body: payloadPOST
+      body: payloadCreateUser
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(201)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'User created!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(201)).to.eq(201)
+      expect(body['message'], bodyMessage(userCreated)).to.eq(userCreated)
     })
   })
   it('API 11.1: GET Created User Account by email', () => {
     // Arrange
     const data = {
-      email: payloadPOST.email
+      email: payloadCreateUser.email
     }
     // Act
-    cy.api({ url: '/api/getUserDetailByEmail', qs: data }).then(response => {
+    cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
+      expect(response.status, responseStatusOK).to.eq(200)
       expect(body).to.have.keys(['responseCode', 'user'])
-      expect(body['user']).to.have.keys([
-        'id',
-        'name',
-        'email',
-        'title',
-        'birth_day',
-        'birth_month',
-        'birth_year',
-        'first_name',
-        'last_name',
-        'company',
-        'address1',
-        'address2',
-        'country',
-        'state',
-        'city',
-        'zipcode'
-      ])
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
+      expect(body['user']).to.have.keys(userFieldKeys)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
       expect(
         body['user']['id'],
         'Assert body["user"]["id"] matches a number'
@@ -543,11 +518,11 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['name'],
         'Assert body["user"]["name"] matches a string'
-      ).to.eq(payloadPOST.name)
+      ).to.eq(payloadCreateUser.name)
       expect(
         body['user']['email'],
         'Assert body["user"]["email"] matches a string'
-      ).to.eq(payloadPOST.email)
+      ).to.eq(payloadCreateUser.email)
       expect(
         body['user']['title'],
         'Assert body["user"]["title"] is empty'
@@ -555,31 +530,31 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['birth_day'],
         'Assert body["user"]["birth_day"] matches a string'
-      ).to.eq(payloadPOST.birth_date)
+      ).to.eq(payloadCreateUser.birth_date)
       expect(
         body['user']['birth_month'],
         'Assert body["user"]["birth_month"] matches a string'
-      ).to.eq(payloadPOST.birth_month)
+      ).to.eq(payloadCreateUser.birth_month)
       expect(
         body['user']['birth_year'],
         'Assert body["user"]["birth_year"] matches a string'
-      ).to.eq(payloadPOST.birth_year)
+      ).to.eq(payloadCreateUser.birth_year)
       expect(
         body['user']['first_name'],
         'Assert body["user"]["first_name"] matches a string'
-      ).to.eq(payloadPOST.firstname)
+      ).to.eq(payloadCreateUser.firstname)
       expect(
         body['user']['last_name'],
         'Assert body["user"]["last_name"] matches a string'
-      ).to.eq(payloadPOST.lastname)
+      ).to.eq(payloadCreateUser.lastname)
       expect(
         body['user']['company'],
         'Assert body["user"]["company"] matches a string'
-      ).to.eq(payloadPOST.company)
+      ).to.eq(payloadCreateUser.company)
       expect(
         body['user']['address1'],
         'Assert body["user"]["address1"] matches a string'
-      ).to.eq(payloadPOST.address1)
+      ).to.eq(payloadCreateUser.address1)
       expect(
         body['user']['address2'],
         'Assert body["user"]["address2"] is empty'
@@ -587,45 +562,40 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['country'],
         'Assert body["user"]["country"] matches a string'
-      ).to.eq(payloadPOST.country)
+      ).to.eq(payloadCreateUser.country)
       expect(
         body['user']['state'],
         'Assert body["user"]["state"] matches a string'
-      ).to.eq(payloadPOST.state)
+      ).to.eq(payloadCreateUser.state)
       expect(
         body['user']['city'],
         'Assert body["user"]["city"] matches a string'
-      ).to.eq(payloadPOST.city)
+      ).to.eq(payloadCreateUser.city)
       expect(
         body['user']['zipcode'],
         'Assert body["user"]["zipcode"] matches a string'
-      ).to.eq(payloadPOST.zipcode)
+      ).to.eq(payloadCreateUser.zipcode)
     })
   })
   it('API 11.2: POST To Verify Login Created User with valid details', () => {
     // Arrange
     const data = {
-      email: payloadPOST.email,
-      password: payloadPOST.password
+      email: payloadCreateUser.email,
+      password: payloadCreateUser.password
     }
     // Act
     cy.api({
       method: 'POST',
-      url: '/api/verifyLogin',
+      url: verifyLogin,
       form: true,
       body: data
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'User exists!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
+      expect(body['message'], bodyMessage(userExists)).to.eq(userExists)
     })
   })
   it('API 13: PUT To Update User Account', () => {
@@ -633,57 +603,32 @@ describe('Automation excersize API CRUD:', () => {
     // Act
     cy.api({
       method: 'PUT',
-      url: '/api/updateAccount',
+      url: updateAccount,
       form: true,
-      body: payloadPUT
+      body: payloadUpdateUser
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'User updated!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
+      expect(body['message'], bodyMessage(userUpdated)).to.eq(userUpdated)
     })
   })
   it('API 13.1: GET Updated User Account by email', () => {
     // Arrange
     const data = {
-      email: payloadPUT.email
+      email: payloadUpdateUser.email
     }
     // Act
-    cy.api({ url: '/api/getUserDetailByEmail', qs: data }).then(response => {
+    cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
       expect(body).to.have.keys(['responseCode', 'user'])
-      expect(body['user']).to.have.keys([
-        'id',
-        'name',
-        'email',
-        'title',
-        'birth_day',
-        'birth_month',
-        'birth_year',
-        'first_name',
-        'last_name',
-        'company',
-        'address1',
-        'address2',
-        'country',
-        'state',
-        'city',
-        'zipcode'
-      ])
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
+      expect(body['user']).to.have.keys(userFieldKeys)
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
       expect(
         body['user']['id'],
         'Assert body["user"]["id"] matches a number'
@@ -691,11 +636,11 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['name'],
         'Assert body["user"]["name"] matches a string'
-      ).to.eq(payloadPUT.name)
+      ).to.eq(payloadUpdateUser.name)
       expect(
         body['user']['email'],
         'Assert body["user"]["email"] matches a string'
-      ).to.eq(payloadPUT.email)
+      ).to.eq(payloadUpdateUser.email)
       expect(
         body['user']['title'],
         'Assert body["user"]["title"] is empty'
@@ -703,31 +648,31 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['birth_day'],
         'Assert body["user"]["birth_day"] matches a string'
-      ).to.eq(payloadPUT.birth_date)
+      ).to.eq(payloadUpdateUser.birth_date)
       expect(
         body['user']['birth_month'],
         'Assert body["user"]["birth_month"] matches a string'
-      ).to.eq(payloadPUT.birth_month)
+      ).to.eq(payloadUpdateUser.birth_month)
       expect(
         body['user']['birth_year'],
         'Assert body["user"]["birth_year"] matches a string'
-      ).to.eq(payloadPUT.birth_year)
+      ).to.eq(payloadUpdateUser.birth_year)
       expect(
         body['user']['first_name'],
         'Assert body["user"]["first_name"] matches a string'
-      ).to.eq(payloadPUT.firstname)
+      ).to.eq(payloadUpdateUser.firstname)
       expect(
         body['user']['last_name'],
         'Assert body["user"]["last_name"] matches a string'
-      ).to.eq(payloadPUT.lastname)
+      ).to.eq(payloadUpdateUser.lastname)
       expect(
         body['user']['company'],
         'Assert body["user"]["company"] matches a string'
-      ).to.eq(payloadPUT.company)
+      ).to.eq(payloadUpdateUser.company)
       expect(
         body['user']['address1'],
         'Assert body["user"]["address1"] matches a string'
-      ).to.eq(payloadPUT.address1)
+      ).to.eq(payloadUpdateUser.address1)
       expect(
         body['user']['address2'],
         'Assert body["user"]["address2"] is empty'
@@ -735,116 +680,97 @@ describe('Automation excersize API CRUD:', () => {
       expect(
         body['user']['country'],
         'Assert body["user"]["country"] matches a string'
-      ).to.eq(payloadPUT.country)
+      ).to.eq(payloadUpdateUser.country)
       expect(
         body['user']['state'],
         'Assert body["user"]["state"] matches a string'
-      ).to.eq(payloadPUT.state)
+      ).to.eq(payloadUpdateUser.state)
       expect(
         body['user']['city'],
         'Assert body["user"]["city"] matches a string'
-      ).to.eq(payloadPUT.city)
+      ).to.eq(payloadUpdateUser.city)
       expect(
         body['user']['zipcode'],
         'Assert body["user"]["zipcode"] matches a string'
-      ).to.eq(payloadPUT.zipcode)
+      ).to.eq(payloadUpdateUser.zipcode)
     })
   })
   it('API 12.3: DELETE To Delete User Account with invalid details', () => {
     // Arrange
     // Act
-    for (let data of [payloadWrongEmail, payloadWrongPassword]) {
+    for (let data of [payloadLoginWrongEmail, payloadLoginWrongPassword]) {
       cy.api({
         method: 'DELETE',
-        url: '/api/deleteAccount',
+        url: deleteAccount,
         form: true,
         body: data
       }).then(response => {
         // Assert
         const body = JSON.parse(response.body)
         assertHeaders(response.headers)
-        expect(response.status, 'Response status OK').to.eq(200)
-        expect(
-          body['responseCode'],
-          'Assert body["responseCode"] matches a number'
-        ).to.eq(404)
-        expect(
-          body['message'],
-          'Assert body["message"] matches a string'
-        ).to.eq('Account not found!')
+        expect(response.status, responseStatusOK).to.eq(200)
+        expect(body['responseCode'], responseCode(404)).to.eq(404)
+        expect(body['message'], bodyMessage(accountNotFound)).to.eq(
+          accountNotFound
+        )
       })
     }
   })
   it('API 12: DELETE To Delete Existing User Account', () => {
     //Arrange
     const data = {
-      email: payloadPOST.email,
-      password: payloadPOST.password
+      email: payloadCreateUser.email,
+      password: payloadCreateUser.password
     }
     // Act
     cy.api({
       method: 'DELETE',
-      url: '/api/deleteAccount',
+      url: deleteAccount,
       form: true,
       body: data
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(200)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'Account deleted!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(200)).to.eq(200)
+      expect(body['message'], bodyMessage(accountDeleted)).to.eq(accountDeleted)
     })
   })
   it('API 12.1: GET Deleted User Account by email', () => {
     // Arrange
     const data = {
-      email: payloadPUT.email
+      email: payloadUpdateUser.email
     }
     // Act
-    cy.api({ url: '/api/getUserDetailByEmail', qs: data }).then(response => {
+    cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(404)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'Account not found with this email, try another email!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(404)).to.eq(404)
+      expect(body['message'], bodyMessage(emailNotFound)).to.eq(emailNotFound)
     })
   })
   it('API 12.2: POST To Verify Login with Deleted User Account', () => {
     // Arrange
     const data = {
-      email: payloadPOST.email,
-      password: payloadPOST.password
+      email: payloadCreateUser.email,
+      password: payloadCreateUser.password
     }
     // Act
     cy.api({
       method: 'POST',
-      url: '/api/verifyLogin',
+      url: verifyLogin,
       form: true,
       body: data
     }).then(response => {
       // Assert
       const body = JSON.parse(response.body)
       assertHeaders(response.headers)
-      expect(response.status, 'Response status OK').to.eq(200)
-      expect(
-        body['responseCode'],
-        'Assert body["responseCode"] matches a number'
-      ).to.eq(404)
-      expect(body['message'], 'Assert body["message"] matches a string').to.eq(
-        'User not found!'
-      )
+      expect(response.status, responseStatusOK).to.eq(200)
+      expect(body['responseCode'], responseCode(404)).to.eq(404)
+      expect(body['message'], bodyMessage(userNotFound)).to.eq(userNotFound)
     })
   })
 })
