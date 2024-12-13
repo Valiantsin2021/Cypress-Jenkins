@@ -123,4 +123,9 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     freestyleProjectPage.getJobHeadline().should('have.text', project.name)
     freestyleProjectPage.getProjectInfoSection().should('include.text', `${project.folderName}/${project.name}`)
   })
+  it('TC_00.001.22| New Item > Verify Project Description size ', () => {
+    dashboardPage.clickNewItemMenuLink()
+    newJobPage.typeNewItemName(project.name).selectFreestyleProject()
+    newJobPage.getFreestyleProjectDescriptionSize().should('have.css', 'font-size', '14px')
+  })
 })
