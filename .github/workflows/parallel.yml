@@ -59,7 +59,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version-file: "package.json"
           cache: 'npm'
 
       # Install npm dependencies, cache them correctly

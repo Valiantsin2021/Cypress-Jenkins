@@ -2,7 +2,7 @@ const USERNAME = Cypress.env('local.admin.username')
 const PASSWORD = Cypress.env('local.admin.password')
 const LOCAL_PORT = Cypress.env('local.port')
 const LOCAL_HOST = Cypress.env('local.host')
-const isUITest = Cypress.spec.relative.includes('ui')
+const isUITest = Cypress.spec.relative.includes('ui') || Cypress.spec.relative.includes('performance')
 beforeEach(() => {
   if (isUITest) {
     chai.config.truncateThreshold = 0
