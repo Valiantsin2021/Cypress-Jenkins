@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 
+import '@bahmutov/cy-api'
 import 'allure-cypress'
 import 'cypress-real-events'
+import 'wick-a11y'
 import './commands'
 import './globalHooks'
-import '@bahmutov/cy-api'
+import './logger'
 
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
 Cypress.on(

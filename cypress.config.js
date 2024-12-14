@@ -2,6 +2,7 @@ const { allureCypress } = require('allure-cypress/reporter')
 const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
 const os = require('os')
+const addAccessibilityTasks = require('wick-a11y/accessibility-tasks')
 
 module.exports = defineConfig({
   viewportWidth: 1920,
@@ -10,9 +11,14 @@ module.exports = defineConfig({
   requestTimeout: 7000,
   defaultCommandTimeout: 7000,
   watchForFileChanges: false,
+  accessibilityFolder: 'reports',
+  env: {
+    enableAccessibilityVoice: true
+  },
   e2e: {
     baseUrl: 'https://www.automationexercise.com',
     setupNodeEvents(on, config) {
+      addAccessibilityTasks(on)
       on('task', {
         print(s) {
           console.log(s)

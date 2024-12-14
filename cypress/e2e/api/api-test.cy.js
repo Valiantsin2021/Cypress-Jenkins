@@ -1,4 +1,5 @@
 import { user } from '../../fixtures/DataBuilder.js'
+import { API_STATUSES } from '../../fixtures/api-statuses.js'
 import {
   endpoints,
   errorMessages,
@@ -15,6 +16,13 @@ import {
   updatedUser,
   userFieldKeys
 } from '../../fixtures/api_constants.js'
+const {
+  BAD_REQUEST_400_STATUS,
+  CREATED_201_STATUS,
+  METHOD_NOT_ALLOWED_405_STATUS,
+  NOT_FOUND_404_STATUS,
+  SUCCESSFUL_200_STATUS
+} = API_STATUSES
 const {
   methodNotSupported,
   searchParamMissing,
@@ -62,7 +70,7 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({ url: productsList }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
       expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
@@ -104,7 +112,7 @@ describe('Automation excersize API:', () => {
     }
     cy.api({ method: 'POST', url: productsList, data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 405)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
@@ -114,7 +122,7 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({ url: brandsList }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['brands'], 'Assert body["brands"] is array').to.be.an('array')
       expect(body['brands'].length, 'Assert body["brands"] have length: 34').to.eq(34)
@@ -137,7 +145,7 @@ describe('Automation excersize API:', () => {
     }
     cy.api({ method: 'PUT', url: brandsList, data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 405)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
@@ -155,7 +163,7 @@ describe('Automation excersize API:', () => {
       body: data
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
       expect(body['products'].length, 'Assert body["products"] has length: 1').to.eq(1)
@@ -185,7 +193,7 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({ method: 'POST', url: searchProduct }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 400)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, BAD_REQUEST_400_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(searchParamMissing)).to.eq(searchParamMissing)
     })
@@ -204,7 +212,7 @@ describe('Automation excersize API:', () => {
       body: data
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(userExists)).to.eq(userExists)
     })
@@ -220,7 +228,7 @@ describe('Automation excersize API:', () => {
         body: data
       }).then(response => {
         // Assert
-        verifyStatusAndHeaders(response, 200, 400)
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, BAD_REQUEST_400_STATUS)
         const body = JSON.parse(response.body)
         expect(body['message'], bodyMessage(emailOrPasswordMissing)).to.eq(emailOrPasswordMissing)
       })
@@ -231,7 +239,7 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({ method: 'DELETE', url: verifyLogin }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 405)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
     })
@@ -255,7 +263,7 @@ describe('Automation excersize API:', () => {
         body: data
       }).then(response => {
         // Assert
-        verifyStatusAndHeaders(response, 200, 404)
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, NOT_FOUND_404_STATUS)
         const body = JSON.parse(response.body)
         expect(body['message'], bodyMessage(userNotFound)).to.eq(userNotFound)
       })
@@ -269,7 +277,7 @@ describe('Automation excersize API:', () => {
     // Act
     cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['user']).to.have.keys(userFieldKeys)
       expect(body['user']['id'], 'Assert body["user"]["id"] matches a number').to.be.gt(0)
@@ -333,7 +341,7 @@ describe('Automation excersize API:', () => {
           body: data
         }).then(response => {
           // Assert
-          expect(response.status, responseStatusOK).to.eq(200)
+          expect(response.status, responseStatusOK).to.eq(SUCCESSFUL_200_STATUS)
         })
       })
     })
@@ -350,7 +358,7 @@ describe('Automation excersize API CRUD:', () => {
       body: payloadCreateUser
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 201)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, CREATED_201_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(userCreated)).to.eq(userCreated)
     })
@@ -363,7 +371,7 @@ describe('Automation excersize API CRUD:', () => {
     // Act
     cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body).to.have.keys(['responseCode', 'user'])
       expect(body['user']).to.have.keys(userFieldKeys)
@@ -417,7 +425,7 @@ describe('Automation excersize API CRUD:', () => {
       body: data
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(userExists)).to.eq(userExists)
     })
@@ -432,7 +440,7 @@ describe('Automation excersize API CRUD:', () => {
       body: payloadUpdateUser
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(userUpdated)).to.eq(userUpdated)
     })
@@ -445,7 +453,7 @@ describe('Automation excersize API CRUD:', () => {
     // Act
     cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body).to.have.keys(['responseCode', 'user'])
       expect(body['user']).to.have.keys(userFieldKeys)
@@ -496,7 +504,7 @@ describe('Automation excersize API CRUD:', () => {
         body: data
       }).then(response => {
         // Assert
-        verifyStatusAndHeaders(response, 200, 404)
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, NOT_FOUND_404_STATUS)
         const body = JSON.parse(response.body)
         expect(body['message'], bodyMessage(accountNotFound)).to.eq(accountNotFound)
       })
@@ -516,7 +524,7 @@ describe('Automation excersize API CRUD:', () => {
       body: data
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 200)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(accountDeleted)).to.eq(accountDeleted)
     })
@@ -529,7 +537,7 @@ describe('Automation excersize API CRUD:', () => {
     // Act
     cy.api({ url: getUserDetailByEmail, qs: data }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 404)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, NOT_FOUND_404_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(emailNotFound)).to.eq(emailNotFound)
     })
@@ -548,7 +556,7 @@ describe('Automation excersize API CRUD:', () => {
       body: data
     }).then(response => {
       // Assert
-      verifyStatusAndHeaders(response, 200, 404)
+      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, NOT_FOUND_404_STATUS)
       const body = JSON.parse(response.body)
       expect(body['message'], bodyMessage(userNotFound)).to.eq(userNotFound)
     })

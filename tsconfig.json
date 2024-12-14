@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "."
+    "baseUrl": "./"
   },
   "include": ["cypress/**/*.js", "cypress.config.js", "./node_modules/cypress"]
 }
