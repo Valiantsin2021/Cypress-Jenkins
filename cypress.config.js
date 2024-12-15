@@ -1,8 +1,12 @@
+/* eslint-disable chai-friendly/no-unused-expressions */
 const { allureCypress } = require('allure-cypress/reporter')
 const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
 const os = require('os')
 const addAccessibilityTasks = require('wick-a11y/accessibility-tasks')
+const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse')
+const { pa11y } = require('@cypress-audit/pa11y')
+const fs = require('fs')
 
 module.exports = defineConfig({
   viewportWidth: 1920,
@@ -18,6 +22,20 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://www.automationexercise.com',
     setupNodeEvents(on, config) {
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        prepareAudit(launchOptions)
+      })
+
+      on('task', {
+        lighthouse: lighthouse(lighthouseReport => {
+          console.log('---- Writing lighthouse report to disk ----')
+
+          fs.writeFile('./reports/lighthouse.html', lighthouseReport.report, error => {
+            error ? console.log(error) : console.log('Report created successfully')
+          })
+        }),
+        pa11y: pa11y(console.log.bind(console))
+      })
       addAccessibilityTasks(on)
       on('task', {
         print(s) {
