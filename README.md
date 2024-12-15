@@ -1,4 +1,4 @@
-# ProjectJS_2024_fall [![CI](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg)](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml) ![cypress version](https://img.shields.io/badge/cypress-13.16.0-brightgreen)
+# ProjectJS_2024_fall [![CI](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg)](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml) ![cypress version](https://img.shields.io/badge/cypress-13.16.1-brightgreen)
 
 Project report - https://valiantsin2021.github.io/Cypress-Jenkins/
 
