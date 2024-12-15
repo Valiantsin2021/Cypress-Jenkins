@@ -48,7 +48,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   })
 
   it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
-    header.hoverBreadcrumbsFolderName().getBreadcrumbsFolderDropdownMenu().click()
+    header.hoverBreadcrumbsFolderName().getBreadcrumbsFolderDropdownMenu().click({ force: true })
     dashboardPage.getRenameProjectDropdownMenuItem().click()
 
     folderPage

@@ -81,7 +81,7 @@ class Header {
     return this
   }
   clickDashboardDropdownChevron() {
-    this.getDashboardBreadcrumbChevron().click()
+    this.getDashboardBreadcrumbChevron().click({ force: true })
     return this
   }
 
