@@ -1,10 +1,11 @@
-import genData from '../../fixtures/genData'
-import myViewsPageData from '../../fixtures/myViewsPageData.json'
-import DashboardPage from '../../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
-import Header from '../../pageObjects/Header'
-import MyViewsPage from '../../pageObjects/MyViewsPage'
-import NewJobPage from '../../pageObjects/NewJobPage'
+import DashboardPage from '@pageObjects/DashboardPage.js'
+import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
+import Header from '@pageObjects/Header.js'
+import MyViewsPage from '@pageObjects/MyViewsPage.js'
+import NewJobPage from '@pageObjects/NewJobPage.js'
+
+import genData from '@fixtures/genData.js'
+import myViewsPageData from '@fixtures/myViewsPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

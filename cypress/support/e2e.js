@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
-
 import '@bahmutov/cy-api'
 import '@cypress-audit/lighthouse/commands'
 import '@cypress-audit/pa11y/commands'
 import 'allure-cypress'
 import 'cypress-real-events'
 import 'wick-a11y'
+
 import './commands'
 import './globalHooks'
 import './logger'

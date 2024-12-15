@@ -10,7 +10,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@pageObjects/*": ["cypress/pageObjects/*"],
+      "@fixtures/*": ["cypress/fixtures/*"]
+    }
   },
   "include": ["cypress/**/*.js", "cypress.config.js", "./node_modules/cypress"]
 }

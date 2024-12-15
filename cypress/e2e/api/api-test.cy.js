@@ -1,5 +1,5 @@
-import { user } from '../../fixtures/DataBuilder.js'
-import { API_STATUSES } from '../../fixtures/api-statuses.js'
+import { user } from '@fixtures/DataBuilder.js'
+import { API_STATUSES } from '@fixtures/api-statuses.js'
 import {
   endpoints,
   errorMessages,
@@ -15,7 +15,8 @@ import {
   requestsData,
   updatedUser,
   userFieldKeys
-} from '../../fixtures/api_constants.js'
+} from '@fixtures/api_constants.js'
+
 const {
   BAD_REQUEST_400_STATUS,
   CREATED_201_STATUS,

@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { newItem } from '../../fixtures/messages.json'
-import allKeys from '../../fixtures/newJobPageData.json'
-import DashboardPage from '../../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
-import Header from '../../pageObjects/Header'
-import NewJobPage from '../../pageObjects/NewJobPage'
-import PipelinePage from '../../pageObjects/PipelinePage'
+import DashboardPage from '@pageObjects/DashboardPage.js'
+import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
+import Header from '@pageObjects/Header.js'
+import NewJobPage from '@pageObjects/NewJobPage.js'
+import PipelinePage from '@pageObjects/PipelinePage.js'
+
+import { newItem } from '@fixtures/messages.json'
+import allKeys from '@fixtures/newJobPageData.json'
 
 const header = new Header()
 const dashboardPage = new DashboardPage()

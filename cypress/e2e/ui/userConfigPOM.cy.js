@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
-import { userDropdownLink } from '../../fixtures/dashboardPageData'
-import genData from '../../fixtures/genData'
-import Header from '../../pageObjects/Header'
-import UserPage from '../../pageObjects/UserPage'
-import BasePage from '../../pageObjects/basePage'
+import Header from '@pageObjects/Header.js'
+import UserPage from '@pageObjects/UserPage.js'
+import BasePage from '@pageObjects/basePage.js'
+
+import { userDropdownLink } from '@fixtures/dashboardPageData.json'
+import genData from '@fixtures/genData.js'
 
 const userDescription = faker.lorem.paragraph()
 const header = new Header()

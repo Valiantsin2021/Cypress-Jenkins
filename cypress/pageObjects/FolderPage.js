@@ -1,5 +1,5 @@
-import BasePage from './basePage'
 import NewJobPage from './NewJobPage'
+import BasePage from './basePage'
 
 class FolderPage extends BasePage {
   getTitleConfiguration = () => cy.get('#side-panel h1')

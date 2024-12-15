@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker'
-import genData from '../../fixtures/genData'
-import { newItem } from '../../fixtures/messages.json'
-import allKeys from '../../fixtures/newJobPageData.json'
-import DashboardPage from '../../pageObjects/DashboardPage'
-import Header from '../../pageObjects/Header'
-import NewJobPage from '../../pageObjects/NewJobPage'
+import DashboardPage from '@pageObjects/DashboardPage.js'
+import Header from '@pageObjects/Header.js'
+import NewJobPage from '@pageObjects/NewJobPage.js'
+
+import genData from '@fixtures/genData.js'
+import { newItem } from '@fixtures/messages.json'
+import allKeys from '@fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
