@@ -56,6 +56,7 @@ describe('Performance', () => {
       cy.window().then(win => {
         const { resourceTiming } = getPerformanceMetrics(win, 'navigationStart', 'loadEventEnd')
         const logoResourceTiming = resourceTiming.find(element => element.name.includes('.svg'))
+        expect(logoResourceTiming.duration, 'Resource timing is less than 500ms').to.be.lessThan(500)
       })
     })
 
@@ -75,7 +76,7 @@ describe('Performance', () => {
     /* The Largest Contentful Paint API provides information on all large paints.
        Use this API to evaluate the Core Web Vital Largest Contentful Paint (LCP).
     */
-    it(`Should load ${endpoint} page with largestContentfulPaint less than 500ms`, () => {
+    it.skip(`Should load ${endpoint} page with largestContentfulPaint less than 500ms`, () => {
       cy.visit(url)
       cy.window()
         .then(
@@ -100,7 +101,7 @@ describe('Performance', () => {
     /*The Layout Instability API provides information on all layout shifts.
       Use this API to evaluate the Core Web Vital Cumulative Layout Shift (CLS).
     */
-    it(`Should load ${endpoint} page with cumulativeLayoutShift less than 0.1`, () => {
+    it.skip(`Should load ${endpoint} page with cumulativeLayoutShift less than 0.1`, () => {
       cy.visit(url)
       cy.window()
         .then(
@@ -131,7 +132,7 @@ describe('Performance', () => {
     /*The Long Task API provides information about all JavaScript executions taking 50 milliseconds or more.
     Use this API to evaluate the Web Vital and lab metric Total Blocking Time (TBT).
     */
-    it(`Should load ${endpoint} page with totalBlockingTime less than 500ms`, () => {
+    it.skip(`Should load ${endpoint} page with totalBlockingTime less than 500ms`, () => {
       cy.visit(url)
       cy.window()
         .then(

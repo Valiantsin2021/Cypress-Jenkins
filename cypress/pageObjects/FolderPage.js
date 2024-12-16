@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 
@@ -11,8 +12,10 @@ class FolderPage extends BasePage {
   getFolderUrl = () => cy.url({ decode: true })
   getItemName = () => cy.get('*.jenkins-table__link span')
   getCreateAJobLink = () => cy.get('a[href="newJob"]')
+  getDisplayNameField = () => cy.get('input[class="jenkins-input validated  "]')
   getDescriptionField = () => cy.get('[name$="description"]')
   getFolderDescription = () => cy.get('#view-message')
+  getDisplayNameTooltip = () => cy.get('[tooltip="Help for feature: Display Name"]')
 
   verifyTitleConfigurationIsVisible() {
     this.getTitleConfiguration().should('be.visible')
@@ -45,6 +48,11 @@ class FolderPage extends BasePage {
 
   clickItemName(itemName) {
     this.getItemName().contains(itemName).click()
+    return this
+  }
+
+  typeDisplayName(displayName) {
+    this.getDisplayNameField().type(displayName)
     return this
   }
 }

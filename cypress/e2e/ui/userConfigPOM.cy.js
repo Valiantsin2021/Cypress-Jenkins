@@ -3,6 +3,7 @@ import Header from '@pageObjects/Header.js'
 import UserPage from '@pageObjects/UserPage.js'
 import BasePage from '@pageObjects/basePage.js'
 
+import configurePageData from '@fixtures/configurePageData.json'
 import { userDropdownLink } from '@fixtures/dashboardPageData.json'
 import genData from '@fixtures/genData.js'
 
@@ -10,9 +11,12 @@ const userDescription = faker.lorem.paragraph()
 const header = new Header()
 const userPage = new UserPage()
 const basePage = new BasePage()
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
 
 describe('US_13.003 | User > Config', () => {
   let name = genData.newProject()
+  let endPoint = configurePageData.userStatusEndpoint
 
   it('TC_13.003.02 | Update Profile Description via Config Menu', () => {
     header.clickUserDropdownLink()
@@ -56,6 +60,13 @@ describe('US_13.003 | User > Config', () => {
     header.clickUserName()
     basePage.clickConfigureLMenuOption()
     userPage.clearUserNameFieldFromConfig().typeUserName(name.userName).clickSaveButton()
+    cy.request({
+      method: 'GET',
+      url: `http://${LOCAL_HOST}:${LOCAL_PORT}/${endPoint}`
+    }).then(response => {
+      expect(response.status).to.eq(200)
+      expect(response.body.data.save).to.eq('Save')
+    })
     header.getBreadcrumbBar().should('not.contain', 'Configure').and('contain', name.userName)
     header.getUserNameLink().should('contain', name.userName)
     basePage.getJobHeadline().should('contain', name.userName)

@@ -1,6 +1,11 @@
 /* eslint-disable no-undef */
 import '@testing-library/cypress/add-commands'
 
+import DashboardPage from '../pageObjects/DashboardPage'
+import NewJobPage from '../pageObjects/NewJobPage'
+
+const dashBoardPage = new DashboardPage()
+const newJobPage = new NewJobPage()
 const USER_NAME = Cypress.env('local.admin.username')
 const PORT = Cypress.env('local.port')
 const HOST = Cypress.env('local.host')
@@ -254,4 +259,10 @@ Cypress.Commands.add('login', (userName = USERNAME, pass = PASSWORD) => {
   cy.wait('@security_check')
 })
 
-Cypress.Commands.add('createItemBasedOnType', (itemName, itemType) => {})
+Cypress.Commands.add('createItemByType', (itemName, itemType) => {
+  dashBoardPage.clickNewItemMenuLink()
+  newJobPage.clearItemNameField().typeNewItemName(`${itemName}`).getAllItemsList().contains(itemType).click()
+  newJobPage.clickOKButton().clickSaveButton()
+  let endPoint = itemName.replace(/ /g, '%20')
+  cy.url().should('contain', `${endPoint}`)
+})

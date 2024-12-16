@@ -64,4 +64,10 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     folderPage.clearNewNameField().typeNewFolderName(newFolderName.name).clickRenameButton()
     folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
   })
+  it('TC_04.001.12 | Verify that there is "Display Name" field and hint sign in the Configure section', () => {
+    dashboardPage.clickItemName(folderName.name)
+    folderPage.clickConfigureLMenuOption()
+    folderPage.getDisplayNameField().should('exist').and('be.visible')
+    folderPage.getDisplayNameTooltip().should('exist').and('be.visible')
+  })
 })
