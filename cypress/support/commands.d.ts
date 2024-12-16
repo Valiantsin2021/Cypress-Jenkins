@@ -12,7 +12,7 @@ declare namespace Cypress {
      * // Clean up all jobs, views, and nodes
      * cy.cleanData(null, true)
      */
-    cleanData(resources: string[], all = false): Promise<void>
+    cleanData(resources: string[], all: boolean): Promise<void>
     /**
      * Custom command to print to console log
      * @example cy.print({ foo: 'bar' })
