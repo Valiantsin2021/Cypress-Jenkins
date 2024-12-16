@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "@testing-library/cypress"],
     "lib": ["DOM", "ES2023"],
     "module": "ESNext",
     "target": "ESNext",
@@ -10,7 +10,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@pageObjects/*": ["cypress/pageObjects/*"],
+      "@fixtures/*": ["cypress/fixtures/*"]
+    }
   },
   "include": ["cypress/**/*.js", "cypress.config.js", "./node_modules/cypress"]
 }

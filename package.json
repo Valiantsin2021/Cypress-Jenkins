@@ -36,6 +36,7 @@
     "eslint-plugin-cypress": "4.1.0",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
+    "@trivago/prettier-plugin-sort-imports": "5.2.0",
     "prettier": "^3.4.2",
     "stop-only": "^3.4.2",
     "wick-a11y": "^1.2.2"

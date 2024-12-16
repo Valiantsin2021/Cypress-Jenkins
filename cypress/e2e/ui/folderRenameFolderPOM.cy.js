@@ -1,8 +1,9 @@
-import genData from '../../fixtures/genData'
-import DashboardPage from '../../pageObjects/DashboardPage'
-import FolderPage from '../../pageObjects/FolderPage'
-import Header from '../../pageObjects/Header'
-import NewJobPage from '../../pageObjects/NewJobPage'
+import DashboardPage from '@pageObjects/DashboardPage.js'
+import FolderPage from '@pageObjects/FolderPage.js'
+import Header from '@pageObjects/Header.js'
+import NewJobPage from '@pageObjects/NewJobPage.js'
+
+import genData from '@fixtures/genData.js'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -62,5 +63,11 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
     folderPage.clearNewNameField().typeNewFolderName(newFolderName.name).clickRenameButton()
     folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
+  })
+  it('TC_04.001.12 | Verify that there is "Display Name" field and hint sign in the Configure section', () => {
+    dashboardPage.clickItemName(folderName.name)
+    folderPage.clickConfigureLMenuOption()
+    folderPage.getDisplayNameField().should('exist').and('be.visible')
+    folderPage.getDisplayNameTooltip().should('exist').and('be.visible')
   })
 })

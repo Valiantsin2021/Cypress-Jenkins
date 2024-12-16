@@ -1,10 +1,13 @@
+/// <reference types="cypress"/>
 import { faker } from '@faker-js/faker'
-import genData from '../../fixtures/genData'
-import messages from '../../fixtures/messages.json'
-import DashboardPage from '../../pageObjects/DashboardPage'
-import FreestyleProjectPage from '../../pageObjects/FreestyleProjectPage'
-import Header from '../../pageObjects/Header'
-import NewJobPage from '../../pageObjects/NewJobPage'
+import DashboardPage from '@pageObjects/DashboardPage.js'
+import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
+import Header from '@pageObjects/Header.js'
+import NewJobPage from '@pageObjects/NewJobPage.js'
+
+import genData from '@fixtures/genData.js'
+import messages from '@fixtures/messages.json'
+import { newInstance } from '@fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
@@ -56,6 +59,7 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
       .should('include.text', newProjectName)
 
     header.getBreadcrumps().should('contain', newProjectName)
+    cy.cleanData([newProjectName])
   })
 
   it('TC-01.002.06| Rename a project name from the Dashboard page', () => {
@@ -186,5 +190,13 @@ describe('US_01.002 | FreestyleProject > Rename Project', () => {
       .should('have.text', 'Error')
     freestyleProjectPage.getErrorMessageParagraph().should('have.text', messages.renameItem.nameEndsWithDotError)
     cy.cleanData([project.longName, project2.longName])
+  })
+
+  it('TC_01.002.05 | Rename a project name from the Project Page', () => {
+    cy.createItemByType(project.name, newInstance[0])
+    freestyleProjectPage.clickRenameMenuOption().clearRenameField().typeNewName(project.newName).clickRenameButton()
+    freestyleProjectPage.getJobHeadline().should('contain', project.newName)
+    freestyleProjectPage.clickDashboardBreadcrumbsLink()
+    dashboardPage.getJobTitleLink(project.newName).should('contain', project.newName)
   })
 })

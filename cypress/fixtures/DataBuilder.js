@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+
 function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
