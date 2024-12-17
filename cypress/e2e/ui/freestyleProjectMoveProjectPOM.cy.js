@@ -94,7 +94,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     newJobPage.typeNewItemName(project.folderName).selectFolder().clickOKButton()
     header.clickJenkinsLogo()
 
-    dashboardPage.openDropdownForItem(project.name).clickMoveTheProjectButton()
+    dashboardPage.openDropdownForItem(project.name).clickMoveDropdownOption()
     freestyleProjectPage
       .clickMoveMenuOption()
       .selectNewProjectDestination(`/${project.folderName}`)
@@ -113,7 +113,7 @@ describe('US_01.006 | FreestyleProject > Move project', () => {
     dashboardPage.clickNewItemMenuOption()
     newJobPage.typeNewItemName(folder.name).selectFolder().clickOKButton()
     freestyleProjectPage.clickSaveButton().clickDashboardBreadcrumbsLink()
-    dashboardPage.clickProjectChevronIcon(project.name).clickMoveTheProjectButton()
+    dashboardPage.clickProjectChevronIcon(project.name).clickMoveDropdownOption()
     freestyleProjectPage
       .selectNewProjectDestination(`Jenkins » ${folder.name}`)
       .clickMoveButton()
