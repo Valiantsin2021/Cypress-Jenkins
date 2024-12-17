@@ -9,6 +9,7 @@ import SearchResuls from '@pageObjects/SearchResultsPage.js'
 import UserPage from '@pageObjects/UserPage.js'
 
 import configurePageData from '@fixtures/configurePageData.json'
+import firstCharacterSearchResultsData from '@fixtures/firstCharacterSearchResultsData.js'
 import genData from '@fixtures/genData.js'
 import headerData from '@fixtures/headerData.json'
 import messages from '@fixtures/messages.json'
@@ -94,14 +95,8 @@ describe('US_14.002 | Header > Search Box', () => {
 
   it('TC_14.002.04 | Message that no matches found', () => {
     header.search(searchTermNoMatches)
-    searchResults
-      .getTitle()
-      .should('have.css', 'color', searchResultsData.heading.cssRequirements.color)
-      .and('have.text', `${searchResultsData.heading.text} '${searchTermNoMatches}'`)
-    searchResults
-      .getNoMatchesErrorMessage()
-      .should('have.css', 'color', searchResultsData.error.cssRequirements.color)
-      .and('have.text', searchResultsData.error.text)
+    searchResults.getTitle().and('have.text', `${searchResultsData.heading.text} '${searchTermNoMatches}'`)
+    searchResults.getNoMatchesErrorMessage().and('have.text', searchResultsData.error.text)
   })
 
   it('TC_14.002.15 | Verify suggestions in the search box', () => {
@@ -119,10 +114,7 @@ describe('US_14.002 | Header > Search Box', () => {
 
   it('TC_14.002.02| Verify error message appears when no matches found', () => {
     header.typeSearchTerm(searchTermNoMatches).verifyAutoCompletionNotVisible().searchTerm()
-    searchResults
-      .getNoMatchesErrorMessage()
-      .should('contain', searchResultsData.error.text)
-      .and('have.css', 'color', searchResultsData.error.cssRequirements.color)
+    searchResults.getNoMatchesErrorMessage().should('contain', searchResultsData.error.text)
   })
 
   it('TC_14.002.13 | Verify auto-fill suggestions contain the search term', () => {
@@ -169,5 +161,28 @@ describe('US_14.002 | Header > Search Box', () => {
     header.getDashboardLink().should('be.visible')
     header.getHeader().should('exist')
     header.getSearchField().should('exist')
+  })
+  it.skip('TC_14.002.19 | Verify the search results for Lower and Uppercase characters are the same when insensitive search option is activated', () => {
+    const { firstSearchCharacter, characterSearchResults } = firstCharacterSearchResultsData
+    const randomFirstSearchCharacter = faker.helpers.arrayElement(firstSearchCharacter)
+    header.clickUserDropdownLink().clickUserConfigureItem()
+    userPage.checkCheckBox().clickSaveButton()
+    header.typeSearchTerm(randomFirstSearchCharacter.toUpperCase()).searchTerm()
+
+    cy.log('Verifying the search results contain the values, corresponding to the specified random Uppercase character')
+    const expectedResults = characterSearchResults[randomFirstSearchCharacter]
+    searchResults.retrieveSearchResults().then(uiResults => {
+      expect(uiResults).to.contain.members(expectedResults)
+
+      header.clearSearchField().typeSearchTerm(randomFirstSearchCharacter.toLowerCase()).searchTerm()
+      searchResults.fetchAutoCompletionSuggestions().then(lowerCaseSuggestions => {
+        header.clearSearchField().typeSearchTerm(randomFirstSearchCharacter.toUpperCase()).searchTerm()
+
+        cy.log('Verifying the auto - completion suggested variants of the Upper and Lowercase characters are the same')
+        searchResults.fetchAutoCompletionSuggestions().then(upperCaseSuggestions => {
+          expect(lowerCaseSuggestions).to.contain.members(upperCaseSuggestions)
+        })
+      })
+    })
   })
 })

@@ -1,3 +1,4 @@
+import FolderPage from './FolderPage'
 import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 
@@ -33,7 +34,9 @@ class DashboardPage extends BasePage {
   getBuildNowDropdownMenuItem = () => cy.get('button.jenkins-dropdown__item').contains('Build Now')
   getNotificationBar = () => cy.get('#notification-bar')
   getUserName = userName => cy.contains('a', userName)
-
+  getLastStableColumn = () => cy.contains('.sortheader', 'Last Stable')
+  getWeatherColumn = () => cy.get('a[href="#"]').contains('W')
+  getDescriptionColumn = () => cy.get('a[href="#"]').contains('Description')
   selectNewItemFromDashboardChevron() {
     this.getJobTableDropdownItem().each($els => {
       let eText = $els.text().trim()
@@ -107,8 +110,7 @@ class DashboardPage extends BasePage {
     return this
   }
 
-  clickMoveTheProjectButton() {
-    //rename please to clickMoveDropdownOption since it's available not only for project
+  clickMoveDropdownOption() {
     this.getMoveTheProject().click()
     return this
   }
@@ -159,6 +161,10 @@ class DashboardPage extends BasePage {
   clickViewTab(viewName) {
     this.getViewTab(viewName).click()
     return this
+  }
+  clickFolderMoveDropdownOption() {
+    this.getMoveTheProject().click()
+    return new FolderPage()
   }
 }
 

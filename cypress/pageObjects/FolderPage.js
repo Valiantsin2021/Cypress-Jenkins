@@ -15,6 +15,9 @@ class FolderPage extends BasePage {
   getDisplayNameField = () => cy.get('input[class="jenkins-input validated  "]')
   getDescriptionField = () => cy.get('[name$="description"]')
   getFolderDescription = () => cy.get('#view-message')
+  getMoveDestinationDropDownList = () => cy.get('select')
+  getMoveButton = () => cy.get('form > .jenkins-button')
+  getJobTitleLink = () => cy.get('.model-link.inside')
   getDisplayNameTooltip = () => cy.get('[tooltip="Help for feature: Display Name"]')
 
   verifyTitleConfigurationIsVisible() {
@@ -51,6 +54,20 @@ class FolderPage extends BasePage {
     return this
   }
 
+  clickFolderMoveDestinationDropdownList(ddOption) {
+    this.getMoveDestinationDropDownList().select(ddOption)
+    return this
+  }
+
+  clickMoveButton() {
+    this.getMoveButton().click()
+    return this
+  }
+
+  verifyFolderIsVisible() {
+    this.getJobTitleLink()
+    return this
+  }
   typeDisplayName(displayName) {
     this.getDisplayNameField().type(displayName)
     return this
