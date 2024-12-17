@@ -1,6 +1,33 @@
 # ProjectJS_2024_fall [![CI](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg)](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml) ![cypress version](https://img.shields.io/badge/cypress-13.16.1-brightgreen)
 
-Project report - https://valiantsin2021.github.io/Cypress-Jenkins/
+[Last run report](https://valiantsin2021.github.io/Cypress-Jenkins/)
+
+**Project Structure**
+
+This project is a complete example of a Test automation Framework using Cypress.
+
+AUT for this project is a docker based Jenkins instance.
+
+Automated tests include:
+
+- Functional UI tests using Cypress native commands
+- API tests - using cy-api plugin
+- Performance tests - using Lighthouse and inline performance scripts
+- Accessibility tests - using val-a11y plugin (modified fork of wick-a11y made by Sebastian Clavijo Suero)
+
+Tests are executed in parallel mode. (Parallelization on GitHub Actions with cypress-split plugin)
+
+Global cleanup is executed after each test via API calls (see commands.js file).
+
+**Reporters**
+
+Allure reporter with previous runs history is used to generate test reports.
+
+Accessibility reports are generated using val-a11y plugin.
+
+Lighthouse reports are generated using @cypress-audit/lighthouse plugin.
+
+CI pipeline is executed on GitHub Actions and test results are uploaded to Allure report and hosted on GitHub pages. - [Project report](https://valiantsin2021.github.io/Cypress-Jenkins/)
 
 **How to start working in our project?**
 
@@ -20,7 +47,7 @@ Naming conventions:
 We shall use Camelcase for naming conventions: ```camelCase```
 
 Spec names:
-student should create the spec containing the name of the userstory (US): ```header.cy.js``` 
+Spec should have a name containing the name of the userstory (US): ```header.cy.js``` 
 
 
 **Spec structure:**
@@ -38,30 +65,15 @@ describe('Header', () => {
     it('Verify logo jenkins is clickable and redirects to homePage', function () {
         ...
     })
-})
+}) 
 
-**Attention!**
+**Faker library**
 
-Students are not allowed to install any libraries, plugins, etc. to avoid changing configuration files. 
-
-**!!Do not push changed files as:**
-
-```package.json```
-```package.lock.json```
-```cypress.config.js```
-```e2e.js```
-```ci.yml```
-```cancel.yml```
-```globalHooks.js```
-```cleanData.js```
-
-**How to use faker library**
-
-Our project utilises Faker.js library. You can find more info here: https://v6.fakerjs.dev/guide/
+The project utilises Faker.js library. You can find more info here: https://v6.fakerjs.dev/guide/
 Use this import in your file: 
 import { faker } from '@faker-js/faker';
 
-**How to use testing library**
+**Testing library**
 
 You can find more info here: https://testing-library.com/docs/cypress-testing-library/intro/
 
@@ -144,6 +156,6 @@ These can be modified by your own configuration.
 - Formatting: ```npm run format```
 - Pre-commit hooks: Automatically run on git commit
 
-- run Jenkins on Docker:
+**How to run Jenkins on Docker**
   
 `docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17`

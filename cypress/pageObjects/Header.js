@@ -25,7 +25,10 @@ class Header {
     this.getSearchField().type(term)
     return this
   }
-
+  clearSearchField() {
+    this.getSearchField().clear()
+    return this
+  }
   clickFirstOptionFromACBox() {
     this.getSearchAutoCompletionBox().first().click()
     return this
@@ -91,7 +94,7 @@ class Header {
   }
 
   clickUserName() {
-    this.getUserNameLink().click()
+    this.getUserNameLink().first().click()
     return this
   }
 

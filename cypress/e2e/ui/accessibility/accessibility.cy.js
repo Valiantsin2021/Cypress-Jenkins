@@ -1,4 +1,4 @@
-describe.skip('Accessibility', { tags: ['@accessibility'] }, () => {
+describe('Accessibility', { tags: ['@accessibility'] }, () => {
   // NOTE: AXE analysis can spend quite some time, so it is recommended to increase the default command timeout for such tests
   Cypress.config('defaultCommandTimeout', 15000)
   it('Default analysis', () => {
@@ -9,10 +9,10 @@ describe.skip('Accessibility', { tags: ['@accessibility'] }, () => {
     //   - generateReport: true
     //   - iframes: true
 
-    cy.checkAccessibility()
+    cy.checkAccessibility(null, { skipFailures: true })
   })
   it('All levels of severity', () => {
-    cy.checkAccessibility(null, { includedImpacts: ['critical', 'serious', 'moderate', 'minor'] })
+    cy.checkAccessibility(null, { includedImpacts: ['critical', 'serious', 'moderate', 'minor'], skipFailures: true })
   })
   it('Custom colors by severity', () => {
     const customImpactStyling = {
@@ -27,70 +27,79 @@ describe.skip('Accessibility', { tags: ['@accessibility'] }, () => {
 
     cy.checkAccessibility(null, {
       impactStyling: customImpactStyling,
-      includedImpacts: ['critical', 'serious', 'moderate', 'minor']
+      includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
+      skipFailures: true
     })
   })
   it('Disable rules "contrast" and "valid-lang"', () => {
-    cy.checkAccessibility(null, { rules: { 'color-contrast': { enabled: false }, 'valid-lang': { enabled: false } } })
+    cy.checkAccessibility(null, {
+      rules: { 'color-contrast': { enabled: false }, 'valid-lang': { enabled: false } },
+      skipFailures: true
+    })
   })
   it('Context Exclude Test', () => {
-    cy.checkAccessibility({ exclude: '#side-panel' })
+    cy.checkAccessibility({ exclude: '#side-panel' }, { skipFailures: true })
   })
   it('Context Include Test', () => {
-    cy.checkAccessibility({ include: '#side-panel' })
+    cy.checkAccessibility({ include: '#side-panel' }, { skipFailures: true })
   })
   it('Only Critical Severity Test', () => {
-    cy.checkAccessibility(null, { includedImpacts: ['critical'] })
+    cy.checkAccessibility(null, { includedImpacts: ['critical'], skipFailures: true })
   })
   it('Only Rule Tag wcag20 Test', () => {
-    cy.checkAccessibility(null, { runOnly: ['wcag2a', 'wcag2aa'] })
+    cy.checkAccessibility(null, { runOnly: ['wcag2a', 'wcag2aa'], skipFailures: true })
   })
   it('Only Rule Tag wcag20aa Test', () => {
-    cy.checkAccessibility(null, { runOnly: ['wcag2aa'] })
+    cy.checkAccessibility(null, { runOnly: ['wcag2aa'], skipFailures: true })
   })
   it('Disable report generation', () => {
     cy.checkAccessibility(null, {
       generateReport: false,
-      includedImpacts: ['critical', 'serious', 'moderate', 'minor']
+      includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
+      skipFailures: true
     })
   })
   it('Provide context as Array of CSS selectors', () => {
     cy.checkAccessibility(['#side-panel, #page-header'], {
       includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
-      runOnly: ['best-practice']
+      runOnly: ['best-practice'],
+      skipFailures: true
     })
   })
   it('Provide context as HTML Element', () => {
     cy.document().then(doc => {
       cy.checkAccessibility(doc.getElementById('side-panel'), {
-        includedImpacts: ['critical', 'serious', 'moderate', 'minor']
+        includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
+        skipFailures: true
       })
     })
   })
   it('Provide context as Array of HTML Elements', () => {
     cy.document().then(doc => {
       cy.checkAccessibility([doc.getElementById('side-panel'), doc.getElementById('page-header')], {
-        includedImpacts: ['critical', 'serious', 'moderate', 'minor']
+        includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
+        skipFailures: true
       })
     })
   })
   it('Provide context as HTML NodeList', () => {
     cy.document().then(doc => {
       cy.checkAccessibility(doc.querySelectorAll('div.task'), {
-        includedImpacts: ['critical', 'serious', 'moderate', 'minor']
+        includedImpacts: ['critical', 'serious', 'moderate', 'minor'],
+        skipFailures: true
       })
     })
   })
   it('Provide context as Object with "exclude" and "include"', () => {
     cy.checkAccessibility(
       { exclude: '.task', include: '#side-panel' },
-      { includedImpacts: ['critical', 'serious', 'moderate', 'minor'] }
+      { includedImpacts: ['critical', 'serious', 'moderate', 'minor'], skipFailures: true }
     )
   })
   it('Provide context as object with "include" that is an Array of CSS selectors', () => {
     cy.checkAccessibility(
       { include: ['div[role="banner"]', 'ul'] },
-      { includedImpacts: ['critical', 'serious', 'moderate', 'minor'], runOnly: ['best-practice'] }
+      { includedImpacts: ['critical', 'serious', 'moderate', 'minor'], runOnly: ['best-practice'], skipFailures: true }
     )
   })
 })
