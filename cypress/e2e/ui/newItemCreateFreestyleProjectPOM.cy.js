@@ -4,18 +4,24 @@ import FolderPage from '@pageObjects/FolderPage.js'
 import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
 import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
+import UserPage from '@pageObjects/UserPage.js'
+import BasePage from '@pageObjects/basePage.js'
 
 import genData from '@fixtures/genData.js'
 import message, { newItem } from '@fixtures/messages.json'
+import newJobPageData from '@fixtures/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const freestyleProjectPage = new FreestyleProjectPage()
 const header = new Header()
 const folderPage = new FolderPage()
-
+const basePage = new BasePage()
+const userPage = new UserPage()
 const folderName = faker.commerce.product()
-
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
+const USERNAME = Cypress.env('local.admin.username')
 describe('US_00.001 | New item > Create Freestyle Project', () => {
   let project = genData.newProject()
   afterEach(() => {
@@ -128,5 +134,53 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     dashboardPage.clickNewItemMenuLink()
     newJobPage.typeNewItemName(project.name).selectFreestyleProject()
     newJobPage.getFreestyleProjectDescriptionSize().should('have.css', 'font-size', '14px')
+  })
+  it('TC_00.001.23 | Create freestyleProject via API', () => {
+    cy.log('step1: generate API token:')
+    header.clickUserName()
+    basePage.clickConfigureLMenuOption()
+    userPage.generateNewApiToken().then(token => {
+      cy.log('Generated Token:', token)
+
+      cy.log('step2: get Crumb')
+      cy.request({
+        method: 'GET',
+        url: `http://${LOCAL_HOST}:${LOCAL_PORT}${newJobPageData.getCrumbEndpoint}`,
+        auth: {
+          username: USERNAME,
+          password: token
+        }
+      }).then(response => {
+        const { crumb } = response.body
+        cy.log('Crumb:', crumb)
+
+        cy.log('step3: create project')
+        cy.request({
+          method: 'POST',
+          url: `http://${LOCAL_HOST}:${LOCAL_PORT}${newJobPageData.createNewItemEndpoint}${project.name}`,
+          headers: {
+            'Jenkins-Crumb': crumb,
+            'Content-Type': 'application/xml'
+          },
+          auth: {
+            username: USERNAME,
+            password: token
+          },
+          body: newJobPageData.simpleProjectXml,
+          failOnStatusCode: false
+        }).then(response => {
+          console.log(response.body)
+          expect(response.status).to.eq(200)
+        })
+      })
+
+      cy.log('step 4: delete API token:')
+      userPage.getDeleteApiTokenButton().last().click()
+      userPage.clickConfirmDeleteApiTokenButton()
+
+      cy.log('step 5: verify created project on the dashboard:')
+      header.clickDashboardBreadcrumbsLink()
+      dashboardPage.getItemName().should('contain', project.name)
+    })
   })
 })
