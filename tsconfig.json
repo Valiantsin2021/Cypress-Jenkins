@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["cypress", "node", "@testing-library/cypress"],
+    "types": ["cypress"],
     "typeRoots": ["./node_modules/val-a11y"],
     "lib": ["DOM", "ES2023"],
     "module": "ESNext",

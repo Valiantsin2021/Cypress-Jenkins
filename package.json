@@ -39,7 +39,7 @@
     "eslint-plugin-prettier": "5.2.1",
     "prettier": "^3.4.2",
     "stop-only": "^3.4.2",
-    "val-a11y": "^1.0.1"
+    "val-a11y": "^1.0.2"
   },
   "peerDependencies": {
     "cypress": ">=12"
