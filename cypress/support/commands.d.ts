@@ -27,34 +27,24 @@ declare namespace Cypress {
      */
     print(object: object): void
     /**
-     * Unified command to get performance metrics or observe specific performance metrics
+     * Creates a new item of a specific type.
+     *
+     * @param itemName - The name of the item to create.
+     * @param itemType - The type of item to create.
+     *
      * @example
-     * cy.performance({ startMark: 'navigationStart', endMark: 'loadEventEnd', timeout: 10000, initialDelay: 1000, retryTimeout: 5000 })
-     *   .then(results => {
-     *     expect(results.pageloadTiming).to.be.lessThan(2000)
-     *     expect(results.domCompleteTiming).to.be.lessThan(2000)
-     *     const logoResourceTiming = results.resourceTiming('.svg')
-     *     expect(logoResourceTiming.duration, 'Resource timing is less than 500ms').to.be.lessThan(500)
-     *     expect(results.totalBytes, 'Total bytes is less than 500kb').to.be.lessThan(500000)
-     *   })
-     * @example
-     * cy.performance().then(results => {
-     *   expect(results.largestContentfulPaint).to.be.lessThan(500)
-     *   expect(results.totalBlockingTime).to.be.lessThan(500)
-     *   expect(results.paint.firstContentfulPaint).to.be.lessThan(500)
-     *   expect(results.paint.firstPaint).to.be.lessThan(500)
-     *   expect(results.cumulativeLayoutShift).to.be.lessThan(0.1)
-     * })
+     * cy.createItemByType('My New Item', 'Job');
      */
-    performance(options?: MetricsOptions): Chainable<{
-      pageloadTiming: number
-      domCompleteTiming: number | null
-      resourceTiming: Function
-      largestContentfulPaint: number
-      totalBlockingTime: number
-      paint: { firstContentfulPaint: number; firstPaint: number }
-      cumulativeLayoutShift: number
-      totalBytes: number
-    }>
+    createItemByType(itemName: string, itemType: string): Chainable<void>
+    /**
+     * Logs in to the application with the provided credentials.
+     *
+     * @param userName - The username to use for login. Defaults to `USERNAME`.
+     * @param pass - The password to use for login. Defaults to `PASSWORD`.
+     *
+     * @example
+     * cy.login('myuser', 'mypassword');
+     */
+    login(userName?: string, pass?: string): Chainable<void>
   }
 }
