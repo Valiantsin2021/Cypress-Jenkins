@@ -15,7 +15,10 @@ class FreestyleProjectPage extends BasePage {
   getBuildHistoryTableRow = () => cy.get('tr.build-row')
   getHeaderOnRename = () => cy.get('div h1')
   getErrorMessageParagraph = () => cy.get('p')
-
+  getConfigureMenuItem = () => cy.get('a[href$="/configure"]')
+  getTriggerBuildsRemotelyCheckbox = () =>
+    cy.get('.jenkins-section .attach-previous').contains('Trigger builds remotely')
+  getAuthTokenField = () => cy.get('input[name="authToken"]')
   typeJobDescription(jobDescription) {
     this.getJobDescriptionField().clear().type(jobDescription)
     return this
@@ -92,6 +95,20 @@ class FreestyleProjectPage extends BasePage {
           })
       })
       .then(() => arrayBuildData)
+  }
+  clickConfigureMenuButton() {
+    this.getConfigureMenuItem().click()
+    return this
+  }
+
+  checkTriggerBuildsRemotelyCheckbox() {
+    this.getTriggerBuildsRemotelyCheckbox().click()
+    return this
+  }
+
+  typeAuthTokenName(tokenName) {
+    this.getAuthTokenField().type(tokenName)
+    return this
   }
 }
 export default FreestyleProjectPage
