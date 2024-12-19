@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+import DashboardPage from './DashboardPage'
 import NewJobPage from './NewJobPage'
 import BasePage from './basePage'
 
@@ -19,6 +19,8 @@ class FolderPage extends BasePage {
   getMoveButton = () => cy.get('form > .jenkins-button')
   getJobTitleLink = () => cy.get('.model-link.inside')
   getDisplayNameTooltip = () => cy.get('[tooltip="Help for feature: Display Name"]')
+  getDeleteFolderFromMenu = () => cy.get('a[data-title="Delete Folder"]')
+  getYesOptionInPopUpWindow = () => cy.get('.jenkins-button--primary')
 
   verifyTitleConfigurationIsVisible() {
     this.getTitleConfiguration().should('be.visible')
@@ -71,6 +73,15 @@ class FolderPage extends BasePage {
   typeDisplayName(displayName) {
     this.getDisplayNameField().type(displayName)
     return this
+  }
+  clickDeleteFolderFromMenu() {
+    this.getDeleteFolderFromMenu().click()
+    return this
+  }
+
+  clickYesOptionInPopUpWindow() {
+    this.getYesOptionInPopUpWindow().click()
+    return new DashboardPage()
   }
 }
 
