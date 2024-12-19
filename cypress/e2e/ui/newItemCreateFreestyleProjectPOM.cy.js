@@ -139,8 +139,8 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
     cy.log('step1: generate API token:')
     header.clickUserName()
     basePage.clickConfigureLMenuOption()
-    userPage.generateNewApiToken().then(token => {
-      cy.log('Generated Token:', token)
+    userPage.generateNewApiToken(project.tokenName).then(tokenValue => {
+      cy.log('Generated Token:', tokenValue)
 
       cy.log('step2: get Crumb')
       cy.request({
@@ -148,7 +148,7 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
         url: `http://${LOCAL_HOST}:${LOCAL_PORT}${newJobPageData.getCrumbEndpoint}`,
         auth: {
           username: USERNAME,
-          password: token
+          password: tokenValue
         }
       }).then(response => {
         const { crumb } = response.body
@@ -164,7 +164,7 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
           },
           auth: {
             username: USERNAME,
-            password: token
+            password: tokenValue
           },
           body: newJobPageData.simpleProjectXml,
           failOnStatusCode: false

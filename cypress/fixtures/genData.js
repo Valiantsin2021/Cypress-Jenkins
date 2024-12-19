@@ -10,7 +10,8 @@ module.exports = {
       newDescription: faker.lorem.sentences(2),
       folderName: faker.company.buzzNoun() + faker.number.int({ min: 1, max: 100 }),
       longDescription: faker.lorem.sentences(50),
-      userName: faker.person.lastName()
+      userName: faker.person.lastName(),
+      tokenName: faker.person.lastName()
     }
     return Project
   }
