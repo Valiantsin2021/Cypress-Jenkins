@@ -6,17 +6,21 @@ import NewJobPage from '@pageObjects/NewJobPage.js'
 import genData from '@fixtures/genData.js'
 import { newItem } from '@fixtures/messages.json'
 import allKeys from '@fixtures/newJobPageData.json'
+import xmlPipelinePageConfiguration from '@fixtures/xmlPageConfiguration.js'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()
 const header = new Header()
 
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
 const { projectNameInvalid, errorMessageColor } = allKeys
 
 describe('US_00.002 | New Item > Create Pipeline Project', () => {
   let project = genData.newProject()
-  const randomItemName = faker.commerce.productName()
 
+  const randomItemName = faker.commerce.productName()
+  const baseUrl = `http://${LOCAL_HOST}:${LOCAL_PORT}`
   afterEach(() => {
     cy.cleanData([project.name, randomItemName])
   })
@@ -105,5 +109,29 @@ describe('US_00.002 | New Item > Create Pipeline Project', () => {
       .getItemNameInvalidErrorMessage()
       .should('have.text', newItem.itemNameDotWarningMessage)
       .and('have.css', 'color', errorMessageColor)
+  })
+
+  it('TC_00.002.17 | Create a Pipeline Project using API', () => {
+    cy.getCrumbToken(baseUrl).then(({ crumb, crumbField }) => {
+      cy.log('Creating a new Pipeline Project via API.')
+      cy.request({
+        method: 'POST',
+        url: `${baseUrl}/createItem?name=${project.name}`,
+        headers: {
+          'Content-Type': 'application/xml',
+          [crumbField]: crumb
+        },
+        body: xmlPipelinePageConfiguration
+      })
+
+      cy.log('Verifying the Pipeline Project was created.')
+      cy.request({
+        method: 'GET',
+        url: `${baseUrl}/job/${project.name}/api/json`
+      }).then(getResponse => {
+        expect(getResponse.status).to.eq(200)
+        expect(getResponse.body.displayName).to.eq(project.name)
+      })
+    })
   })
 })

@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import '@testing-library/cypress/add-commands'
 
+import newJobPageData from '../fixtures/newJobPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
 
@@ -291,3 +292,26 @@ Cypress.Commands.add('createItemByType', (itemName, itemType) => {
   let endPoint = itemName.replace(/ /g, '%20')
   cy.url().should('contain', `${endPoint}`)
 })
+/**
+ * Retrieves the crumb token for the specified base URL.
+ *
+ * @param {string} baseUrl - The base URL for the application.
+ * @returns {Cypress.Chainable} - The crumb token and crumb field.
+ */
+Cypress.Commands.add('getCrumbToken', baseUrl =>
+  cy
+    .request({
+      method: 'GET',
+      url: `${baseUrl}/${newJobPageData.getCrumbEndpoint}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      expect(response.status).to.eq(200)
+      return {
+        crumb: response.body.crumb,
+        crumbField: response.body.crumbRequestField
+      }
+    })
+)
