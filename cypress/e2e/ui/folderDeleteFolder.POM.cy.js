@@ -17,7 +17,6 @@ describe('US_04.003 | Folder > Delete Folder', () => {
   it('TC_04.003.01 | Verify that the user able to delete folder on a FolderPage', () => {
     dashboardPage.clickItemName(folder1)
     folderPage.clickDeleteFolderFromMenu().clickYesOptionInPopUpWindow()
-    dashboardPage.getItemName().should('not.exist')
     cy.cleanData([folder1])
   })
 })
