@@ -3,6 +3,7 @@ import FolderPage from '@pageObjects/FolderPage.js'
 import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
+import configurePageData from '@fixtures/configurePageData.json'
 import genData from '@fixtures/genData.js'
 
 const dashboardPage = new DashboardPage()
@@ -11,6 +12,10 @@ const folderPage = new FolderPage()
 const header = new Header()
 const folderName = genData.newProject()
 const newFolderName = genData.newProject()
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
+let endPoint = configurePageData.userStatusEndpoint
+let endPointParams = 'baseName=jenkins.dialogs&_=1734623853681'
 
 describe('US_04.001 | Folder > Rename Folder', () => {
   beforeEach(() => {
@@ -49,6 +54,8 @@ describe('US_04.001 | Folder > Rename Folder', () => {
   })
 
   it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
+    dashboardPage.clickJobName(folderName.name)
+    header.getBreadcrumbBar().should('contain', folderName.name)
     header.hoverBreadcrumbsFolderName().getBreadcrumbsFolderDropdownMenu().click({ force: true })
     dashboardPage.getRenameProjectDropdownMenuItem().click()
 
@@ -59,14 +66,39 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       .should('have.value', newFolderName.name)
   })
 
-  it('TC_04.001.05 | Rename folder from drop-down menu', () => {
+  it('TC_04.001.10 | Rename folder from drop-down menu', () => {
+    cy.intercept('GET', '**/job/*').as('jobRequest')
+
     dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
     folderPage.clearNewNameField().typeNewFolderName(newFolderName.name).clickRenameButton()
+
+    cy.request({
+      method: 'GET',
+      url: `http://${LOCAL_HOST}:${LOCAL_PORT}/${endPoint}?${endPointParams}`
+    }).then(response => {
+      expect(response.status).to.eq(200)
+    })
+    cy.wait('@jobRequest').then(({ request }) => {
+      expect(request.url).to.include(`/job/${newFolderName.name}`)
+    })
+
     folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
   })
+
+  it('TC_04.001.11 | Rename a folder on the folder page in the Configure section', () => {
+    dashboardPage.clickItemName(folderName.name)
+    folderPage.getFolderNameOnMainPanel().should('include.text', folderName.name)
+    folderPage.clickConfigureLMenuOption().typeDisplayName(newFolderName.name).clickSaveButton()
+
+    folderPage.getFolderNameOnMainPanel().should('include.text', newFolderName.name)
+    folderPage.clickJenkinsLogo()
+    dashboardPage.getItemName().should('contain', newFolderName.name).and('be.visible')
+  })
+
   it('TC_04.001.12 | Verify that there is "Display Name" field and hint sign in the Configure section', () => {
     dashboardPage.clickItemName(folderName.name)
     folderPage.clickConfigureLMenuOption()
+
     folderPage.getDisplayNameField().should('exist').and('be.visible')
     folderPage.getDisplayNameTooltip().should('exist').and('be.visible')
   })

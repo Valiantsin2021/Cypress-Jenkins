@@ -10,8 +10,12 @@ const newJobPage = new NewJobPage()
 const organizationFolderPage = new OrganizationFolderPage()
 const header = new Header()
 
+const LOCAL_PORT = Cypress.env('local.port')
+const LOCAL_HOST = Cypress.env('local.host')
+
 describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
   let project = genData.newProject()
+  const baseUrl = `http://${LOCAL_HOST}:${LOCAL_PORT}`
 
   beforeEach(() => {
     dashboardPage.clickNewItemMenuLink()
@@ -23,7 +27,8 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
   })
   it('TC_06.005.01 | Delete Organization Folder from a sidebar menu', () => {
     organizationFolderPage.clickSideMenuDeleteLink().clickYesButton()
-    dashboardPage.getMainPanel().should('not.contain.value', project.name)
+
+    organizationFolderPage.getJobHeadline().should('not.contain.text', project.name)
   })
 
   it('TC_06.005.02 | Delete Organization Folder from breadcrumbs dropdown menu', () => {
@@ -32,7 +37,8 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickBreadcrumbsFolderDropdownMenu()
       .clickDropdownMenuDeleteLink()
       .clickYesButton()
-    dashboardPage.getMainPanel().should('not.contain.value', project.name)
+
+    organizationFolderPage.getJobHeadline().should('not.contain.text', project.name)
   })
 
   it('TC_06.005.03 | Delete Organization Folder from project status table on Dashboard page', () => {
@@ -41,11 +47,37 @@ describe('US_06.005 | Organization folder > Delete Organization Folder', () => {
       .clickJobTableDropdownChevron(project.name)
       .clickDeleteOrganizationFolderDropdownMenuItem()
       .clickYesButton()
-    dashboardPage.getMainPanel().should('not.contain.value', project.name)
+
+    dashboardPage.getJobHeadline().should('not.contain.text', project.name)
   })
 
   it('TC_06.005.04 | Delete Organization Folder', () => {
     organizationFolderPage.clickSideMenuDeleteLink().clickYesButton()
-    dashboardPage.getMainPanel().should('not.contain.value', project.name)
+    dashboardPage.getJobHeadline().and('not.contain', project.name)
+  })
+
+  it('TC_06.005.05 | Delete Organization Folder from the Folder page via API', () => {
+    cy.getCrumbToken(baseUrl).then(({ crumb, crumbField }) => {
+      cy.log('Deleting the Organization Folder via API')
+      cy.request({
+        method: 'POST',
+        url: `${baseUrl}/job/${project.name}/doDelete`,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          [crumbField]: crumb
+        }
+      }).then(deleteResponse => {
+        expect(deleteResponse.status).to.eq(200)
+      })
+
+      cy.log('Verifying the Organization Folder is deleted')
+      cy.request({
+        method: 'GET',
+        url: `${baseUrl}/job/${project.name}/`,
+        failOnStatusCode: false
+      }).then(getResponse => {
+        expect(getResponse.status).to.eq(404)
+      })
+    })
   })
 })

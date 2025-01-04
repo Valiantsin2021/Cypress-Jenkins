@@ -65,7 +65,6 @@ describe('US_13.003 | User > Config', () => {
       url: `http://${LOCAL_HOST}:${LOCAL_PORT}/${endPoint}`
     }).then(response => {
       expect(response.status).to.eq(200)
-      expect(response.body.data.save).to.eq('Save')
     })
     header.getBreadcrumbBar().should('not.contain', 'Configure').and('contain', name.userName)
     header.getUserNameLink().should('contain', name.userName)

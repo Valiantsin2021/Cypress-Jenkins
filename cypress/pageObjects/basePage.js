@@ -8,12 +8,12 @@ class BasePage extends Header {
   getNewItemLink = () => cy.get('a[href="/view/all/newJob"]') //please delete as duplicate for getNewItemMenuOption
   getConfigureMenuOption = () => cy.get('#side-panel [href$="configure"]')
 
-  getMoveButton = () => cy.findByRole('button', { name: /Move/ })
-  getYesButton = () => cy.findByRole('button', { name: /Yes/ })
-  getSaveButton = () => cy.findByRole('button', { name: /Save/ })
+  getMoveButton = () => cy.contains('button', /Move/)
+  getYesButton = () => cy.contains('button', /Yes/)
+  getSaveButton = () => cy.contains('button', /Save/)
   getRenameButton = () => cy.get('button.jenkins-submit-button')
-  getCancelButton = () => cy.findByRole('button', { name: /Cancel/ })
-  getOKButton = () => cy.findByRole('button', { name: /OK/ }) //y.get('#ok-button').contains('OK');
+  getCancelButton = () => cy.contains('button', /Cancel/)
+  getOKButton = () => cy.contains('button', /OK/) //y.get('#ok-button').contains('OK');
 
   getJobHeadline = () => cy.get('#main-panel h1') // please rename to getItemTitle since we have it in multiple places
   getBuildHistoryRows = () => cy.get('#buildHistory td[class="build-row-cell"]')
