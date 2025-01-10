@@ -112,6 +112,7 @@ jobs:
         with:
           name: allure-results-${{strategy.job-index }}
           path: allure-results
+          if-no-files-found: ignore
           retention-days: 1
 
       - name: Upload Accessibility Reports
@@ -120,6 +121,7 @@ jobs:
         with:
           name: reports-${{strategy.job-index }}
           path: reports
+          if-no-files-found: ignore
           retention-days: 5
 
       - name: Upload screenshots Results
@@ -128,6 +130,7 @@ jobs:
         with:
           name: cypress-screenshots-${{strategy.job-index }}
           path: cypress/screenshots
+          if-no-files-found: ignore
           retention-days: 1
 
   generate-report:
@@ -171,6 +174,7 @@ jobs:
         with:
           name: allure report
           path: allure-report
+          if-no-files-found: ignore
 
       - name: Deploy report to Github Pages
         if: always()
