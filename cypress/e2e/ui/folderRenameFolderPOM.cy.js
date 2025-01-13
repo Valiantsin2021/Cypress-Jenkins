@@ -79,7 +79,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
       expect(response.status).to.eq(200)
     })
     cy.wait('@jobRequest').then(({ request }) => {
-      expect(request.url).to.include(`/job/${newFolderName.name}`)
+      expect(request.url).to.include(`/job/${encodeURI(newFolderName.name)}`)
     })
 
     folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
