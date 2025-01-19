@@ -7,6 +7,7 @@ const addAccessibilityTasks = require('val-a11y/accessibility-tasks')
 const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse')
 const { pa11y } = require('@cypress-audit/pa11y')
 const fs = require('fs')
+const { configureVisualRegression } = require('cypress-visual-regression')
 
 module.exports = defineConfig({
   viewportWidth: 1920,
@@ -21,6 +22,9 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: 'https://www.automationexercise.com',
+    env: {
+      visualRegressionType: 'regression'
+    },
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser = {}, launchOptions) => {
         prepareAudit(launchOptions)
@@ -52,9 +56,11 @@ module.exports = defineConfig({
         }
       })
       cypressSplit(on, config)
+      configureVisualRegression(on)
       return config
     }
   },
+  screenshotsFolder: './cypress/snapshots/actual',
   video: false,
   reporter: 'junit',
   reporterOptions: {
