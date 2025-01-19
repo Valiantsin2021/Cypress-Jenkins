@@ -5,11 +5,14 @@ import '@cypress-audit/pa11y/commands'
 import 'allure-cypress'
 import 'cypress-performance'
 import 'cypress-real-events'
+import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
 import 'val-a11y'
 
 import './commands'
 import './globalHooks'
 import './logger'
+
+addCompareSnapshotCommand()
 
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
 Cypress.on(
