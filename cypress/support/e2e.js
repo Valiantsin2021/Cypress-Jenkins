@@ -6,7 +6,7 @@ import 'allure-cypress'
 import 'cypress-performance'
 import 'cypress-real-events'
 import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
-import 'wick-a11y'
+import 'val-a11y'
 
 import './commands'
 import './globalHooks'
