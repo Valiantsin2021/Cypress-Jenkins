@@ -16,7 +16,7 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: { ...globals.node, ...globals.browser },
+      globals: { ...globals.node },
       parserOptions: { sourceType: 'module', project: ['tsconfig.json'] }
     },
     rules: {
