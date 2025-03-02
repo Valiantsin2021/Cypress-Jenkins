@@ -39,6 +39,7 @@ jobs:
         with:
           status: starting
           message: "Starting Cypress tests...${{ strategy.job-index }}"
+          matrix: ${{ toJson(matrix) }}
         if: always()
       - name: Git clone
         uses: actions/checkout@v4
