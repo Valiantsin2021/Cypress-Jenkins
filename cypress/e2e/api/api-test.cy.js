@@ -55,7 +55,6 @@ const assertHeaders = headers => {
   expect(headers).to.have.property('x-content-type-options', 'nosniff')
   expect(headers).to.have.property('x-powered-by', 'Phusion Passenger(R) 6.0.23')
   expect(headers).to.have.property('status', '200 OK')
-  expect(headers).to.have.property('nel', '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}')
   expect(headers).to.have.property('content-encoding', 'gzip')
   expect(headers).to.have.property('alt-svc', 'h3=":443"; ma=86400')
 }

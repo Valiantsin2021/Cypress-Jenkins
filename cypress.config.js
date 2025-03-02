@@ -3,7 +3,7 @@ const { allureCypress } = require('allure-cypress/reporter')
 const cypressSplit = require('cypress-split')
 const { defineConfig } = require('cypress')
 const os = require('os')
-const addAccessibilityTasks = require('val-a11y/accessibility-tasks')
+const addAccessibilityTasks = require('wick-a11y/accessibility-tasks')
 const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse')
 const { pa11y } = require('@cypress-audit/pa11y')
 const fs = require('fs')
@@ -17,14 +17,10 @@ module.exports = defineConfig({
   defaultCommandTimeout: 7000,
   watchForFileChanges: false,
   accessibilityFolder: 'reports',
-  env: {
-    enableAccessibilityVoice: true
-  },
+  env: { enableAccessibilityVoice: true },
   e2e: {
     baseUrl: 'https://www.automationexercise.com',
-    env: {
-      visualRegressionType: 'regression'
-    },
+    env: { visualRegressionType: 'regression' },
     setupNodeEvents(on, config) {
       on('before:browser:launch', (browser = {}, launchOptions) => {
         prepareAudit(launchOptions)
@@ -63,7 +59,5 @@ module.exports = defineConfig({
   screenshotsFolder: './cypress/snapshots/actual',
   video: false,
   reporter: 'junit',
-  reporterOptions: {
-    mochaFile: 'reports/test-results-[hash].xml'
-  }
+  reporterOptions: { mochaFile: 'reports/test-results-[hash].xml' }
 })

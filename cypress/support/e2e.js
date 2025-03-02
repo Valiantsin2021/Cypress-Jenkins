@@ -6,7 +6,7 @@ import 'allure-cypress'
 import 'cypress-performance'
 import 'cypress-real-events'
 import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
-import 'val-a11y'
+import 'wick-a11y'
 
 import './commands'
 import './globalHooks'
@@ -37,7 +37,5 @@ Cypress.on(
       addContext({ test }, imageUrl)
     }
   },
-  Cypress.Screenshot.defaults({
-    capture: 'viewport'
-  })
+  Cypress.Screenshot.defaults({ capture: 'viewport' })
 )
