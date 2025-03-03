@@ -1,4 +1,8 @@
+import 'cypress-ajv-schema-validator'
+
 import { user } from '@fixtures/DataBuilder.js'
+import schema_all_brands from '@fixtures/all_brandlist_schema.json'
+import schema_all_products from '@fixtures/all_products_schema.json'
 import { API_STATUSES } from '@fixtures/api-statuses.js'
 import {
   endpoints,
@@ -16,6 +20,7 @@ import {
   updatedUser,
   userFieldKeys
 } from '@fixtures/api_constants.js'
+import error_405_schema from '@fixtures/error_405_schema.json'
 
 const {
   BAD_REQUEST_400_STATUS,
@@ -68,31 +73,33 @@ describe('Automation excersize API:', () => {
   it('API 1: Get All Products List (productsList)', () => {
     // Arrange
     // Act
-    cy.api({ url: productsList }).then(response => {
-      // Assert
-      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
-      const body = JSON.parse(response.body)
-      expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
-      expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
-      expect(body['products'].length, 'Assert body["products"] have length: 34').to.eq(34)
-      body['products'].forEach(product => {
-        expect(product).to.have.keys(productFieldKeys)
+    cy.api({ url: productsList })
+      .validateSchema(schema_all_products)
+      .then(response => {
+        // Assert
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
+        const body = JSON.parse(response.body)
+        expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
+        expect(body['products'], 'Assert body["products"] is array').to.be.an('array')
+        expect(body['products'].length, 'Assert body["products"] have length: 34').to.eq(34)
+        body['products'].forEach(product => {
+          expect(product).to.have.keys(productFieldKeys)
+        })
+        for (let i = 0; i < body['products'].length; i++) {
+          expect(body['products'][i]['id'], `Assert body["products"][${i}]["id"] is a number`).to.be.gt(0)
+          expect(body['products'][i]['name'], `Assert body["products"][${i}]["name"] is a string`).to.be.a('string')
+          expect(body['products'][i]['price'], `Assert body["products"][${i}]["price"] is a string`).to.be.a('string')
+          expect(body['products'][i]['brand'], `Assert body["products"][${i}]["brand"] is a string`).to.be.a('string')
+          expect(
+            body['products'][i]['category']['usertype']['usertype'],
+            `Assert body["products"][${i}]['category']['usertype']['usertype'] is a string`
+          ).to.be.a('string')
+          expect(
+            body['products'][i]['category']['category'],
+            `Assert body["products"][${i}]['category']['category'] is a string`
+          ).to.be.a('string')
+        }
       })
-      for (let i = 0; i < body['products'].length; i++) {
-        expect(body['products'][i]['id'], `Assert body["products"][${i}]["id"] is a number`).to.be.gt(0)
-        expect(body['products'][i]['name'], `Assert body["products"][${i}]["name"] is a string`).to.be.a('string')
-        expect(body['products'][i]['price'], `Assert body["products"][${i}]["price"] is a string`).to.be.a('string')
-        expect(body['products'][i]['brand'], `Assert body["products"][${i}]["brand"] is a string`).to.be.a('string')
-        expect(
-          body['products'][i]['category']['usertype']['usertype'],
-          `Assert body["products"][${i}]['category']['usertype']['usertype'] is a string`
-        ).to.be.a('string')
-        expect(
-          body['products'][i]['category']['category'],
-          `Assert body["products"][${i}]['category']['category'] is a string`
-        ).to.be.a('string')
-      }
-    })
   })
   it('API 2: POST To All Products List (productsList)', () => {
     // Arrange
@@ -110,31 +117,35 @@ describe('Automation excersize API:', () => {
         category: requestsData.categories[0]
       }
     }
-    cy.api({ method: 'POST', url: productsList, data }).then(response => {
-      // Assert
-      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
-      const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
-    })
+    cy.api({ method: 'POST', url: productsList, data })
+      .validateSchema(error_405_schema)
+      .then(response => {
+        // Assert
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
+        const body = JSON.parse(response.body)
+        expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
+      })
   })
   it('API 3: Get All Brands List (brandsList)', () => {
     // Arrange
     // Act
-    cy.api({ url: brandsList }).then(response => {
-      // Assert
-      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
-      const body = JSON.parse(response.body)
-      expect(body['brands'], 'Assert body["brands"] is array').to.be.an('array')
-      expect(body['brands'].length, 'Assert body["brands"] have length: 34').to.eq(34)
-      body['brands'].forEach(brand => {
-        expect(brand).to.have.keys(['id', 'brand'])
+    cy.api({ url: brandsList })
+      .validateSchema(schema_all_brands)
+      .then(response => {
+        // Assert
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, SUCCESSFUL_200_STATUS)
+        const body = JSON.parse(response.body)
+        expect(body['brands'], 'Assert body["brands"] is array').to.be.an('array')
+        expect(body['brands'].length, 'Assert body["brands"] have length: 34').to.eq(34)
+        body['brands'].forEach(brand => {
+          expect(brand).to.have.keys(['id', 'brand'])
+        })
+        for (let i = 0; i < body['brands'].length; i++) {
+          expect(body['brands'][i], `Assert body['brands'][${i}] has property "id"`).to.have.property('id')
+          expect(body['brands'][i]['id'], `Assert body['brands'][${i}]['id'] is a number`).to.be.gt(0)
+          expect(body['brands'][i]['brand'], `Assert body['brands'][${i}]['brand'] is a string`).to.be.a('string')
+        }
       })
-      for (let i = 0; i < body['brands'].length; i++) {
-        expect(body['brands'][i], `Assert body['brands'][${i}] has property "id"`).to.have.property('id')
-        expect(body['brands'][i]['id'], `Assert body['brands'][${i}]['id'] is a number`).to.be.gt(0)
-        expect(body['brands'][i]['brand'], `Assert body['brands'][${i}]['brand'] is a string`).to.be.a('string')
-      }
-    })
   })
   it('API 4: PUT To All Brands List (brandsList)', () => {
     // Arrange
@@ -143,12 +154,14 @@ describe('Automation excersize API:', () => {
       id: 1,
       brand: requestsData.brands[0]
     }
-    cy.api({ method: 'PUT', url: brandsList, data }).then(response => {
-      // Assert
-      verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
-      const body = JSON.parse(response.body)
-      expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
-    })
+    cy.api({ method: 'PUT', url: brandsList, data })
+      .validateSchema(error_405_schema)
+      .then(response => {
+        // Assert
+        verifyStatusAndHeaders(response, SUCCESSFUL_200_STATUS, METHOD_NOT_ALLOWED_405_STATUS)
+        const body = JSON.parse(response.body)
+        expect(body['message'], bodyMessage(methodNotSupported)).to.eq(methodNotSupported)
+      })
   })
   it('API 5: POST To Search Products (searchProduct)', () => {
     // Arrange
