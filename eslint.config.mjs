@@ -16,14 +16,8 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: {
-        ...globals.node,
-        ...globals.browser
-      },
-      parserOptions: {
-        sourceType: 'module',
-        project: ['tsconfig.json']
-      }
+      globals: { ...globals.node },
+      parserOptions: { sourceType: 'module', project: ['tsconfig.json'] }
     },
     rules: {
       'cypress/no-assigning-return-values': 'error',

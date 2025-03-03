@@ -37,7 +37,5 @@ Cypress.on(
       addContext({ test }, imageUrl)
     }
   },
-  Cypress.Screenshot.defaults({
-    capture: 'viewport'
-  })
+  Cypress.Screenshot.defaults({ capture: 'viewport' })
 )
