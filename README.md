@@ -1,6 +1,46 @@
-# ProjectJS_2024_fall [![CI](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg)](https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml) ![cypress version](https://img.shields.io/badge/cypress-14.0.0-brightgreen)
+<h1 align="center">Cypress Project for Testing the CI/CD Tool Jenkins</h1>
 
-[Last run report](https://valiantsin2021.github.io/Cypress-Jenkins/)
+<p align="center">
+  <img src="https://img.shields.io/github/commit-activity/m/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://img.shields.io/github/last-commit/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://img.shields.io/github/contributors/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg">
+  <img src="https://img.shields.io/github/issues/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://img.shields.io/github/issues-pr/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://img.shields.io/badge/cypress-14.0.0-brightgreen">
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields"/>
+  <img src="https://img.shields.io/badge/License-MIT-green.svg"/>
+</p>
+
+<p align="center">
+  <img src="media/jenkins.svg" alt="Jenkins logo" width="100"/>
+</p>
+
+> Jenkins is an automation tool designed for Continuous Integration (CI) and Continuous Deployment (CD). It allows automatic execution of build, testing, and deployment processes whenever code changes are made in the repository.
+
+<p align="center">
+<a href="https://valiantsin2021.github.io/Cypress-Jenkins"> Last run Allure report</a>
+</p>
+
+
+## Tech Stack
+<p align="center">
+  <img src="https://forthebadge.com/images/badges/made-with-javascript.svg"/>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/RUNS%20WITH%20GITHUB%20ACTIONS-BLUE?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/RUNS%20ON%20DOCKER%20CONTAINER-BLUE?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Allure-EB5A5A?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</p>
+
+____
+<a id="cases"></a>
+## ️ Test documentation
+
+- 📊 Feature Matrix - media/JavaScript Feature matrix.xlsx
+
 
 **Project Structure**
 
@@ -29,7 +69,27 @@ Lighthouse reports are generated using @cypress-audit/lighthouse plugin.
 
 CI pipeline is executed on GitHub Actions and test results are uploaded to Allure report and hosted on GitHub pages. - [Project report](https://valiantsin2021.github.io/Cypress-Jenkins/)
 
+____
+<a id="allureReport"></a>
+## <img width="30" style="vertical-align:middle" title="Allure Report" src="media/allure.svg"> Allure Report Example
+
+<p align="center">
+<a href="https://valiantsin2021.github.io/Cypress-Jenkins"> Last run Allure report</a>
+</p>
+
+<p align="center">
+  <img title="Allure Report" src="media/allure-report.png">
+</p>
+
 **How to start working in our project?**
+
+**Prerequisites**
+
+- Docker
+- Node.js
+- NPM
+- VSCode
+- Jenkins up and running - `docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17`
 
 1. Clone repository to your machine.
 
