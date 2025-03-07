@@ -1,0 +1,21 @@
+name: Notify
+
+on:
+  workflow_run:
+    workflows: ['pages-build-deployment']
+    types:
+      - completed
+
+jobs:
+  notify:
+    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Notification
+        uses: evgnick/notify-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+          telegram-chat-id: ''
+          workflow-name: 'CI'

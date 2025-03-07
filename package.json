@@ -63,7 +63,8 @@
       "eslint --fix"
     ],
     "**/*.+(cjs|js|ts|json)": [
-      "prettier --write --cache"
+      "prettier --write --cache",
+      "git add ."
     ]
   }
 }
