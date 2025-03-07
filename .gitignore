@@ -33,3 +33,4 @@ cypress/.DS_Store
 jenkins_home
 allure-results
 allure-report
+.env

@@ -1,15 +1,15 @@
 /* eslint-disable chai-friendly/no-unused-expressions */
-const { allureCypress } = require('allure-cypress/reporter')
-const cypressSplit = require('cypress-split')
-const { defineConfig } = require('cypress')
-const os = require('os')
-const addAccessibilityTasks = require('val-a11y/accessibility-tasks')
-const { lighthouse, prepareAudit } = require('@cypress-audit/lighthouse')
-const { pa11y } = require('@cypress-audit/pa11y')
-const fs = require('fs')
-const { configureVisualRegression } = require('cypress-visual-regression')
+import { lighthouse, prepareAudit } from '@cypress-audit/lighthouse'
+import { pa11y } from '@cypress-audit/pa11y'
+import { allureCypress } from 'allure-cypress/reporter'
+import { defineConfig } from 'cypress'
+import cypressSplit from 'cypress-split'
+import { configureVisualRegression } from 'cypress-visual-regression'
+import fs from 'fs'
+import os from 'os'
+import addAccessibilityTasks from 'val-a11y/accessibility-tasks'
 
-module.exports = defineConfig({
+export default defineConfig({
   viewportWidth: 1920,
   viewportHeight: 1080,
   chromeWebSecurity: false,
