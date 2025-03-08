@@ -270,7 +270,7 @@ Cypress.Commands.overwrite('log', (log, message, ...args) => {
 Cypress.Commands.add('login', (userName = USERNAME, pass = PASSWORD) => {
   cy.intercept('POST', '/j_spring_security_check').as('security_check')
 
-  cy.visit(`http://${LOCAL_HOST}:${LOCAL_PORT}/login`)
+  cy.visit(`http://${HOST}:${PORT}/login`)
   cy.get('#j_username').type(userName)
   cy.get('input[name="j_password"]').type(pass)
   cy.get('button[name="Submit"]').click()
