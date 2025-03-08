@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable chai-friendly/no-unused-expressions */
 import { lighthouse, prepareAudit } from '@cypress-audit/lighthouse'
 import { pa11y } from '@cypress-audit/pa11y'

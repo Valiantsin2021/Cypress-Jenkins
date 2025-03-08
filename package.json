@@ -5,13 +5,15 @@
   "main": "cypress.config.js",
   "type": "module",
   "scripts": {
+    "prepare": "git config core.hooksPath .hooks",
     "test": "npx cypress run --headless",
     "badges": "npx -p dependency-version-badge update-badge cypress",
     "format": "prettier --write --cache .",
     "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\" --ignore-pattern \"allure-report\"",
     "stop-only": "stop-only --folder cypress/e2e",
     "check": "npm run format && npm run lint",
-    "report": "allure generate ./report/allure-results --clean -o ./report/allure-report"
+    "report": "allure generate ./report/allure-results --clean -o ./report/allure-report",
+    "clean": "echo \"❌ Cleaning the reports folder\" && rimraf ./report/*  && echo \"✅ All reports cleaned!\""
   },
   "author": "",
   "license": "ISC",
@@ -48,7 +50,8 @@
     "form-data": "^4.0.2",
     "prettier": "^3.5.3",
     "stop-only": "^3.4.2",
-    "val-a11y": "^1.0.5"
+    "val-a11y": "^1.0.5",
+    "rimraf": "3.0.0"
   },
   "peerDependencies": {
     "cypress": ">=14"

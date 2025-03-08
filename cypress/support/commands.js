@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 import '@testing-library/cypress/add-commands'
 
@@ -165,7 +166,7 @@ class JenkinsProjectManager {
         )
 
         return deletionResults.flatMap((result, index) => {
-          const resourceType = allResourceTypes[index]
+          const { [index]: resourceType } = allResourceTypes
           if (result.status === 'fulfilled') {
             return result.value
           } else {
@@ -185,7 +186,7 @@ class JenkinsProjectManager {
       )
 
       return deletionResults.map((result, index) => {
-        const resourceName = resources[index]
+        const { [index]: resourceName } = resources
         if (result.status === 'fulfilled') {
           return result.value
         } else {
@@ -213,7 +214,7 @@ class JenkinsProjectManager {
     )
 
     return deletionResults.map((result, index) => {
-      const resourceName = resources[index]
+      const { [index]: resourceName } = resources
       if (result.status === 'fulfilled') {
         return result.value
       } else {

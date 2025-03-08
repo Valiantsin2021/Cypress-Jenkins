@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-function getRandomItem(array) {
+const getRandomItem = function (array) {
   return array[Math.floor(Math.random() * array.length)]
 }
 const statuses = ['active', 'inactive']

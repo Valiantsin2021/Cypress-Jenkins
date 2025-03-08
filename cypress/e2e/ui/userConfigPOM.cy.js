@@ -16,7 +16,7 @@ const LOCAL_HOST = Cypress.env('local.host')
 
 describe('US_13.003 | User > Config', () => {
   let name = genData.newProject()
-  let endPoint = configurePageData.userStatusEndpoint
+  let { userStatusEndpoint: endPoint } = configurePageData
 
   it('TC_13.003.02 | Update Profile Description via Config Menu', () => {
     header.clickUserDropdownLink()

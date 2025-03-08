@@ -27,8 +27,7 @@ Cypress.on(
       const nameParts = [runnable.title]
 
       while (item.parent) {
-        nameParts.unshift(item.parent.title)
-        item = item.parent
+        nameParts.unshift(item.parent.title)(({ parent: item } = item))
       }
 
       const fullTestName = nameParts.filter(Boolean).join(' -- ')

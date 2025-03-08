@@ -36,8 +36,6 @@ describe('US_09.001 | Manage Jenkins > Search settings', () => {
   })
 
   it('TC_09.001.04 | Search is case-insensitive', () => {
-    const assertTools = "'contain', 'Tools'"
-
     dashboardPage.clickManageJenkins()
     manageJenkinsPage.getSettingsSearchField()
     manageJenkinsPage.typeSearchWord(searchResultsData.text.lowCase)

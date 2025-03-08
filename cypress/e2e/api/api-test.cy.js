@@ -339,7 +339,7 @@ describe('Automation excersize API:', () => {
     // Act
 
     cy.api({ url: '/' }).then(response => {
-      const csrf = response.headers['set-cookie'][0].split(';')[0].split('=')[1]
+      const [csrf] = response.headers['set-cookie'][0].split(';')[0].split('=').slice(1)
       data.csrfmiddlewaretoken = csrf
       const headers = {
         Referer: `https://www.automationexercise.com/login`,

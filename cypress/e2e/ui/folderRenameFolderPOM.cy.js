@@ -14,7 +14,7 @@ const folderName = genData.newProject()
 const newFolderName = genData.newProject()
 const LOCAL_PORT = Cypress.env('local.port')
 const LOCAL_HOST = Cypress.env('local.host')
-let endPoint = configurePageData.userStatusEndpoint
+let { userStatusEndpoint: endPoint } = configurePageData
 let endPointParams = 'baseName=jenkins.dialogs&_=1734623853681'
 
 describe('US_04.001 | Folder > Rename Folder', () => {

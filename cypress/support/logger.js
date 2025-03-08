@@ -75,6 +75,7 @@ Cypress.Commands.overwrite('request', (originalFn, ...args) => {
 
   return originalFn(...args).then(response => {
     const duration = Date.now() - startTime
+    // eslint-disable-next-line prefer-destructuring
     const requestDetails = args[0]
     logRequestDetails(requestDetails, response, duration)
     return response
