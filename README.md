@@ -1,5 +1,4 @@
 <h1 align="center">Cypress Project for Testing the CI/CD Tool Jenkins</h1>
-
 <p align="center">
   <img src="https://img.shields.io/github/commit-activity/m/Valiantsin2021/Cypress-Jenkins">
   <img src="https://img.shields.io/github/last-commit/Valiantsin2021/Cypress-Jenkins">

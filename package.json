@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "cypress.config.js",
+  "type": "module",
   "scripts": {
     "test": "npx cypress run --headless",
     "badges": "npx -p dependency-version-badge update-badge cypress",
     "format": "prettier --write --cache .",
-    "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\"",
+    "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\" --ignore-pattern \"allure-report\"",
     "stop-only": "stop-only --folder cypress/e2e",
     "check": "npm run format && npm run lint",
-    "report": "allure generate allure-results --single-file --clean -o allure-report"
+    "report": "allure generate ./report/allure-results --clean -o ./report/allure-report"
   },
   "author": "",
   "license": "ISC",
@@ -19,34 +20,38 @@
   },
   "devDependencies": {
     "@bahmutov/cy-api": "^2.2.8",
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@cypress-audit/lighthouse": "^1.4.2",
     "@cypress-audit/pa11y": "^1.4.2",
-    "@faker-js/faker": "^9.5.1",
+    "@faker-js/faker": "^9.6.0",
     "@testing-library/cypress": "^10.0.3",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
-    "@types/node": "^22.13.8",
+    "@types/node": "^22.13.10",
     "@types/testing-library__cypress": "^5.0.13",
-    "allure-commandline": "2.32.2",
+    "allure-commandline": "2.33.0",
     "allure-cypress": "3.2.0",
+    "axios": "^1.8.2",
+    "canvas": "^3.1.0",
     "cypress": "14.1.0",
     "cypress-ajv-schema-validator": "^1.4.0",
     "cypress-performance": "^1.5.1",
     "cypress-split": "^1.24.14",
     "cypress-visual-regression": "^5.3.0",
-    "eslint": "^9.21.0",
-    "eslint-config-prettier": "^10.0.2",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-chai-friendly": "^1.0.1",
-    "eslint-plugin-cypress": "4.1.0",
+    "eslint-plugin-cypress": "4.2.0",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.3",
-    "prettier": "^3.5.2",
+    "form-data": "^4.0.2",
+    "prettier": "^3.5.3",
     "stop-only": "^3.4.2",
     "val-a11y": "^1.0.5"
   },
   "peerDependencies": {
-    "cypress": ">=12"
+    "cypress": ">=14"
   },
   "commitlint": {
     "extends": [
@@ -58,8 +63,7 @@
       "eslint --fix"
     ],
     "**/*.+(cjs|js|ts|json)": [
-      "prettier --write --cache",
-      "git add"
+      "prettier --write --cache"
     ]
   }
 }
