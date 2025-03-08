@@ -48,6 +48,7 @@ export default defineConfig({
         }
       })
       allureCypress(on, config, {
+        resultsDir: 'report/allure-results',
         environmentInfo: {
           os_platform: os.platform(),
           os_release: os.release(),

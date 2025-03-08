@@ -11,7 +11,7 @@
     "lint": "eslint --fix --ignore-pattern \"jenkins_backup/*\" --ignore-pattern \"jenkins_home/*\" --ignore-pattern \"allure-report\"",
     "stop-only": "stop-only --folder cypress/e2e",
     "check": "npm run format && npm run lint",
-    "report": "allure generate allure-results --clean -o allure-report"
+    "report": "allure generate ./report/allure-results --clean -o ./report/allure-report"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +27,7 @@
     "@faker-js/faker": "^9.6.0",
     "@testing-library/cypress": "^10.0.3",
     "@trivago/prettier-plugin-sort-imports": "5.2.2",
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.13.10",
     "@types/testing-library__cypress": "^5.0.13",
     "allure-commandline": "2.33.0",
     "allure-cypress": "3.2.0",
@@ -63,8 +63,7 @@
       "eslint --fix"
     ],
     "**/*.+(cjs|js|ts|json)": [
-      "prettier --write --cache",
-      "git add ."
+      "prettier --write --cache"
     ]
   }
 }
