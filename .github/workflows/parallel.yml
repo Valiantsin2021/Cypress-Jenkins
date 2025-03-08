@@ -205,4 +205,4 @@ jobs:
       - name: Notify Slack
         if: always()
         run: |
-          node ./helpers/reporter.js
+          node ./cypress/support/reporter.js
