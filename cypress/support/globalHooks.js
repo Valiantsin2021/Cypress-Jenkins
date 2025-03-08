@@ -8,7 +8,7 @@ beforeEach(() => {
     chai.config.truncateThreshold = 0
     chai.config.includeStack = true
     chai.config.showDiff = true
-    // cy.cleanData(null, true)
+    // cy.cleanData(null, true) // if need to clean data totally?
     cy.visit(`http://${LOCAL_HOST}:${LOCAL_PORT}/login`)
     cy.get('#j_username').type(USERNAME)
     cy.get('input[name="j_password"]').type(PASSWORD)
