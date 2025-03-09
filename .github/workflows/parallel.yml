@@ -202,7 +202,8 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
-      # - name: Notify Slack
-      #   if: always()
-      #   run: |
-      #     node ./cypress/support/reporter.js
+      - name: Notify Slack
+        if: always()
+        run: |
+          npm ci
+          node ./cypress/support/reporter.js
