@@ -207,5 +207,5 @@ jobs:
       - name: Notify Slack
         if: always()
         run: |
-          npm ci
+          npm install
           node ./cypress/support/reporter.js ./allure-report/widgets/summary.json
