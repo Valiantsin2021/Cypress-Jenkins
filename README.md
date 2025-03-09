@@ -62,11 +62,17 @@ Global cleanup is executed after each test via API calls (see commands.js file).
 
 Allure reporter with previous runs history is used to generate test reports.
 
+To generate reports, run command ```npm run report```
+
+Allure report is available in report/allure-report folder.
+
 Accessibility reports are generated using val-a11y plugin.
 
 Lighthouse reports are generated using @cypress-audit/lighthouse plugin.
 
 CI pipeline is executed on GitHub Actions and test results are uploaded to Allure report and hosted on GitHub pages. - [Project report](https://valiantsin2021.github.io/Cypress-Jenkins/)
+
+To clean the previous run reports use command ```npm run clean```
 
 ____
 <a id="allureReport"></a>
@@ -88,17 +94,32 @@ ____
 - Node.js
 - NPM
 - VSCode
-- Jenkins up and running - `docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17`
+- Jenkins up and running
 
 1. Clone repository to your machine.
 
 2. Navigate to project root folder.
 
-3. Run command ```npm ci``` in terminal VScode.
+3. Run command ```npm run prepare``` to setup pre-commit hooks.
 
-4. Copy and paste the file ```cypress.env.json.example``` to project root folder. Сhange the file name to ```cypress.env.json```. Put your own credentials for login in json file.
+4. Run command ```npm install``` in terminal VScode to install dependencies.
 
-5. After, execute ```npx cypress open```  to run tests.
+5. Copy and paste the file ```cypress.env.json.example``` to project root folder. Сhange the file name to ```cypress.env.json```. Put provided to you by teacher credentials in json file.
+
+6. Setup Jenkins using Docker:
+
+- Download and install Docker desktop (https://www.docker.com/products/docker-desktop)
+- Using Git Bash for Windows or Terminal for Mac, run following 3 commands (it will update the jenkins backup with predefined settings):
+  
+  ```bash
+   cat jenkins_data/jenkins_home.tar.0* > jenkins_backup.tar && md5sum jenkins_backup.tar
+   tar -xvf ./jenkins_backup.tar
+   chmod -R 777 ./jenkins_home
+   ```
+- Add to cypress.env.json the following credentials provided to you by teacher: ```local.admin.username```, ```local.admin.password```, ```local.admin.token```, ```local.port```, ```local.host```.
+- Run command `docker run --name jekins --detach -p 8081:8080 -p 50000:50000 -v ${PWD}/jenkins_home:/var/jenkins_home jenkins/jenkins:2.492.2-lts-jdk17`
+- Verify the Jenkins is running using ```http://localhost:8081```. If you see the login page of Jenkins, you can start creating your tests and run them using Cypress. 
+- Use ```npx cypress open```  to run tests.
 
 **Project Coding Convention**
 
@@ -206,7 +227,7 @@ Common types according to commitlint-config-conventional can be:
 - revert
 - style
 - test
-- 
+  
 These can be modified by your own configuration.
 
 **Usage**

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-undef */
 import '@testing-library/cypress/add-commands'
 
@@ -165,7 +166,7 @@ class JenkinsProjectManager {
         )
 
         return deletionResults.flatMap((result, index) => {
-          const resourceType = allResourceTypes[index]
+          const { [index]: resourceType } = allResourceTypes
           if (result.status === 'fulfilled') {
             return result.value
           } else {
@@ -185,7 +186,7 @@ class JenkinsProjectManager {
       )
 
       return deletionResults.map((result, index) => {
-        const resourceName = resources[index]
+        const { [index]: resourceName } = resources
         if (result.status === 'fulfilled') {
           return result.value
         } else {
@@ -213,7 +214,7 @@ class JenkinsProjectManager {
     )
 
     return deletionResults.map((result, index) => {
-      const resourceName = resources[index]
+      const { [index]: resourceName } = resources
       if (result.status === 'fulfilled') {
         return result.value
       } else {
@@ -270,7 +271,7 @@ Cypress.Commands.overwrite('log', (log, message, ...args) => {
 Cypress.Commands.add('login', (userName = USERNAME, pass = PASSWORD) => {
   cy.intercept('POST', '/j_spring_security_check').as('security_check')
 
-  cy.visit(`http://${LOCAL_HOST}:${LOCAL_PORT}/login`)
+  cy.visit(`http://${HOST}:${PORT}/login`)
   cy.get('#j_username').type(userName)
   cy.get('input[name="j_password"]').type(pass)
   cy.get('button[name="Submit"]').click()

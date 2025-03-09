@@ -151,7 +151,9 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
           password: tokenValue
         }
       }).then(response => {
-        const { crumb } = response.body
+        const {
+          body: { crumb }
+        } = response
         cy.log('Crumb:', crumb)
 
         cy.log('step3: create project')
@@ -169,7 +171,6 @@ describe('US_00.001 | New item > Create Freestyle Project', () => {
           body: newJobPageData.simpleProjectXml,
           failOnStatusCode: false
         }).then(response => {
-          console.log(response.body)
           expect(response.status).to.eq(200)
         })
       })

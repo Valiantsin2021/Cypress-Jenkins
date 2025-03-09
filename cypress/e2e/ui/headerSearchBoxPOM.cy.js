@@ -170,7 +170,7 @@ describe('US_14.002 | Header > Search Box', () => {
     header.typeSearchTerm(randomFirstSearchCharacter.toUpperCase()).searchTerm()
 
     cy.log('Verifying the search results contain the values, corresponding to the specified random Uppercase character')
-    const expectedResults = characterSearchResults[randomFirstSearchCharacter]
+    const { [randomFirstSearchCharacter]: expectedResults } = characterSearchResults
     searchResults.retrieveSearchResults().then(uiResults => {
       expect(uiResults).to.contain.members(expectedResults)
 

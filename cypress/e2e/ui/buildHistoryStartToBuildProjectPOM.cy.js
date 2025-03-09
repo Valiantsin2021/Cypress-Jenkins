@@ -103,8 +103,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
           username: USERNAME,
           password: tokenValue
         }
-      }).then(response => {
-        let { crumb } = response.body
+      }).then(({ body: { crumb } }) => {
         cy.log(`'Crumb: ${crumb}`)
         cy.wrap(crumb).as('apiCrumb')
       })
@@ -134,7 +133,6 @@ describe('US_08.001 | Build history > Start to build a project', () => {
             password: tokenValue
           }
         }).then(response => {
-          console.log(response.body)
           expect(response.status).to.eq(201)
         })
       })

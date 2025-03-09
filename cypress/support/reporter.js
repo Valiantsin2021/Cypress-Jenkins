@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-console */
 /* eslint-disable max-statements */
 /* eslint-disable func-style */
 import axios from 'axios'

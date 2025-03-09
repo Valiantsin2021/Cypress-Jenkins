@@ -13,7 +13,7 @@ const addUserPage = new AddUserPage()
 const loginPage = new LoginPage()
 const LOCAL_PORT = Cypress.env('local.port')
 const LOCAL_HOST = Cypress.env('local.host')
-let endPoint = configurePageData.userStatusEndpoint
+let { userStatusEndpoint: endPoint } = configurePageData
 let endPointParams = 'baseName=jenkins.dialogs&_='
 
 describe('US_13.001 | Create new User', () => {

@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import DashboardPage from '@pageObjects/DashboardPage.js'
 import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
 import Header from '@pageObjects/Header.js'
@@ -15,11 +14,10 @@ const freestyleProjectPage = new FreestyleProjectPage()
 const header = new Header()
 const LOCAL_PORT = Cypress.env('local.port')
 const LOCAL_HOST = Cypress.env('local.host')
-let endPoint = configurePageData.userStatusEndpoint
+let { userStatusEndpoint: endPoint } = configurePageData
 let endPointParams = 'baseName=jenkins.dialogs&_=1735039532691'
 
 describe('US_01.004 | FreestyleProject > Delete Project', () => {
-  const randomItemName = faker.lorem.words()
   let project = genData.newProject()
 
   beforeEach(() => {
