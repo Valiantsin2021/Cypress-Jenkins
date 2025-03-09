@@ -206,4 +206,4 @@ jobs:
         if: always()
         run: |
           npm ci
-          node ./cypress/support/reporter.js
+          find . -type f -name "summary.json" | xargs -I {} node ./cypress/support/reporter.js {}
