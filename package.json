@@ -4,6 +4,9 @@
   "description": "",
   "main": "cypress.config.js",
   "type": "module",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "prepare": "git config core.hooksPath .hooks",
     "test": "npx cypress run --headless",
