@@ -6,6 +6,9 @@
   <img src="https://github.com/Valiantsin2021/Cypress-Jenkins/actions/workflows/parallel.yml/badge.svg">
   <img src="https://img.shields.io/github/issues/Valiantsin2021/Cypress-Jenkins">
   <img src="https://img.shields.io/github/issues-pr/Valiantsin2021/Cypress-Jenkins">
+  <img src="https://img.shields.io/github/stars/Valiantsin2021/Cypress-Jenkins" alt="stars" />
+  <img src="https://img.shields.io/github/forks/Valiantsin2021/Cypress-Jenkins" alt="forks" />
+  <img src="https://img.shields.io/github/license/Valiantsin2021/Cypress-Jenkins" alt="license" />
   <img src="https://img.shields.io/badge/cypress-14.0.0-brightgreen">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields"/>
   <img src="https://img.shields.io/badge/License-MIT-green.svg"/>

@@ -15,7 +15,7 @@ declare namespace Cypress {
      * @returns {Promise<void>} - Promise that resolves when all data has been cleaned up
      * @example
      * // Clean up specific jobs, views, and nodes
-     * cy.cleanData(['job1', 'job2', 'view1', 'node1', 'node2'])
+     * cy.cleanData(['job1', 'job2', 'view1', 'node1', 'node2', 'user1'])
      * @example
      * // Clean up all jobs, views, and nodes
      * cy.cleanData(null, true)
