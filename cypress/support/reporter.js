@@ -22,14 +22,7 @@ function readAllureData(path = './allure-report/widgets/summary.json') {
     }
   } catch (error) {
     console.error('Error reading Allure report data:', error.message)
-    return {
-      passed: 0,
-      failed: 0,
-      broken: 0,
-      skipped: 0,
-      unknown: 0,
-      duration: 0
-    }
+    process.exit(1)
   }
 }
 
