@@ -4,6 +4,9 @@
   "description": "",
   "main": "cypress.config.js",
   "type": "module",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "prepare": "git config core.hooksPath .hooks",
     "test": "npx cypress run --headless",
@@ -47,7 +50,6 @@
     "eslint-plugin-cypress": "4.2.0",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.3",
-    "form-data": "^4.0.2",
     "prettier": "^3.5.3",
     "stop-only": "^3.4.2",
     "val-a11y": "^1.0.5",

@@ -19,63 +19,63 @@ class BasePage extends Header {
   getBuildHistoryRows = () => cy.get('#buildHistory td[class="build-row-cell"]')
 
   clickNewItemMenuOption() {
-    this.getNewItemMenuOption().click()
+    this.getNewItemMenuOption().realClick()
     return this
   }
 
   clickNewItemMenuLink() {
     //please delete as duplicate to clickNewItemMenuOption, make sure to replase all
-    this.getNewItemLink().click({ force: true })
+    this.getNewItemLink().realClick()
     return this
   }
 
   clickMoveMenuOption() {
-    this.getMoveMenuItem().click()
+    this.getMoveMenuItem().realClick()
     return this
   }
 
   clickRenameMenuOption() {
-    this.getRenameMenuOption().click()
+    this.getRenameMenuOption().realClick()
     return this
   }
 
   clickBuildNowMenuOption() {
-    this.getBuildNowMenuOption().click()
+    this.getBuildNowMenuOption().realClick()
     return this
   }
 
   clickConfigureLMenuOption() {
-    this.getConfigureMenuOption().click()
+    this.getConfigureMenuOption().realClick()
     return this
   }
 
   clickSaveButton() {
-    this.getSaveButton().click()
+    this.getSaveButton().realClick()
     return this
   }
 
   clickYesButton() {
-    this.getYesButton().click()
+    this.getYesButton().realClick()
     return this
   }
 
   clickOKButton() {
-    this.getOKButton().click()
+    this.getOKButton().realClick()
     return this
   }
 
   clickRenameButton() {
-    this.getRenameButton().click()
+    this.getRenameButton().realClick()
     return this
   }
 
   clickMoveButton() {
-    this.getMoveButton().click()
+    this.getMoveButton().realClick()
     return this
   }
 
   clickCancelButton() {
-    this.getCancelButton().click()
+    this.getCancelButton().realClick()
     return this
   }
 }

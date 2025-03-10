@@ -41,23 +41,23 @@ class DashboardPage extends BasePage {
     this.getJobTableDropdownItem().each($els => {
       let eText = $els.text().trim()
       if (eText === 'New Item') {
-        cy.wrap($els).click()
+        cy.wrap($els).realClick()
       }
     })
     return new NewJobPage()
   }
 
   clickJobTitleLink(name) {
-    this.getJobTitleLink(name).click()
+    this.getJobTitleLink(name).realClick()
   }
 
   clickManageJenkins() {
-    this.getManageJenkins().click()
+    this.getManageJenkins().realClick()
     return this
   }
 
   clickItemName(projectName) {
-    this.getItemName().contains(projectName).click()
+    this.getItemName().contains(projectName).realClick()
   }
 
   getSessionCookie(cookieName) {
@@ -71,7 +71,7 @@ class DashboardPage extends BasePage {
   }
 
   clickJobName(name) {
-    this.getJobTable().contains(name).click()
+    this.getJobTable().contains(name).realClick()
     return new NewJobPage()
   }
 
@@ -81,47 +81,47 @@ class DashboardPage extends BasePage {
   }
 
   clickProjectChevronIcon(projectName) {
-    this.getItemChevronIcon(projectName).click({ force: true })
+    this.getItemChevronIcon(projectName).realClick()
     return this
   }
 
   clickJobTableDropdownChevron(name) {
-    this.getJobTableDropdownChevron(name).click({ force: true })
+    this.getJobTableDropdownChevron(name).realClick()
     return this
   }
 
   clickDeleteProjectDropdownMenuItem() {
-    this.getDeleteProjectDropdownMenuItem().click()
+    this.getDeleteProjectDropdownMenuItem().realClick()
     return this
   }
 
   clickDeleteOrganizationFolderDropdownMenuItem() {
-    this.getDeleteOrganizationFolderDropdownMenuItem().click()
+    this.getDeleteOrganizationFolderDropdownMenuItem().realClick()
     return this
   }
 
   clickCreateJobLink() {
-    this.getCreateJobButton().click()
+    this.getCreateJobButton().realClick()
     return this
   }
 
   clickRenameDropdownOption() {
-    this.getRenameDropdownOption().click()
+    this.getRenameDropdownOption().realClick()
     return this
   }
 
   clickMoveDropdownOption() {
-    this.getMoveTheProject().click()
+    this.getMoveTheProject().realClick()
     return this
   }
 
   clickRenameProjectDropdownMenuItem() {
-    this.getRenameProjectDropdownMenuItem().click()
+    this.getRenameProjectDropdownMenuItem().realClick()
     return this
   }
 
   clickAddViewLink() {
-    this.getAddViewLink().click()
+    this.getAddViewLink().realClick()
     return this
   }
 
@@ -131,7 +131,7 @@ class DashboardPage extends BasePage {
   }
 
   clickListViewRadio() {
-    this.getListViewRadio().click()
+    this.getListViewRadio().realClick()
     return this
   }
 
@@ -146,12 +146,12 @@ class DashboardPage extends BasePage {
   }
 
   clickSortingArrowOfNameColumn() {
-    this.getSortingArrowOfNameColumn().click()
+    this.getSortingArrowOfNameColumn().realClick()
     return this
   }
 
   clickBuildNowDropdownMenuItem() {
-    this.getBuildNowDropdownMenuItem().click()
+    this.getBuildNowDropdownMenuItem().realClick()
     return this
   }
   checkUserNameVisible(userName) {
@@ -159,11 +159,11 @@ class DashboardPage extends BasePage {
     return this
   }
   clickViewTab(viewName) {
-    this.getViewTab(viewName).click()
+    this.getViewTab(viewName).realClick()
     return this
   }
   clickFolderMoveDropdownOption() {
-    this.getMoveTheProject().click()
+    this.getMoveTheProject().realClick()
     return new FolderPage()
   }
 }

@@ -4,7 +4,7 @@ class ConfigurePage {
   getBreadcrumbsManageJenkins = () => cy.get('[href="/manage/"]')
 
   clickBreadcrumbsManageJenkins() {
-    this.getBreadcrumbsManageJenkins().click()
+    this.getBreadcrumbsManageJenkins().realClick()
     return new ManageJenkinsPage()
   }
 }
