@@ -106,7 +106,7 @@ class DashboardPage extends BasePage {
   }
 
   clickRenameDropdownOption() {
-    this.getRenameDropdownOption().realClick()
+    this.getRenameDropdownOption().realClick({ force: true })
     return this
   }
 

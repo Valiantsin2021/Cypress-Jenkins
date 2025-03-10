@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 
-module.exports = {
+export default {
   newProject: function () {
     let Project = {
       name: faker.company.buzzNoun() + faker.number.int({ min: 1, max: 100 }),
