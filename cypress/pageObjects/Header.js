@@ -30,7 +30,7 @@ class Header {
     return this
   }
   clickFirstOptionFromACBox() {
-    this.getSearchAutoCompletionBox().first().click()
+    this.getSearchAutoCompletionBox().first().realClick()
     return this
   }
 
@@ -55,22 +55,22 @@ class Header {
   }
 
   clickJenkinsLogo() {
-    this.getJenkinsLogo().click()
+    this.getJenkinsLogo().realClick()
     return this
   }
 
   clickLogOutButton() {
-    this.getLogOutButton().click()
+    this.getLogOutButton().realClick()
     return this
   }
 
   clickDashboardBtn() {
-    this.getBreadcrumps().contains('Dashboard').click()
+    this.getBreadcrumps().contains('Dashboard').realClick()
     return this
   }
 
   clickDashboardBreadcrumbsLink() {
-    this.getDashboardBreadcrumbsLink().click()
+    this.getDashboardBreadcrumbsLink().realClick()
     return this
   }
 
@@ -94,7 +94,7 @@ class Header {
   }
 
   clickUserName() {
-    this.getUserNameLink().first().click()
+    this.getUserNameLink().first().realClick()
     return this
   }
 
