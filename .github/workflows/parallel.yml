@@ -30,8 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
@@ -157,6 +155,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: run-test
     if: always()
+    env:
+      SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: Download all Allure Results
@@ -207,5 +208,5 @@ jobs:
       - name: Notify Slack
         if: always()
         run: |
-          npm install
+          npm ci
           node ./cypress/support/reporter.js ./allure-report/widgets/summary.json
