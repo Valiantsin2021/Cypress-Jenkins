@@ -1,4 +1,4 @@
-import { UserBuilder, user } from './DataBuilder.js'
+import { UserBuilder, user } from '../helpers/DataBuilder.js'
 
 export const endpoints = {
   productsList: '/api/productsList',

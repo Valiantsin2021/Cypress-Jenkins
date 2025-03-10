@@ -2,7 +2,7 @@ import DashboardPage from '@pageObjects/DashboardPage.js'
 import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
-import { newInstance } from '@fixtures/newJobPageData.json'
+import { newInstance } from '@fixtures/ui_data/newJobPageData.json'
 
 describe('Checking parametrization', () => {
   const dashboardPage = new DashboardPage()

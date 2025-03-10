@@ -65,7 +65,7 @@ class BasePage extends Header {
   }
 
   clickRenameButton() {
-    this.getRenameButton().realClick({ force: true })
+    this.getRenameButton().realClick()
     return this
   }
 

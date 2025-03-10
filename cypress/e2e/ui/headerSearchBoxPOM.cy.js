@@ -8,13 +8,13 @@ import PipelinePage from '@pageObjects/PipelinePage.js'
 import SearchResuls from '@pageObjects/SearchResultsPage.js'
 import UserPage from '@pageObjects/UserPage.js'
 
-import configurePageData from '@fixtures/configurePageData.json'
-import firstCharacterSearchResultsData from '@fixtures/firstCharacterSearchResultsData.js'
-import genData from '@fixtures/genData.js'
-import headerData from '@fixtures/headerData.json'
-import messages from '@fixtures/messages.json'
-import newJobPageData from '@fixtures/newJobPageData.json'
-import searchResultsData from '@fixtures/searchResultsData.json'
+import genData from '@fixtures/helpers/genData.js'
+import configurePageData from '@fixtures/ui_data/configurePageData.json'
+import firstCharacterSearchResultsData from '@fixtures/ui_data/firstCharacterSearchResultsData.js'
+import headerData from '@fixtures/ui_data/headerData.json'
+import messages from '@fixtures/ui_data/messages.json'
+import newJobPageData from '@fixtures/ui_data/newJobPageData.json'
+import searchResultsData from '@fixtures/ui_data/searchResultsData.json'
 
 const header = new Header()
 const newJobPage = new NewJobPage()

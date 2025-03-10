@@ -3,9 +3,9 @@ import Header from '@pageObjects/Header.js'
 import UserPage from '@pageObjects/UserPage.js'
 import BasePage from '@pageObjects/basePage.js'
 
-import configurePageData from '@fixtures/configurePageData.json'
-import { userDropdownLink } from '@fixtures/dashboardPageData.json'
-import genData from '@fixtures/genData.js'
+import genData from '@fixtures/helpers/genData.js'
+import configurePageData from '@fixtures/ui_data/configurePageData.json'
+import { userDropdownLink } from '@fixtures/ui_data/dashboardPageData.json'
 
 const userDescription = faker.lorem.paragraph()
 const header = new Header()

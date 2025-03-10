@@ -4,8 +4,8 @@ import Header from '@pageObjects/Header.js'
 import MyViewsPage from '@pageObjects/MyViewsPage.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
-import genData from '@fixtures/genData.js'
-import myViewsPageData from '@fixtures/myViewsPageData.json'
+import genData from '@fixtures/helpers/genData.js'
+import myViewsPageData from '@fixtures/ui_data/myViewsPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

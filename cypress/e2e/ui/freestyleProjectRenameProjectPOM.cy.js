@@ -5,9 +5,9 @@ import FreestyleProjectPage from '@pageObjects/FreestyleProjectPage.js'
 import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
-import genData from '@fixtures/genData.js'
-import messages from '@fixtures/messages.json'
-import { newInstance } from '@fixtures/newJobPageData.json'
+import genData from '@fixtures/helpers/genData.js'
+import messages from '@fixtures/ui_data/messages.json'
+import { newInstance } from '@fixtures/ui_data/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

@@ -7,9 +7,9 @@ import NewJobPage from '@pageObjects/NewJobPage.js'
 import UserPage from '@pageObjects/UserPage.js'
 import BasePage from '@pageObjects/basePage.js'
 
-import genData from '@fixtures/genData.js'
-import message, { newItem } from '@fixtures/messages.json'
-import newJobPageData from '@fixtures/newJobPageData.json'
+import genData from '@fixtures/helpers/genData.js'
+import message, { newItem } from '@fixtures/ui_data/messages.json'
+import newJobPageData from '@fixtures/ui_data/newJobPageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

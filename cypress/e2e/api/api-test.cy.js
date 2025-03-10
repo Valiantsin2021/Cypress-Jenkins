@@ -1,9 +1,8 @@
 import 'cypress-ajv-schema-validator'
 
-import { user } from '@fixtures/DataBuilder.js'
-import schema_all_brands from '@fixtures/all_brandlist_schema.json'
-import schema_all_products from '@fixtures/all_products_schema.json'
-import { API_STATUSES } from '@fixtures/api-statuses.js'
+import schema_all_brands from '@fixtures/api_data/all_brandlist_schema.json'
+import schema_all_products from '@fixtures/api_data/all_products_schema.json'
+import { API_STATUSES } from '@fixtures/api_data/api-statuses.js'
 import {
   endpoints,
   errorMessages,
@@ -19,8 +18,9 @@ import {
   requestsData,
   updatedUser,
   userFieldKeys
-} from '@fixtures/api_constants.js'
-import error_405_schema from '@fixtures/error_405_schema.json'
+} from '@fixtures/api_data/api_constants.js'
+import error_405_schema from '@fixtures/api_data/error_405_schema.json'
+import { user } from '@fixtures/helpers/DataBuilder.js'
 
 const {
   BAD_REQUEST_400_STATUS,
