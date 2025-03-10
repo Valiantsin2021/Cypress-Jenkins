@@ -2,7 +2,7 @@ import FolderPage from '@pageObjects/FolderPage.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 import BasePage from '@pageObjects/basePage.js'
 
-import genData from '@fixtures/genData.js'
+import genData from '@fixtures/helpers/genData.js'
 
 const basePage = new BasePage()
 const newJobPage = new NewJobPage()

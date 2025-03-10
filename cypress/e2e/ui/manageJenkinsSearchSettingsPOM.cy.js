@@ -3,8 +3,8 @@ import ConfigurePage from '@pageObjects/ConfigurePage.js'
 import DashboardPage from '@pageObjects/DashboardPage.js'
 import ManageJenkinsPage from '@pageObjects/ManageJenkinsPage.js'
 
-import messages from '@fixtures/messages.json'
-import searchResultsData from '@fixtures/searchResultsData.json'
+import messages from '@fixtures/ui_data/messages.json'
+import searchResultsData from '@fixtures/ui_data/searchResultsData.json'
 
 const dashboardPage = new DashboardPage()
 const manageJenkinsPage = new ManageJenkinsPage()

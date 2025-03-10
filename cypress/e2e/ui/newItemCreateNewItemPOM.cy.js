@@ -5,8 +5,8 @@ import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 import PipelinePage from '@pageObjects/PipelinePage.js'
 
-import { newItem } from '@fixtures/messages.json'
-import allKeys from '@fixtures/newJobPageData.json'
+import { newItem } from '@fixtures/ui_data/messages.json'
+import allKeys from '@fixtures/ui_data/newJobPageData.json'
 
 const header = new Header()
 const dashboardPage = new DashboardPage()

@@ -3,8 +3,8 @@ import FolderPage from '@pageObjects/FolderPage.js'
 import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
-import configurePageData from '@fixtures/configurePageData.json'
-import genData from '@fixtures/genData.js'
+import genData from '@fixtures/helpers/genData.js'
+import configurePageData from '@fixtures/ui_data/configurePageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

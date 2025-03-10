@@ -2,7 +2,7 @@ import DashboardPage from '@pageObjects/DashboardPage.js'
 import Header from '@pageObjects/Header.js'
 import LoginPage from '@pageObjects/LoginPage.js'
 
-import dashboardPageData from '@fixtures/dashboardPageData.json'
+import dashboardPageData from '@fixtures/ui_data/dashboardPageData.json'
 
 describe('US_14.003 | Header > Log out option', () => {
   const dashboardPage = new DashboardPage()

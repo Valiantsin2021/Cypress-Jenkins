@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import '@testing-library/cypress/add-commands'
 
-import newJobPageData from '../fixtures/newJobPageData.json'
+import newJobPageData from '../fixtures/ui_data/newJobPageData.json'
 import DashboardPage from '../pageObjects/DashboardPage'
 import NewJobPage from '../pageObjects/NewJobPage'
 

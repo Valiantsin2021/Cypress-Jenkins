@@ -3,7 +3,7 @@ import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 import OrganizationFolderPage from '@pageObjects/OrganizationFolderPage.js'
 
-import genData from '@fixtures/genData.js'
+import genData from '@fixtures/helpers/genData.js'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

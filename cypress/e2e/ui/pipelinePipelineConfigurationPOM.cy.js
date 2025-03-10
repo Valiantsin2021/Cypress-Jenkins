@@ -4,8 +4,8 @@ import NewJobPage from '@pageObjects/NewJobPage.js'
 import PipelinePage from '@pageObjects/PipelinePage.js'
 import BasePage from '@pageObjects/basePage.js'
 
-import genData from '@fixtures/genData.js'
-import pipelinePageData from '@fixtures/pipelinePageData.json'
+import genData from '@fixtures/helpers/genData.js'
+import pipelinePageData from '@fixtures/ui_data/pipelinePageData.json'
 
 const dashboardPage = new DashboardPage()
 const newJobPage = new NewJobPage()

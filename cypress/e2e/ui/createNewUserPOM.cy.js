@@ -4,7 +4,7 @@ import LoginPage from '@pageObjects/LoginPage.js'
 import ManageJenkinsPage from '@pageObjects/ManageJenkinsPage.js'
 import SecurityUsersPage from '@pageObjects/SecurityUsersPage.js'
 
-import configurePageData from '@fixtures/configurePageData.json'
+import configurePageData from '@fixtures/ui_data/configurePageData.json'
 
 const dashboardPage = new DashboardPage()
 const manageJenkinsPage = new ManageJenkinsPage()
