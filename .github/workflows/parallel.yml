@@ -204,6 +204,12 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'npm'
+
       - name: Notify Slack
         if: always()
         run: |
