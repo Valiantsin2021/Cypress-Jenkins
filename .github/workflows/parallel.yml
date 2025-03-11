@@ -166,4 +166,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-pattern: 'allure-results-*'
           report-title: 'Allure report for Cypress tests'
-          process-results: 'node ./cypress/support/reporter.js'
+
+      - name: Notify Slack
+        if: always()
+        run: |
+          npm ci
+          node ./cypress/support/reporter.js ./allure-report/widgets/summary.json
