@@ -18,7 +18,7 @@ jobs:
         id: prepare
         uses: bahmutov/gh-build-matrix@main
         with:
-          n: 6
+          n: 4
 
       - name: Print result 🖨
         run: echo '${{ steps.prepare.outputs.matrix }}'
