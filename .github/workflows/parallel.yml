@@ -26,6 +26,7 @@ jobs:
   run-test:
     needs: prepare
     if: always()
+    timeout-minutes: 20
     name: 'Run tests'
     runs-on: ubuntu-latest
     env:
@@ -152,6 +153,7 @@ jobs:
           message: "Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins"
         if: always()
   generate-report:
+    permissions: write-all
     name: Generate Allure Report
     needs: run-test
     runs-on: ubuntu-latest
@@ -175,3 +177,12 @@ jobs:
         run: |
           npm ci
           node ./helpers/reporter.js
+
+      - name: Add the test summary status back to PR comment
+        uses: mshick/add-pr-comment@v2
+        if: (contains(fromJSON('["pull_request"]'), github.event_name))
+        with:
+          message-path: |
+                  ./test-results.txt
+          message-failure: |
+                  Workflow failed

@@ -124,24 +124,22 @@ async function sendSlackNotification(data, imageBuffer, environment = 'test') {
   try {
     const slackToken = process.env.SLACK_TOKEN
     const slackChannel = process.env.SLACK_CHANNEL
-
+    const message = `
+    *Test Results for Last run results Allure report on ${environment} environment*\n\n
+      ⏳ *Duration:* ${data.durationFormatted}\n
+      ✅ *Passed:* ${data.passed}\n
+      ❌ *Failed:* ${data.failed}\n
+      🔨 *Broken:* ${data.broken}\n
+      🚩 *Skipped:* ${data.skipped}\n
+      ❓ *Unknown:* ${data.unknown}\n
+    *Report available at:* <https://valiantsin2021.github.io/Playwright_ProjectJS_2024|Report>`
     const formData = new Blob([imageBuffer], { type: 'image/png' })
     const form = new FormData()
     form.append('channels', slackChannel)
     form.append('file', formData, 'test-results-chart.png')
     form.append('filename', 'test-results-chart.png')
-    form.append(
-      'initial_comment',
-      `*Test Results for Last run results Allure report on ${environment} environment*\n\n
-         ⏳ *Duration:* ${data.durationFormatted}\n
-         ✅ *Passed:* ${data.passed}\n
-         ❌ *Failed:* ${data.failed}\n
-         🔨 *Broken:* ${data.broken}\n
-         🚩 *Skipped:* ${data.skipped}\n
-         ❓ *Unknown:* ${data.unknown}\n
-        *Report available at:* <https://valiantsin2021.github.io/Playwright_ProjectJS_2024|Report>`
-    )
-
+    form.append('initial_comment', message)
+    fs.writeFileSync('test-results.txt', message)
     const response = await axios.post('https://slack.com/api/files.upload', form, {
       headers: {
         Authorization: `Bearer ${slackToken}`
