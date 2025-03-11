@@ -1,4 +1,4 @@
-import { click } from 'cypress-real-events/commands/click'
+import { realClick } from 'cypress-real-events/commands/realClick'
 
 import DashboardPage from '../pageObjects/DashboardPage'
 import ConfigurePage from './ConfigurePage'
@@ -26,17 +26,17 @@ class ManageJenkinsPage extends DashboardPage {
     return this
   }
   clickXButtonSearchField() {
-    this.getXButtonSearchField().click()
+    this.getXButtonSearchField().realClick()
     return this
   }
 
   clickUsersIcon() {
-    this.getUsersIcon().click()
+    this.getUsersIcon().realClick()
     return this
   }
 
   clickSearchResult(word) {
-    this.getSearchResultList().contains(`${word}`).click()
+    this.getSearchResultList().contains(`${word}`).realClick()
     return new ConfigurePage()
   }
 }
