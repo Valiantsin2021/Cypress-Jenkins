@@ -152,61 +152,18 @@ jobs:
           message: "Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins"
         if: always()
   generate-report:
-    runs-on: ubuntu-latest
+    name: Generate Allure Report
     needs: run-test
+    runs-on: ubuntu-latest
     if: always()
     env:
       SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Download all Allure Results
-        uses: actions/download-artifact@v4
+      - name: Generate and Publish Allure Report
+        uses: Valiantsin2021/allure-shard-results-publish@1.0.1
         with:
-          path: allure-results
-          pattern: allure-results-*
-
-      - name: Merge Allure Results
-        if: success()
-        run: |
-          # Combine all downloaded result folders into a single allure-results directory
-          mkdir -p final-allure-results
-          cp -r allure-results/allure-results-*/* final-allure-results/
-
-      - name: Load test report history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1.11
-        with:
-          gh_pages: gh-pages
-          allure_results: final-allure-results
-          allure_history: allure-history
-          allure_report: allure-report
-
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: allure report
-          path: allure-report
-          if-no-files-found: ignore
-
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
-
-      - name: Notify Slack
-        if: always()
-        run: |
-          npm ci
-          node ./cypress/support/reporter.js ./allure-report/widgets/summary.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          results-pattern: 'allure-results-*'
+          report-title: 'Allure report for Cypress tests'
+          process-results: 'node ./cypress/support/reporter.js'
