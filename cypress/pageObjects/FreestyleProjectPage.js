@@ -25,7 +25,7 @@ class FreestyleProjectPage extends BasePage {
   }
 
   clickAddDescriptionButton() {
-    this.getAddDescriptionButton().realClick()
+    this.getAddDescriptionButton().click()
     return this
   }
 
@@ -35,7 +35,7 @@ class FreestyleProjectPage extends BasePage {
   }
 
   clickDeleteMenuItem() {
-    this.getDeleteProjectMenuOption().realClick()
+    this.getDeleteProjectMenuOption().click()
     return this
   }
 
@@ -65,7 +65,7 @@ class FreestyleProjectPage extends BasePage {
     specialChars.forEach(char => {
       // Clear, type the new name, and click Save
       this.getNewNameField().clear().type(`Rename${char}Folder`)
-      this.getRenameButton().realClick()
+      this.getRenameButton().click()
 
       // Assertions for error messages
       this.getHeaderOnRename().should('have.text', 'Error')
@@ -97,12 +97,12 @@ class FreestyleProjectPage extends BasePage {
       .then(() => arrayBuildData)
   }
   clickConfigureMenuButton() {
-    this.getConfigureMenuItem().realClick()
+    this.getConfigureMenuItem().click()
     return this
   }
 
   checkTriggerBuildsRemotelyCheckbox() {
-    this.getTriggerBuildsRemotelyCheckbox().realClick()
+    this.getTriggerBuildsRemotelyCheckbox().click()
     return this
   }
 
