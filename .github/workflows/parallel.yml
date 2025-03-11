@@ -160,6 +160,7 @@ jobs:
       SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     steps:
+      - uses: actions/checkout@v4
       - name: Install dependencies
         if: always()
         run: |
