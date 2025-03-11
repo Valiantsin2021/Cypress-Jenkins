@@ -161,10 +161,6 @@ jobs:
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        if: always()
-        run: |
-          npm ci
       - name: Generate and Publish Allure Report
         uses: Valiantsin2021/allure-shard-results-publish@1.0.1
         if: always()
@@ -173,3 +169,9 @@ jobs:
           results-pattern: 'allure-results-*'
           report-title: 'Allure report for Playwright tests'
           process-results: 'node ./cypress/support/reporter.js'
+
+      - name: Install dependencies and Send Slack notification
+        if: always()
+        run: |
+          npm ci
+          node ./helpers/reporter.js
