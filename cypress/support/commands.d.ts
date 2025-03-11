@@ -6,6 +6,22 @@ type MetricsOptions = {
   retryTimeout?: number // Retry timeout in milliseconds (default: 5000)
 }
 
+type WaitUntilLog = Pick<Cypress.LogConfig, 'name' | 'message' | 'consoleProps'>
+
+type ErrorMsgCallback<Subject = any> = (result: Subject, options: WaitUntilOptions<Subject>) => string
+
+interface WaitUntilOptions<Subject = any> {
+  timeout?: number
+  interval?: number
+  errorMsg?: string | ErrorMsgCallback<Subject>
+  description?: string
+  customMessage?: string
+  verbose?: boolean
+  customCheckMessage?: string
+  logger?: (logOptions: WaitUntilLog) => any
+  log?: boolean
+}
+
 declare namespace Cypress {
   interface Chainable {
     /**
@@ -46,5 +62,41 @@ declare namespace Cypress {
      * cy.login('myuser', 'mypassword');
      */
     login(userName?: string, pass?: string): Chainable<void>
+
+    /**
+     * Custom command to wait until a condition is met.
+     * @param subject - The value to be passed to the `checkFunction`.
+     * @param checkFunction - Function that will be called repeatedly until it returns a truthy value.
+     *   The function should accept a single argument, `subject`, which is the value returned by the
+     *   previous command in the chain or `undefined` if no previous command was executed.
+     *   The function can return a value, a `Chainable`, or a `Promise` of either.
+     * @param options - Options object with the following properties:
+     *   - `timeout`: The maximum time in milliseconds to wait for the condition to be met.
+     *     Defaults to 5000.
+     *   - `interval`: The time in milliseconds to wait between calls to `checkFunction`.
+     *     Defaults to 200.
+     *   - `errorMsg`: A message to be logged if the condition is not met within `timeout` milliseconds.
+     *     Defaults to `'Timed out retrying'`.
+     *   - `description`: A description to be used when logging the start of the wait.
+     *     Defaults to `'waitUntil'`.
+     *   - `customMessage`: A message to be logged if the condition is not met within `timeout` milliseconds.
+     *     Defaults to `undefined`.
+     *   - `verbose`: A flag indicating whether to log messages about the wait.
+     *     Defaults to `false`.
+     *   - `customCheckMessage`: A message to be logged for each check.
+     *     Defaults to `undefined`.
+     *   - `logger`: A logger function that will be called with the log message.
+     *     Defaults to `Cypress.log`.
+     *   - `log`: A flag indicating whether to log messages about the wait.
+     *     Defaults to `true`.
+     * @returns The value returned by `checkFunction` or a `Chainable` of that value.
+     *
+     * @example
+     * cy.waitUntil(() => cy.get('#myElement').should('be.visible'))
+     */
+    waitUntil<ReturnType = any>(
+      checkFunction: (subject: Subject | undefined) => ReturnType | Chainable<ReturnType> | Promise<ReturnType>,
+      options?: WaitUntilOptions<Subject>
+    ): Chainable<ReturnType>
   }
 }

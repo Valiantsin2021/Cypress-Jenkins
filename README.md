@@ -120,7 +120,7 @@ ____
    chmod -R 777 ./jenkins_home
    ```
 - Add to cypress.env.json the following credentials provided to you by teacher: ```local.admin.username```, ```local.admin.password```, ```local.admin.token```, ```local.port```, ```local.host```.
-- Run command `docker run --name jekins --detach -p 8081:8080 -p 50000:50000 -v ${PWD}/jenkins_home:/var/jenkins_home jenkins/jenkins:2.492.2-lts-jdk17`
+- Run command `docker run --name jekins --detach -p 8081:8080 -p 50000:50000 -v ${PWD}/jenkins_home:/var/jenkins_home jenkins/jenkins:2.462.3-lts-jdk17`
 - Verify the Jenkins is running using ```http://localhost:8081```. If you see the login page of Jenkins, you can start creating your tests and run them using Cypress. 
 - Use ```npx cypress open```  to run tests.
 
