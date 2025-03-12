@@ -1,4 +1,4 @@
-name: CI
+name: Test run by ${{ github.actor }} ${{ github.event_name	}} - ${{ github.sha }}
 
 on:
   pull_request:
@@ -164,13 +164,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Generate and Publish Allure Report
-        uses: Valiantsin2021/allure-shard-results-publish@1.0.2
+        uses: Valiantsin2021/allure-shard-results-publish@1.0.3
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           results-pattern: 'allure-results-*'
-          report-title: 'Allure report for Playwright tests'
-          process-results: 'node ./cypress/support/reporter.js'
 
       - name: Install dependencies and Send Slack notification
         if: always()
