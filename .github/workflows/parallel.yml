@@ -27,7 +27,7 @@ jobs:
     needs: prepare
     if: always()
     timeout-minutes: 20
-    name: 'Run tests'
+    name: 'Run tests ${{ github.actor }} ${{ github.event_name }} - ${{ github.sha }}'
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
