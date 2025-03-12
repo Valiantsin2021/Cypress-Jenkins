@@ -1,4 +1,4 @@
-name: Test run by ${{ github.actor }} ${{ github.event_name	}} - ${{ github.sha }}
+name: Cypress Tests
 
 on:
   pull_request:
