@@ -26,17 +26,17 @@ class ManageJenkinsPage extends DashboardPage {
     return this
   }
   clickXButtonSearchField() {
-    this.getXButtonSearchField().realClick()
+    this.getXButtonSearchField().click({ force: true })
     return this
   }
 
   clickUsersIcon() {
-    this.getUsersIcon().realClick()
+    this.getUsersIcon().click({ force: true })
     return this
   }
 
   clickSearchResult(word) {
-    this.getSearchResultList().contains(`${word}`).realClick()
+    this.getSearchResultList().contains(`${word}`).click({ force: true })
     return new ConfigurePage()
   }
 }
