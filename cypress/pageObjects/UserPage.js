@@ -93,7 +93,7 @@ class UserPage extends DashboardPage {
     return this
   }
   clickConfirmDeleteApiTokenButton() {
-    this.getConfirmDeleteApiTokenButton().click()
+    this.getConfirmDeleteApiTokenButton().should('be.visible').click({ force: true })
     return this
   }
 }
