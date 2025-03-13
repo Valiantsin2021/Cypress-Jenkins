@@ -17,12 +17,12 @@ class NewJobPage extends BasePage {
   getFreestyleProjectDescriptionSize = () => cy.get('li.hudson_model_FreeStyleProject .desc')
 
   typeNewItemName(itemName) {
-    this.getItemNameField().type(itemName)
+    this.getItemNameField().type(itemName, { delay: 0 })
     return this
   }
 
   selectFreestyleProject() {
-    this.getFreeStlPrjType().click()
+    this.getFreeStlPrjType().should('be.visible').click()
     return this
   }
 

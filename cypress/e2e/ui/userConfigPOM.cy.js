@@ -69,5 +69,6 @@ describe('US_13.003 | User > Config', () => {
     header.getBreadcrumbBar().should('not.contain', 'Configure').and('contain', name.userName)
     header.getUserNameLink().should('contain', name.userName)
     basePage.getJobHeadline().should('contain', name.userName)
+    cy.cleanData([name.userName])
   })
 })

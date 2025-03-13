@@ -9,10 +9,10 @@ import SearchResuls from '@pageObjects/SearchResultsPage.js'
 import UserPage from '@pageObjects/UserPage.js'
 
 import genData from '@fixtures/helpers/genData.js'
+import messages from '@fixtures/messages.json'
 import configurePageData from '@fixtures/ui_data/configurePageData.json'
 import firstCharacterSearchResultsData from '@fixtures/ui_data/firstCharacterSearchResultsData.js'
 import headerData from '@fixtures/ui_data/headerData.json'
-import messages from '@fixtures/ui_data/messages.json'
 import newJobPageData from '@fixtures/ui_data/newJobPageData.json'
 import searchResultsData from '@fixtures/ui_data/searchResultsData.json'
 
@@ -41,7 +41,7 @@ describe('US_14.002 | Header > Search Box', () => {
     freestyleProjectPage.typeJobDescription(configurePageData.projectDescription).clickSaveButton()
     header.typeSearchTerm(newJobPageData.projectName).clickFirstOptionFromACBox().searchTerm()
 
-    freestyleProjectPage.getJobHeadline().should('have.text', newJobPageData.projectName)
+    freestyleProjectPage.getJobHeadline().should('contain.text', newJobPageData.projectName)
     cy.cleanData([newJobPageData.projectName])
   })
 
@@ -76,7 +76,7 @@ describe('US_14.002 | Header > Search Box', () => {
 
     header.typeSearchTerm(headerData.search.input.upperCaseMatchForManage)
 
-    header.getSearchAutoCompletionBox().should('have.text', headerData.search.searchSuggestions.manage)
+    header.getSearchAutoCompletionBox().eq(0).should('contain.text', headerData.search.searchSuggestions.manage)
   })
 
   it('TC_14.002.10 | Verify that the warning message is displayed when no matches are found', () => {

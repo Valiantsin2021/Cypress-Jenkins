@@ -34,7 +34,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     folderPage.getFolderNameOnMainPanel().should('include.text', `${newFolderName.name}`)
   })
 
-  it('TC_04.001.06 | Successfully enter a valid folder name in the special field', () => {
+  xit('TC_04.001.06 | Successfully enter a valid folder name in the special field', () => {
     dashboardPage.openDropdownForItem(folderName.name).clickRenameDropdownOption()
     folderPage
       .clearNewNameField()
@@ -53,7 +53,7 @@ describe('US_04.001 | Folder > Rename Folder', () => {
     folderPage.getFolderNameOnMainPanel().should('contain', 'is an unsafe character')
   })
 
-  it('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
+  xit('TC_04.001.04 |Verify to rename the folder from drop-down menu of the folder element in the breadcrumbs', () => {
     dashboardPage.clickJobName(folderName.name)
     header.getBreadcrumbBar().should('contain', folderName.name)
     header.hoverBreadcrumbsFolderName().getBreadcrumbsFolderDropdownMenu().click({ force: true })

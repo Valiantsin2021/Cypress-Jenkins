@@ -75,12 +75,12 @@ class FolderPage extends BasePage {
     return this
   }
   clickDeleteFolderFromMenu() {
-    this.getDeleteFolderFromMenu().realClick()
+    this.getDeleteFolderFromMenu().should('be.visible').click()
     return this
   }
 
   clickYesOptionInPopUpWindow() {
-    this.getYesOptionInPopUpWindow().realClick()
+    this.getYesOptionInPopUpWindow().click({ force: true })
     return new DashboardPage()
   }
 }
