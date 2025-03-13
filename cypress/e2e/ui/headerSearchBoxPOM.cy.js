@@ -9,10 +9,10 @@ import SearchResuls from '@pageObjects/SearchResultsPage.js'
 import UserPage from '@pageObjects/UserPage.js'
 
 import genData from '@fixtures/helpers/genData.js'
+import messages from '@fixtures/messages.json'
 import configurePageData from '@fixtures/ui_data/configurePageData.json'
 import firstCharacterSearchResultsData from '@fixtures/ui_data/firstCharacterSearchResultsData.js'
 import headerData from '@fixtures/ui_data/headerData.json'
-import messages from '@fixtures/ui_data/messages.json'
 import newJobPageData from '@fixtures/ui_data/newJobPageData.json'
 import searchResultsData from '@fixtures/ui_data/searchResultsData.json'
 

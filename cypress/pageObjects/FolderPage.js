@@ -75,7 +75,7 @@ class FolderPage extends BasePage {
     return this
   }
   clickDeleteFolderFromMenu() {
-    this.getDeleteFolderFromMenu().click({ force: true })
+    this.getDeleteFolderFromMenu().should('be.visible').click()
     return this
   }
 

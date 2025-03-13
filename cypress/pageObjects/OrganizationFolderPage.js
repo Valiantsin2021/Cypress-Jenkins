@@ -13,7 +13,7 @@ class OrganizationFolderPage extends FolderPage {
   getPreviewDescriptionField = () => cy.get('div.textarea-preview')
 
   clickSideMenuDeleteLink() {
-    this.getSideMenuDeleteLink().click()
+    this.getSideMenuDeleteLink().should('be.visible').click()
     return this
   }
 

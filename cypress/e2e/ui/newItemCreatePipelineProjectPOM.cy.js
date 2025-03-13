@@ -4,7 +4,7 @@ import Header from '@pageObjects/Header.js'
 import NewJobPage from '@pageObjects/NewJobPage.js'
 
 import genData from '@fixtures/helpers/genData.js'
-import { newItem } from '@fixtures/ui_data/messages.json'
+import { newItem } from '@fixtures/messages.json'
 import allKeys from '@fixtures/ui_data/newJobPageData.json'
 import xmlPipelinePageConfiguration from '@fixtures/ui_data/xmlPageConfiguration.js'
 
