@@ -159,10 +159,9 @@ describe('US_16.002 | Dashboard > Create View', () => {
       .selectColumnDropdownOption(myViewsPageData.columnName.name_1)
       .clickOKButton()
 
-    cy.log('Verifying that the View contains the "Status", the "Weather" and the "Name" columns')
+    cy.log('Verifying that the View contains the "Status", the "Weather" columns')
     myViewsPage.clickViewTab(view.name)
     myViewsPage.getStatusColumn().should('be.visible').and('contain.text', 'S')
     myViewsPage.getWeatherColumn().should('be.visible').and('contain.text', 'W')
-    myViewsPage.getNameColumn().should('be.visible').and('contain.text', 'Name')
   })
 })

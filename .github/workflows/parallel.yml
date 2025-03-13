@@ -11,9 +11,17 @@ permissions:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     outputs:
       matrix: ${{ steps.prepare.outputs.matrix }}
     steps:
+      - uses: act10ns/slack@v2
+        with:
+          status: starting
+          message: 'Starting Cypress-Jenkins tests.. ${{github.event_name}} - ${{ github.actor }} - ${{ github.sha}}'
+        if: always()
+
       - name: Create matrix ⊹
         id: prepare
         uses: bahmutov/gh-build-matrix@main
@@ -164,7 +172,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Generate and Publish Allure Report
-        uses: Valiantsin2021/allure-shard-results-publish@1.0.3
+        uses: Valiantsin2021/allure-shard-results-publish@1.0.5
         if: always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
