@@ -50,17 +50,17 @@ class BasePage extends Header {
   }
 
   clickSaveButton() {
-    this.getSaveButton().click({ force: true })
+    this.getSaveButton().should('be.visible').click()
     return this
   }
 
   clickYesButton() {
-    this.getYesButton().click({ force: true })
+    this.getYesButton().should('be.visible').click()
     return this
   }
 
   clickOKButton() {
-    this.getOKButton().click({ force: true })
+    this.getOKButton().should('be.visible').click()
     return this
   }
 

@@ -22,7 +22,7 @@ class NewJobPage extends BasePage {
   }
 
   selectFreestyleProject() {
-    this.getFreeStlPrjType().click()
+    this.getFreeStlPrjType().should('be.visible').click()
     return this
   }
 

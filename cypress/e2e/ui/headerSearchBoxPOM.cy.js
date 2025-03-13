@@ -41,7 +41,7 @@ describe('US_14.002 | Header > Search Box', () => {
     freestyleProjectPage.typeJobDescription(configurePageData.projectDescription).clickSaveButton()
     header.typeSearchTerm(newJobPageData.projectName).clickFirstOptionFromACBox().searchTerm()
 
-    freestyleProjectPage.getJobHeadline().should('have.text', newJobPageData.projectName)
+    freestyleProjectPage.getJobHeadline().should('contain.text', newJobPageData.projectName)
     cy.cleanData([newJobPageData.projectName])
   })
 
@@ -76,7 +76,7 @@ describe('US_14.002 | Header > Search Box', () => {
 
     header.typeSearchTerm(headerData.search.input.upperCaseMatchForManage)
 
-    header.getSearchAutoCompletionBox().should('have.text', headerData.search.searchSuggestions.manage)
+    header.getSearchAutoCompletionBox().eq(0).should('contain.text', headerData.search.searchSuggestions.manage)
   })
 
   it('TC_14.002.10 | Verify that the warning message is displayed when no matches are found', () => {

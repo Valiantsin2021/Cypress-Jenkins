@@ -35,7 +35,8 @@ class FreestyleProjectPage extends BasePage {
   }
 
   clickDeleteMenuItem() {
-    this.getDeleteProjectMenuOption().click({ force: true })
+    cy.wait(5000)
+    this.getDeleteProjectMenuOption().should('be.visible').click()
     return this
   }
 

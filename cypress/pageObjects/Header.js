@@ -30,7 +30,7 @@ class Header {
     return this
   }
   clickFirstOptionFromACBox() {
-    this.getSearchAutoCompletionBox().first().click({ force: true })
+    this.getSearchAutoCompletionBox().first().click()
     return this
   }
 

@@ -91,7 +91,7 @@ class DashboardPage extends BasePage {
   }
 
   clickDeleteProjectDropdownMenuItem() {
-    this.getDeleteProjectDropdownMenuItem().click({ force: true })
+    this.getDeleteProjectDropdownMenuItem().should('be.visible').click()
     return this
   }
 
