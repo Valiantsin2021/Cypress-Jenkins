@@ -316,3 +316,16 @@ Cypress.Commands.add('getCrumbToken', baseUrl =>
       }
     })
 )
+
+Cypress.Commands.overwrite('type', (originalFn, subject, text, options) => {
+  if (!options) {
+    // eslint-disable-next-line no-param-reassign
+    options = {}
+  }
+  // default = 10
+  // https://docs.cypress.io/api/commands/type#Arguments
+  if (!options.delay) {
+    options.delay = 0
+  }
+  return originalFn(subject, text, options)
+})
