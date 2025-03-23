@@ -2,6 +2,7 @@ const USERNAME = Cypress.env('local.admin.username')
 const PASSWORD = Cypress.env('local.admin.password')
 const isUITest = Cypress.spec.relative.includes('ui') || Cypress.spec.relative.includes('performance')
 beforeEach(() => {
+  cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
   if (isUITest) {
     chai.config.truncateThreshold = 0
     chai.config.includeStack = true
