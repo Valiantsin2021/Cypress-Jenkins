@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:2.462.3-jdk17
+    container_name: jenkins
+    ports:
+      - "8081:8080"
+      - "50000:50000"
+    restart: on-failure
+    user: root
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+    healthcheck:
+      test: ["CMD", "/bin/bash", "-c", "curl -f http://localhost:8080/login > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 60s
+
+  cypress:
+    image: cypress/included:cypress-14.2.1-node-22.14.0-chrome-134.0.6998.165-1-ff-136.0.3-edge-134.0.3124.85-1
+    container_name: cypress
+    volumes:
+      - .:/e2e
+    working_dir: /e2e
+    depends_on:
+      jenkins:
+        condition: service_healthy
+    command: --browser=chrome
+    network_mode: "host"

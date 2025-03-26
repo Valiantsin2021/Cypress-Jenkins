@@ -17,7 +17,7 @@ export default defineConfig({
   requestTimeout: 7000,
   defaultCommandTimeout: 7000,
   watchForFileChanges: false,
-  accessibilityFolder: 'reports',
+  accessibilityFolder: 'report',
   env: {
     enableAccessibilityVoice: true
   },
@@ -35,7 +35,7 @@ export default defineConfig({
         lighthouse: lighthouse(lighthouseReport => {
           console.log('---- Writing lighthouse report to disk ----')
 
-          fs.writeFile('./reports/lighthouse.html', lighthouseReport.report, error => {
+          fs.writeFile('./report/lighthouse.html', lighthouseReport.report, error => {
             error ? console.log(error) : console.log('Report created successfully')
           })
         }),
@@ -66,6 +66,6 @@ export default defineConfig({
   video: false,
   reporter: 'junit',
   reporterOptions: {
-    mochaFile: 'reports/test-results-[hash].xml'
+    mochaFile: 'report/test-results-[hash].xml'
   }
 })

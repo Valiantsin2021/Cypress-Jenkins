@@ -242,3 +242,11 @@ These can be modified by your own configuration.
 **How to run Jenkins on Docker**
   
 `docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17`
+
+Run cypress tests in docker container:
+
+`docker run -it -v "${PWD}:/e2e" -w /e2e cypress/included:latest  --browser=chrome`
+
+To run both services:
+
+`docker-compose up`
