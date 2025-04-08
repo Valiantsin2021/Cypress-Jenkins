@@ -1,5 +1,5 @@
 {
-  "name": "jenkinsqa_js_2024_fall",
+  "name": "cypress-jenkins",
   "version": "1.0.0",
   "description": "",
   "main": "cypress.config.js",
