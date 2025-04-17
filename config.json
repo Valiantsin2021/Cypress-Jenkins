@@ -1,0 +1,13 @@
+{
+  "services": [
+    {
+      "key": "automation-excersizeservice",
+      "name": "Automation Excersize API",
+      "tags": ["API", "COVERAGE"],
+      "repository": "",
+      "swaggerUrl": "",
+      "swaggerFile": null
+    }
+  ],
+  "html-report-path": "./report/coverage-report.html"
+}

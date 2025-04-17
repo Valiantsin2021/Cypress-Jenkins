@@ -62,6 +62,15 @@ declare namespace Cypress {
      * cy.login('myuser', 'mypassword');
      */
     login(userName?: string, pass?: string): Chainable<void>
+    /**
+     * Registers an API request with the API coverage tracker.
+     * @param method - The HTTP method of the request (e.g., 'GET', 'POST').
+     * @param url - The URL of the request.
+     * @param response - The response object to register.
+     * @example
+     * cy.registerApiRequest('GET', '/pet/1', response);
+     */
+    registerApiRequest(method: string, url: string, response: any): Chainable<void>
 
     /**
      * Custom command to wait until a condition is met.

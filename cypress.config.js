@@ -3,12 +3,19 @@
 import { lighthouse, prepareAudit } from '@cypress-audit/lighthouse'
 import { pa11y } from '@cypress-audit/pa11y'
 import { allureCypress } from 'allure-cypress/reporter'
+import { ApiCoverage } from 'api-coverage-tracker'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import { configureVisualRegression } from 'cypress-visual-regression'
 import fs from 'fs'
 import os from 'os'
 import addAccessibilityTasks from 'val-a11y/accessibility-tasks'
+
+import config from './config.json' with { type: 'json' }
+
+const apiCoverage = new ApiCoverage(config)
+const HISTORY_PATH = './coverage/coverage-history.json'
+const REPORT_PATH = './coverage/coverage-report.json'
 
 export default defineConfig({
   viewportWidth: 1920,
@@ -39,6 +46,35 @@ export default defineConfig({
             error ? console.log(error) : console.log('Report created successfully')
           })
         }),
+        // Task to load the OpenAPI spec
+        loadApiSpec(specPath) {
+          return apiCoverage.loadSpec(specPath).then(() => {
+            console.log('API spec loaded successfully')
+            return null
+          })
+        },
+
+        // Task to register an API request
+        registerApiRequest({ method, url, response }) {
+          apiCoverage.registerRequest(method, url, response)
+          console.log(`Registered API request: ${method} ${url}`)
+          return null
+        },
+
+        // Task to save API history
+        saveApiHistory() {
+          return apiCoverage.saveHistory(HISTORY_PATH).then(() => {
+            console.log('API history saved')
+            return null
+          })
+        },
+        // Task to generate the API coverage report
+        generateApiReport() {
+          return apiCoverage.generateReport(REPORT_PATH, HISTORY_PATH).then(() => {
+            console.log('API coverage report generated')
+            return null
+          })
+        },
         pa11y: pa11y(console.log.bind(console))
       })
       addAccessibilityTasks(on)

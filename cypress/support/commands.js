@@ -224,7 +224,9 @@ class JenkinsProjectManager {
     })
   }
 }
-
+Cypress.Commands.add('registerApiRequest', (method, url, response) => {
+  cy.task('registerApiRequest', { method, url, response })
+})
 // Cypress command for clean data
 Cypress.Commands.add('cleanData', (resources, all = false) => {
   const jenkinsManager = new JenkinsProjectManager(`http://${HOST}:${PORT}/`, USER_NAME, TOKEN)
