@@ -25,7 +25,7 @@ describe('US_08.001 | Build history > Start to build a project', () => {
   )
 
   itemsForBuilding.forEach(item => {
-    it(`TC_08.001.01 | Build status icon for "Not built" ${item} is shown on "Dashboard" page`, () => {
+    it(`TC_08.001.01 | Build status icon for "Not built" ${item} is shown on "Dashboard" page `, () => {
       cy.createItemByType(`New ${item}`, item)
       header.clickDashboardBtn()
       dashBoardPage.getAllIconsProjectRow(item).eq(0).should('have.attr', 'tooltip', 'Not built').and('be.visible')
