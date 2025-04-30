@@ -31,9 +31,6 @@ jobs:
       - name: Print result 🖨
         run: echo '${{ steps.prepare.outputs.matrix }}'
 
-      - name: Fetch all branches
-        run: git fetch --all
-
   run-test:
     needs: prepare
     if: always()
@@ -53,8 +50,13 @@ jobs:
           message: 'Starting Cypress tests...${{ strategy.job-index }}'
           matrix: ${{ toJson(matrix) }}
         if: always()
+
       - name: Git clone
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: true
 
       - name: Print GitHub strategy context 🖨
         run: echo '${{ toJSON(strategy) }}'
