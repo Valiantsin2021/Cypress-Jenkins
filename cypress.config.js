@@ -9,13 +9,12 @@ import cypressSplit from 'cypress-split'
 import { configureVisualRegression } from 'cypress-visual-regression'
 import fs from 'fs'
 import os from 'os'
+import sslCheck from 'ssl-checker'
 import addAccessibilityTasks from 'val-a11y/accessibility-tasks'
 
 import config from './config.json' with { type: 'json' }
 
 const apiCoverage = new ApiCoverage(config)
-const HISTORY_PATH = './coverage/coverage-history.json'
-const REPORT_PATH = './coverage/coverage-report.json'
 
 export default defineConfig({
   viewportWidth: 1920,
@@ -53,24 +52,22 @@ export default defineConfig({
             return null
           })
         },
-
+        getSSLValidity: host =>
+          // The "host" param will be the URL we need to verify
+          sslCheck(host),
         // Task to register an API request
         registerApiRequest({ method, url, response }) {
           apiCoverage.registerRequest(method, url, response)
-          console.log(`Registered API request: ${method} ${url}`)
           return null
         },
 
         // Task to save API history
         saveApiHistory() {
-          return apiCoverage.saveHistory(HISTORY_PATH).then(() => {
-            console.log('API history saved')
-            return null
-          })
+          return apiCoverage.saveHistory().then(() => null)
         },
         // Task to generate the API coverage report
         generateApiReport() {
-          return apiCoverage.generateReport(REPORT_PATH, HISTORY_PATH).then(() => {
+          return apiCoverage.generateReport().then(() => {
             console.log('API coverage report generated')
             return null
           })

@@ -23,7 +23,12 @@ describe('US_08.001 | Build history > Start to build a project', () => {
   const itemsForBuilding = newInstance.filter(
     item => !['Folder', 'Organization Folder', 'Multibranch Pipeline'].includes(item)
   )
-
+  it(`Check SSL certificate validity for mail.ru`, () => {
+    cy.task('getSSLValidity', 'mail.ru').then(cert => {
+      cy.log(JSON.stringify(cert))
+      expect(cert.daysRemaining).to.be.greaterThan(30)
+    })
+  })
   itemsForBuilding.forEach(item => {
     it(`TC_08.001.01 | Build status icon for "Not built" ${item} is shown on "Dashboard" page `, () => {
       cy.createItemByType(`New ${item}`, item)

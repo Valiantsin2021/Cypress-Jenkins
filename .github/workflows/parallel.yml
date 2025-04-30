@@ -31,6 +31,9 @@ jobs:
       - name: Print result 🖨
         run: echo '${{ steps.prepare.outputs.matrix }}'
 
+      - name: Fetch all branches
+        run: git fetch --all
+
   run-test:
     needs: prepare
     if: always()
@@ -118,6 +121,7 @@ jobs:
       # quickly run just the changed specs to fail fast
       - name: Maybe run just the changed Cypress tests ⏱
         run: |
+          git show-ref
           CHANGED_SPECS=$(git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }} -- cypress/e2e)
           if [ -n "$CHANGED_SPECS" ]; then
             echo "Running the following changed specs"
@@ -168,7 +172,7 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          message: "Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins"
+          message: 'Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins'
         if: always()
   generate-report:
     permissions: write-all
@@ -199,6 +203,6 @@ jobs:
         if: (contains(fromJSON('["pull_request"]'), github.event_name))
         with:
           message-path: |
-                  ./test-results.txt
+            ./test-results.txt
           message-failure: |
-                  Workflow failed
+            Workflow failed

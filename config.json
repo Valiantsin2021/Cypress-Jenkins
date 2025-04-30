@@ -9,5 +9,8 @@
       "swaggerFile": null
     }
   ],
-  "html-report-path": "./report/coverage-report.html"
+  "json-report-path": "./reports/report.json",
+  "json-report-history-path": "./reports/history.json",
+  "html-report-path": "./reports/index.html",
+  "stats-path": "./reports/stats.json"
 }

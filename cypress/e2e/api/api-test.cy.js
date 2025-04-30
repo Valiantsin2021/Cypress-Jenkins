@@ -75,9 +75,7 @@ before(() => {
   })
 })
 afterEach(() => {
-  cy.task('saveApiHistory').then(() => {
-    Cypress.log({ name: 'API Coverage', message: 'History saved' })
-  })
+  cy.task('saveApiHistory')
 })
 after(() => {
   cy.task('generateApiReport').then(() => {
