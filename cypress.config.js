@@ -3,12 +3,18 @@
 import { lighthouse, prepareAudit } from '@cypress-audit/lighthouse'
 import { pa11y } from '@cypress-audit/pa11y'
 import { allureCypress } from 'allure-cypress/reporter'
+import { ApiCoverage } from 'api-coverage-tracker'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import { configureVisualRegression } from 'cypress-visual-regression'
 import fs from 'fs'
 import os from 'os'
+import sslCheck from 'ssl-checker'
 import addAccessibilityTasks from 'val-a11y/accessibility-tasks'
+
+import config from './config.json' with { type: 'json' }
+
+const apiCoverage = new ApiCoverage(config)
 
 export default defineConfig({
   viewportWidth: 1920,
@@ -17,7 +23,7 @@ export default defineConfig({
   requestTimeout: 7000,
   defaultCommandTimeout: 7000,
   watchForFileChanges: false,
-  accessibilityFolder: 'reports',
+  accessibilityFolder: 'report',
   env: {
     enableAccessibilityVoice: true
   },
@@ -35,10 +41,37 @@ export default defineConfig({
         lighthouse: lighthouse(lighthouseReport => {
           console.log('---- Writing lighthouse report to disk ----')
 
-          fs.writeFile('./reports/lighthouse.html', lighthouseReport.report, error => {
+          fs.writeFile('./report/lighthouse.html', lighthouseReport.report, error => {
             error ? console.log(error) : console.log('Report created successfully')
           })
         }),
+        // Task to load the OpenAPI spec
+        loadApiSpec(specPath) {
+          return apiCoverage.loadSpec(specPath).then(() => {
+            console.log('API spec loaded successfully')
+            return null
+          })
+        },
+        getSSLValidity: host =>
+          // The "host" param will be the URL we need to verify
+          sslCheck(host),
+        // Task to register an API request
+        registerApiRequest({ method, url, response }) {
+          apiCoverage.registerRequest(method, url, response)
+          return null
+        },
+
+        // Task to save API history
+        saveApiHistory() {
+          return apiCoverage.saveHistory().then(() => null)
+        },
+        // Task to generate the API coverage report
+        generateApiReport() {
+          return apiCoverage.generateReport().then(() => {
+            console.log('API coverage report generated')
+            return null
+          })
+        },
         pa11y: pa11y(console.log.bind(console))
       })
       addAccessibilityTasks(on)
@@ -66,6 +99,6 @@ export default defineConfig({
   video: false,
   reporter: 'junit',
   reporterOptions: {
-    mochaFile: 'reports/test-results-[hash].xml'
+    mochaFile: 'report/test-results-[hash].xml'
   }
 })

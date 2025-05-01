@@ -109,7 +109,7 @@ ____
 
 5. Copy and paste the file ```cypress.env.json.example``` to project root folder. Сhange the file name to ```cypress.env.json```. Put provided to you by teacher credentials in json file.
 
-6. Setup Jenkins using Docker:
+6. Setup Jenkins using Docker: (to archive the jenkins_home data folder use `tar -cvf - jenkins_home | split -b 100M - jenkins_home.tar.`)
 
 - Download and install Docker desktop (https://www.docker.com/products/docker-desktop)
 - Using Git Bash for Windows or Terminal for Mac, run following 3 commands (it will update the jenkins backup with predefined settings):
@@ -242,3 +242,11 @@ These can be modified by your own configuration.
 **How to run Jenkins on Docker**
   
 `docker run --name jenkins -p 8081:8080 -p 50000:50000 --restart=on-failure -v ${PWD}/jenkins_home:/var/jenkins_home  --user root jenkins/jenkins:2.462.3-jdk17`
+
+Run cypress tests in docker container:
+
+`docker run -it -v "${PWD}:/e2e" -w /e2e cypress/included:latest  --browser=chrome`
+
+To run both services:
+
+`docker-compose up`

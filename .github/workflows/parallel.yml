@@ -50,8 +50,13 @@ jobs:
           message: 'Starting Cypress tests...${{ strategy.job-index }}'
           matrix: ${{ toJson(matrix) }}
         if: always()
+
       - name: Git clone
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+          submodules: true
 
       - name: Print GitHub strategy context 🖨
         run: echo '${{ toJSON(strategy) }}'
@@ -115,6 +120,17 @@ jobs:
         run: |
           echo '${{ secrets.CYPRESS_LOGIN_CREDENTIALS }}' > ./cypress.env.json
 
+      # quickly run just the changed specs to fail fast
+      - name: Maybe run just the changed Cypress tests ⏱
+        run: |
+          git show-ref
+          CHANGED_SPECS=$(git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }} -- cypress/e2e)
+          if [ -n "$CHANGED_SPECS" ]; then
+            echo "Running the following changed specs"
+            echo $CHANGED_SPECS
+            npx cypress run --spec $CHANGED_SPECS
+          fi
+
       - name: Run Cypress tests 🧪
         id: cypress-tests
         uses: cypress-io/github-action@v6
@@ -158,7 +174,7 @@ jobs:
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          message: "Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins"
+          message: 'Report URL for job ${{ job.status }}: ${{ job.name }} - https://valiantsin2021.github.io/Cypress-Jenkins'
         if: always()
   generate-report:
     permissions: write-all
@@ -189,6 +205,6 @@ jobs:
         if: (contains(fromJSON('["pull_request"]'), github.event_name))
         with:
           message-path: |
-                  ./test-results.txt
+            ./test-results.txt
           message-failure: |
-                  Workflow failed
+            Workflow failed

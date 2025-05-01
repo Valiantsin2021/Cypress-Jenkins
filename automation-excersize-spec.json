@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AutomationExercise",
+    "description": "**Introduction to API Testing, Exercise**\n\n_Perficient QA Internship__Bálint Roland__4/7/2025_\n\n---\n\nThe website chosen by me:  \n[https://automationexercise.com/api_list](https://automationexercise.com/api_list)\n\nThe tests are supposed to be ran as a collection, since their order matters (example: user account updates and deletes are tested on accounts created beforehand)",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://postman-echo.com"
+    }
+  ],
+  "paths": {
+    "/api/productsList": {
+      "get": {
+        "summary": "get_products_list",
+        "description": "",
+        "operationId": "getapiproductsList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "post_products_list",
+        "description": "",
+        "operationId": "postapiproductsList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/brandsList": {
+      "get": {
+        "summary": "get_brand_list",
+        "description": "",
+        "operationId": "getapibrandsList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/searchProduct": {
+      "post": {
+        "summary": "post_search_product_no_parameter",
+        "description": "",
+        "operationId": "postapisearchProduct",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/createAccount": {
+      "post": {
+        "summary": "post_create_account",
+        "description": "",
+        "operationId": "postapicreateAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/verifyLogin": {
+      "post": {
+        "summary": "post_verify_login_bad_password",
+        "description": "",
+        "operationId": "postapiverifyLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete_verify_login",
+        "description": "",
+        "operationId": "deleteapiverifyLogin",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/getUserDetailByEmail": {
+      "get": {
+        "summary": "get_get_user_detail_by_email_after_put",
+        "description": "",
+        "operationId": "getapigetUserDetailByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "milford.apollo@gmail.com"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/updateAccount": {
+      "put": {
+        "summary": "put_update_account",
+        "description": "",
+        "operationId": "putapiupdateAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {}
+          }
+        }
+      }
+    },
+    "/api/deleteAccount": {
+      "delete": {
+        "summary": "delete_delete_account",
+        "description": "",
+        "operationId": "deleteapideleteAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "digestAuth": {
+        "type": "http",
+        "scheme": "digest"
+      }
+    }
+  },
+  "tags": []
+}
