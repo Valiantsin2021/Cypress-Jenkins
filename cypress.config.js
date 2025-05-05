@@ -42,7 +42,7 @@ export default defineConfig({
           console.log('---- Writing lighthouse report to disk ----')
 
           fs.writeFile('./report/lighthouse.html', lighthouseReport.report, error => {
-            error ? console.log(error) : console.log('Report created successfully')
+            error ? console.log(error) : console.log('Lighthouse report created successfully')
           })
         }),
         // Task to load the OpenAPI spec
